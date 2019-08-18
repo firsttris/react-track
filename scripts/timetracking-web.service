@@ -1,0 +1,13 @@
+[Unit]
+Description=Timetracking WebApp
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/timetracking-web/
+ExecStart=/usr/lib/node_modules/http-server/bin/http-server
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

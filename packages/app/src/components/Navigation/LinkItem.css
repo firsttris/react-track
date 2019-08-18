@@ -1,0 +1,26 @@
+.link-item {
+    float: left;
+}
+
+.link {
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none!important;
+    text-align: center;
+}
+
+.focus {
+    background-color: #61DAFB;
+    color: black!important;
+}
+
+.hover {
+    background-color: white; 
+    color: black!important;
+}
+
+@media (max-width: 575px) {
+    .link-item {
+        float: none!important;
+    }
+}

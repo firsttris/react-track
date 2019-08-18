@@ -1,0 +1,13 @@
+[Unit]
+Description=Timetracking Server
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/timetracking_server/
+ExecStart=/usr/bin/node index.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

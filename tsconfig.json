@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["es2017", "dom", "esnext"],
+    "pretty": true,
+    "module": "commonjs",
+    "allowJs": true,
+    "jsx": "react",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "strict": true, 
+    "noUnusedLocals": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "assets/*": ["packages/app/src/assets/*"],
+      "types": ["packages/common/gen.ts"],
+      "cons": ["packages/common/cons.ts"],
+      "initialState": ["packages/common/initialState.ts"],
+      "NumberFormatter": ["packages/common/NumberFormatter.ts"],
+      "mocks": ["packages/common/mocks"],
+      "components/*": ["packages/app/src/components/*"],
+      "container/*": ["packages/app/src/container/*"]
+    }
+  }
+}

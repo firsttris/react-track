@@ -1,0 +1,24 @@
+.DayPicker-Day--publicHolidayDates {
+    background-color: #f39c12!important;
+    border-radius: 100%;
+  }
+
+.DayPicker-Day--sickDates {
+    background-color: #9b59b6!important;
+    border-radius: 100%;
+  }
+
+.DayPicker-Day--leaveDates {
+    background-color: #95a5a6!important;
+    border-radius: 100%;
+  } 
+  
+.DayPicker-Day--workedDates {
+    background-color: #2ecc71!important;
+    border-radius: 100%;
+  }
+  
+.DayPicker-Day--schoolDates {
+    background-color: #fa78de!important;
+    border-radius: 100%;
+  } 

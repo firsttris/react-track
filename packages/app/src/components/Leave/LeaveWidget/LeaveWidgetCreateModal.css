@@ -1,0 +1,38 @@
+.max-content {
+    max-width: max-content;
+}
+
+.create-leave-modal .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+    background-color: #f0f8ff !important;
+    color: #4a90e2;
+}
+
+.create-leave-modal .DayPicker-Day {
+    border-radius: 0 !important;
+}
+
+.create-leave-modal .DayPicker-Day--start {
+    border-top-left-radius: 50% !important;
+    border-bottom-left-radius: 50% !important;
+}
+
+.create-leave-modal .DayPicker-Day--end {
+    border-top-right-radius: 50% !important;
+    border-bottom-right-radius: 50% !important;
+}
+
+.create-leave-modal .DayPicker-Day--leaveDates:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+    background-color: #95a5a6!important;
+}
+
+.create-leave-modal .DayPicker-Day--publicHolidayDates:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+    background-color: #f39c12!important;
+}
+
+.create-leave-modal .DayPicker-Day--schoolDates:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+    background-color: #fa78de!important;
+}
+
+.create-leave-modal .DayPicker-Day--sickDates:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+    background-color: #9b59b6!important;
+}

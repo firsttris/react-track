@@ -1,0 +1,17 @@
+import * as t from 'types';
+
+export interface StatisticValues {
+  timeComplain: number;
+  timeSpent: number;
+  timeLeft: number;
+  timeEarned: number;
+  timePause: number;
+  totalHours: number;
+}
+
+export interface WorkDay {
+  date: string;
+  title?: string;
+  dayType: t.DayType;
+  workDayType: t.WorkDayType;
+}

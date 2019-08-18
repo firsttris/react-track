@@ -1,0 +1,10 @@
+.evaluation-table>tbody>tr:nth-last-child(-n+4) { font-weight: bold }
+
+.table th,
+.table td {
+    padding: 0.25rem;
+}
+
+.card {
+    page-break-after: always;
+}

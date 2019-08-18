@@ -1,0 +1,32 @@
+.nav-menu {
+    user-select: none;
+}
+
+.nav-bar {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-Index: 10;
+}
+
+.red {
+    color: red!important;
+}
+
+.green {
+    color: green!important;
+}
+
+.connect {
+    padding: 18px;
+}
+
+@media (max-width: 575px) {
+    .navigation {
+        display: none;
+    }
+
+    .nav-button {
+        display: initial;
+    }
+}
