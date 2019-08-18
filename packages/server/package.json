@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "timetracking server",
   "author": "Tristan Teufel",
-  "license": "UNLICENSED",
+  "license": "GNU GPL-3.0",
   "homepage": "https://teufel-it.de",
   "main": "dist/index",
   "types": "dist/index",
