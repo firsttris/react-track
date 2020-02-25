@@ -11,8 +11,13 @@ export class DbAdapterWithColKey {
     if (!this.db) {
       const fileName = DirectoryHelper.getDatabasePath(this.jsonFileName);
       this.db = await low(new FileAsync(fileName));
+      await this.db.defaults(this.defaultObject()).write();
     }
     return this.db;
+  }
+
+  static defaultObject(): object {
+    return {};
   }
 
   static async defaults(collectionKey: string): Promise<void> {
