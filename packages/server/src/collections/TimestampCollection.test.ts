@@ -95,7 +95,7 @@ describe('TimestampCollection Tests', () => {
       const result = await TimestampCollection.update('12345', '2017-06-08', timestamps);
 
       expect(result.timestamps).toEqual(timestamps);
-      expect(result.error).toEqual(new Error(TimestampsErrorKeys.INVALID_TIMESTAMPS));
+      expect(result.error).toEqual(TimestampsErrorKeys.INVALID_TIMESTAMPS);
     });
 
     it('should set sorted timestamps', async () => {
@@ -203,7 +203,7 @@ describe('TimestampCollection Tests', () => {
         .spyOn(TimestampCollection, 'getTimestamps')
         .mockImplementation(() =>
           Promise.resolve([
-            { id: '1', actualTime: moment().format(), time: moment().format(), type: 'card', status: 'K' }
+            { id: '1', actualTime: moment().format(), time: moment().format(), type: 'card', status: 'G' }
           ])
         );
       const spy = jest.spyOn(TimestampCollection, 'push');

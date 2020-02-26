@@ -73,7 +73,9 @@ export class LeaveCollection extends DbAdapterWithColAndDbKey {
     if (leaveDaysLeft < 0 && newLeave.type === t.DayType.HOLIDAY) {
       throw new Error(LeaveErrorKeys.LEAVEDAY_MISSING_DAYS);
     }
+
     const leave = LeaveCollection.createLeave(newLeave);
+    leave.requestedLeaveDays = requestedLeaveDays;
     await this.push(userId, year, leave);
     return this.getLeaveDays(userId, year);
   }
@@ -96,7 +98,7 @@ export class LeaveCollection extends DbAdapterWithColAndDbKey {
       start: newLeave.start,
       end: newLeave.end,
       type: newLeave.type,
-      requestedLeaveDays: Number(0)
+      requestedLeaveDays: newLeave.requestedLeaveDays || Number(0)
     };
   }
 
