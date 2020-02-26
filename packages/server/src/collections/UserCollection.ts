@@ -1,7 +1,7 @@
 import { initialUserState } from 'initialState';
 import jwt = require('jsonwebtoken');
 import * as t from 'types';
-import uuid = require('uuid/v4');
+import { v4 } from 'uuid';
 import { StatisticCalculator } from './../calculators/StatisticCalculator';
 import { UserErrorKeys } from './../errorKeys';
 import { DbAdapter } from './DbAdapter';
@@ -25,7 +25,7 @@ export class UserCollection extends DbAdapter {
     if (existingUserCode) {
       throw new Error(UserErrorKeys.CODE_ALREADY_IN_USE);
     }
-    user.id = uuid();
+    user.id = v4();
     await users.push(user).write();
     return user as t.User;
   }

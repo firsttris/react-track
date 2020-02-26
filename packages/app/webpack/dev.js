@@ -32,7 +32,9 @@ base.devServer = {
 };
 
 base.plugins.push(
-  new ForkTsCheckerWebpackPlugin(),
+  new ForkTsCheckerWebpackPlugin({
+    reportFiles: ['src/**/*.{ts,tsx}']
+  }),
   new webpack.DefinePlugin({
     MOCKLOGIN: false
   }),

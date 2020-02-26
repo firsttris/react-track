@@ -1,7 +1,7 @@
 import { API_DATE } from 'cons';
 import * as moment from 'moment';
 import * as t from 'types';
-import uuid = require('uuid/v4');
+import { v4 } from 'uuid';
 import { PublicHolidayCollection } from './../collections/PublicHolidayCollection';
 
 export class PublicHolidayService {
@@ -32,7 +32,7 @@ export class PublicHolidayService {
     const response = result.replace('&ouml;', 'ö');
     const holidays = JSON.parse(response);
     for (const holiday of holidays) {
-      holiday.id = uuid();
+      holiday.id = v4();
       await PublicHolidayCollection.push(year, holiday);
     }
     return PublicHolidayCollection.getPublicHolidays(year);
@@ -44,7 +44,7 @@ export class PublicHolidayService {
     for (const index in holidaysInBw) {
       if (holidaysInBw.hasOwnProperty(index)) {
         const date = moment(holidaysInBw[index].datum).format(API_DATE);
-        const newHoliday: t.PublicHoliday = { id: uuid(), title: index, date };
+        const newHoliday: t.PublicHoliday = { id: v4(), title: index, date };
         const collection = await PublicHolidayCollection.getCol(year);
         const holiday = collection.find({ title: index }).value();
         if (!holiday) {

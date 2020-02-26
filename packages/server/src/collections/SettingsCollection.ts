@@ -1,5 +1,5 @@
 import * as t from 'types';
-import uuid = require('uuid/v4');
+import { v4 } from 'uuid';
 import { DbAdapterWithColKey } from './DbAdapterWithColKey';
 
 export class SettingsCollection extends DbAdapterWithColKey {
@@ -21,7 +21,7 @@ export class SettingsCollection extends DbAdapterWithColKey {
 
   static async createPause(pause: t.PauseInput): Promise<t.Pause[]> {
     const newPause = pause as t.Pause;
-    newPause.id = uuid();
+    newPause.id = v4();
     await this.push('pauses', newPause);
     return this.getPauses();
   }

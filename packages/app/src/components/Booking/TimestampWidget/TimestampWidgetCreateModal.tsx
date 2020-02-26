@@ -4,7 +4,7 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Button, Col, Input, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
 import * as t from 'types';
-import uuid = require('uuid/v4');
+import { v4 } from 'uuid';
 
 interface Props {
   timestamps: t.Timestamp[];
@@ -43,7 +43,7 @@ export class TimestampWidgetCreateModal extends React.Component<Props, State> {
 
   createManualTimestamp = (date: moment.Moment): t.Timestamp => {
     const formattedDate = date.format();
-    return { id: uuid(), time: formattedDate, actualTime: formattedDate, status: this.state.status, type: 'manuell' };
+    return { id: v4(), time: formattedDate, actualTime: formattedDate, status: this.state.status, type: 'manuell' };
   };
 
   getDate = (): moment.Moment => {

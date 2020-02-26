@@ -2,7 +2,7 @@ import { API_DATE } from 'cons';
 import { filter } from 'lodash';
 import * as moment from 'moment';
 import * as t from 'types';
-import uuid = require('uuid/v4');
+import { v4 } from 'uuid';
 import { StatisticCalculator } from '../calculators/StatisticCalculator';
 import { WorkDayCalculator } from '../calculators/WorkDayCalculator';
 import { LeaveErrorKeys } from './../errorKeys';
@@ -94,7 +94,7 @@ export class LeaveCollection extends DbAdapterWithColAndDbKey {
 
   static createLeave(newLeave: t.LeaveInput): t.Leave {
     return {
-      id: uuid(),
+      id: v4(),
       start: newLeave.start,
       end: newLeave.end,
       type: newLeave.type,

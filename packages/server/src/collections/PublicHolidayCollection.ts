@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import * as t from 'types';
-import uuid = require('uuid/v4');
+import { v4 } from 'uuid';
 import { DbAdapterWithColKey } from './DbAdapterWithColKey';
 
 export class PublicHolidayCollection extends DbAdapterWithColKey {
@@ -9,7 +9,7 @@ export class PublicHolidayCollection extends DbAdapterWithColKey {
 
   static async create(newHoliday: t.PublicHolidayInput): Promise<t.PublicHoliday[]> {
     const holiday: t.PublicHoliday = newHoliday as t.PublicHoliday;
-    holiday.id = uuid();
+    holiday.id = v4();
     const year = moment(newHoliday.date).format('YYYY');
     await this.push(year, holiday);
     return this.getPublicHolidays(year);

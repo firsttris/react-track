@@ -1,7 +1,7 @@
 import { API_DATE } from 'cons';
 import * as moment from 'moment';
 import * as t from 'types';
-import uuid = require('uuid/v4');
+import { v4 } from 'uuid';
 import { TimestampsErrorKeys } from './../errorKeys';
 import { DbAdapterWithColAndDbKey } from './DbAdapterWithColAndDbKey';
 
@@ -68,7 +68,7 @@ export class TimestampCollection extends DbAdapterWithColAndDbKey {
     const time = moment()
       .seconds(0)
       .milliseconds(0);
-    const newTimestamp = { id: uuid(), time: '', actualTime: time.format(), type: 'card', status: 'K' };
+    const newTimestamp = { id: v4(), time: '', actualTime: time.format(), type: 'card', status: 'K' };
     this.addTimeToTimestamp(newTimestamp, user);
     let lastTimestamp = null;
     if (timestamps && timestamps.length > 0) {
