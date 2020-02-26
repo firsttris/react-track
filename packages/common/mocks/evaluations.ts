@@ -402,38 +402,51 @@ export const evaluationLeaveMonthMock: t.Evaluation = {
   totalHours: '176:00'
 };
 
-export const evaluationTotalMock: t.Evaluation = {
-  date: '',
-  icon: '',
-  timeEarned: '142:00',
-  timeLeft: '-37:43',
-  timePause: '00:00',
-  timeComplain: '00:00',
-  timeSpent: '142:00',
-  title: 'TOTALHOURS',
-  totalHours: '180:00'
-};
+export const evaluationTotalMock: t.Evaluation[] = [
+  {
+    date: '',
+    icon: '',
+    timeComplain: '00:00',
+    timeEarned: '142:00',
+    timeLeft: '-37:43',
+    timePause: '00:00',
+    timeSpent: '142:00',
+    title: '',
+    totalHours: '180:00'
+  },
+  {
+    date: '',
+    icon: '',
+    timeComplain: '0',
+    timeEarned: '142',
+    timeLeft: '-37.72',
+    timePause: '0',
+    timeSpent: '142',
+    title: '',
+    totalHours: '180'
+  }
+];
 
 export const evaluationTotalSicknessMock: t.Evaluation = {
   date: '',
   icon: '',
-  timeEarned: '',
+  timeEarned: '20:00',
   timeLeft: '',
   timePause: '',
   timeComplain: '',
-  timeSpent: '20:00',
-  title: 'SICKDAY',
+  timeSpent: '',
+  title: 'SICK',
   totalHours: ''
 };
 
 export const evaluationTotalHolidayMock: t.Evaluation = {
   date: '',
   icon: '',
-  timeEarned: '',
+  timeEarned: '36:00',
   timeLeft: '',
   timePause: '',
   timeComplain: '',
-  timeSpent: '36:00',
+  timeSpent: '',
   title: 'HOLIDAY',
   totalHours: ''
 };
@@ -706,34 +719,45 @@ export const evaluationResultMock: t.Evaluation[] = [
   {
     date: '',
     icon: '',
+    timeComplain: '00:00',
     timeEarned: '142:00',
     timeLeft: '-37:43',
     timePause: '00:00',
-    timeComplain: '00:00',
     timeSpent: '142:00',
-    title: 'TOTALHOURS',
+    title: '',
     totalHours: '180:00'
   },
   {
     date: '',
     icon: '',
-    timeEarned: '',
+    timeComplain: '0',
+    timeEarned: '142',
+    timeLeft: '-37.72',
+    timePause: '0',
+    timeSpent: '142',
+    title: '',
+    totalHours: '180'
+  },
+  {
+    date: '',
+    icon: '',
+    timeEarned: '36:00',
     timeLeft: '',
     timePause: '',
     timeComplain: '',
-    timeSpent: '36:00',
+    timeSpent: '',
     title: 'HOLIDAY',
     totalHours: ''
   },
   {
     date: '',
     icon: '',
-    timeEarned: '',
+    timeEarned: '20:00',
     timeLeft: '',
     timePause: '',
     timeComplain: '',
-    timeSpent: '20:00',
-    title: 'SICKDAY',
+    timeSpent: '',
+    title: 'SICK',
     totalHours: ''
   }
 ];

@@ -66,7 +66,7 @@ describe('User Collection Test', () => {
       UserCollection.db.setState({ users: [mocks.userMock] });
 
       const user = await UserCollection.getById(mocks.userMock.id);
-      expect(user).toEqual({ user: mocks.userMock });
+      expect(user).toEqual(mocks.userMock);
     });
   });
 
@@ -111,15 +111,11 @@ describe('User Collection Test', () => {
   describe('addTimestampToUser()', () => {
     let addSpy: any;
     let getFormattedStatisticForDateSpy: any;
-    let getStatisticsForTimespanSpy: any;
     beforeEach(() => {
       addSpy = jest.spyOn(TimestampCollection, 'add').mockImplementation(() => Promise.resolve(mocks.timestampMock5));
       getFormattedStatisticForDateSpy = jest
         .spyOn(StatisticCalculator, 'getFormattedStatisticForDate')
         .mockImplementation((date: string, userId: string) => Promise.resolve(mocks.statisticForDateResponseMock));
-      getStatisticsForTimespanSpy = jest
-        .spyOn(StatisticCalculator, 'getStatisticsForTimespan')
-        .mockImplementation(() => Promise.resolve(mocks.statisticResponseMock));
       UserCollection.db.setState({ users: [mocks.userMock] });
     });
 
@@ -129,7 +125,6 @@ describe('User Collection Test', () => {
       expect(result.timestamp);
       expect(addSpy).toHaveBeenCalledTimes(1);
       expect(getFormattedStatisticForDateSpy).toHaveBeenCalledTimes(1);
-      expect(getStatisticsForTimespanSpy).toHaveBeenCalledTimes(1);
     });
 
     it('should not addTimestampToUser - chipCard does not exist', async () => {
@@ -137,7 +132,6 @@ describe('User Collection Test', () => {
         expect(e.message).toBe(UserErrorKeys.NO_USER_FOR_CODE);
         expect(addSpy).toHaveBeenCalledTimes(0);
         expect(getFormattedStatisticForDateSpy).toHaveBeenCalledTimes(0);
-        expect(getStatisticsForTimespanSpy).toHaveBeenCalledTimes(0);
       });
     });
   });

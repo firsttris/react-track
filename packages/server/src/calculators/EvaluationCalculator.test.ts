@@ -24,7 +24,7 @@ describe('Evaluation Calculator Test', () => {
       .mockImplementation(() => Promise.resolve(m.evaluationLeaveDayMock));
     const calculateTotalSpy = jest
       .spyOn(EvaluationCalculator, 'calculateTotal')
-      .mockImplementation(() => [m.evaluationTotalMock]);
+      .mockImplementation(() => m.evaluationTotalMock);
     const calculateTotalHolidaySpy = jest
       .spyOn(EvaluationCalculator, 'calculateTotalHoliday')
       .mockImplementation(() => m.evaluationTotalHolidayMock);
@@ -33,7 +33,9 @@ describe('Evaluation Calculator Test', () => {
       .mockImplementation(() => m.evaluationTotalSicknessMock);
     const dateMock = '2017-10-04';
     const userIdMock = '552db259-48bc-41ab-9a9c-ad0b06d993e6';
+
     const result = await EvaluationCalculator.getEvaluationForMonth(dateMock, userIdMock);
+
     expect(result).toEqual(m.evaluationResultMock);
     const firstDateInMonth = moment(dateMock).startOf('month');
     const lastDateInMonth = moment(dateMock).endOf('month');
