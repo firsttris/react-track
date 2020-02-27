@@ -150,14 +150,14 @@ export class StatisticCalculator {
     const WorkTimeSettings: any = await SettingsCollection.getWorkTimeSettings();
     const paidType: t.WorkDayPaymentType = WorkTimeSettings[camelCase(workDay.dayType)];
     if (paidType) {
-      if (paidType === t.WorkDayPaymentType.PAID) {
+      if (paidType === t.WorkDayPaymentType.Paid) {
         const time = await StatisticCalculator.getHoursForDay(workDay, userId);
-        if (workDay.workDayType === t.WorkDayType.HALF_DAY) {
+        if (workDay.workDayType === t.WorkDayType.HalfDay) {
           return time / 2;
         }
         return time;
       }
-      if (paidType === t.WorkDayPaymentType.UNPAID) {
+      if (paidType === t.WorkDayPaymentType.Unpaid) {
         return 0;
       }
     }
@@ -165,9 +165,9 @@ export class StatisticCalculator {
   }
 
   static async getTotalHours(workDay: WorkDay, userId: string) {
-    if (workDay.dayType === t.DayType.WORKDAY || workDay.dayType === t.DayType.WEEKEND) {
+    if (workDay.dayType === t.DayType.Workday || workDay.dayType === t.DayType.Weekend) {
       const totalHours = await StatisticCalculator.getHoursForDay(workDay, userId);
-      if (workDay.workDayType === t.WorkDayType.HALF_DAY) {
+      if (workDay.workDayType === t.WorkDayType.HalfDay) {
         return totalHours / 2;
       }
       return totalHours;
@@ -249,15 +249,15 @@ export class StatisticCalculator {
   }
 
   static isBillable(value: t.DayType): boolean {
-    return value === t.DayType.WORKDAY || value === t.DayType.WEEKEND;
+    return value === t.DayType.Workday || value === t.DayType.Weekend;
   }
 
   static isLeaveDay(value: t.DayType): boolean {
     return (
-      value === t.DayType.HOLIDAY ||
-      value === t.DayType.SICKDAY ||
-      value === t.DayType.SCHOOLDAY ||
-      value === t.DayType.PUBLIC_HOLIDAY
+      value === t.DayType.Holiday ||
+      value === t.DayType.Sickday ||
+      value === t.DayType.Schoolday ||
+      value === t.DayType.PublicHoliday
     );
   }
 }

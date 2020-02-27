@@ -28,7 +28,7 @@ export class WorkDayCalculator {
       }
       const leaveDays = this.findLeaveDay(leaveDates, startDate);
       if (leaveDays.length === 1) {
-        if (leaveDays[0].workDayType === t.WorkDayType.HALF_DAY) {
+        if (leaveDays[0].workDayType === t.WorkDayType.HalfDay) {
           workdays.push(this.createHalfWorkDay(startDate));
         }
         workdays.push(leaveDays[0]);
@@ -89,33 +89,33 @@ export class WorkDayCalculator {
   static createWorkday(startDate: moment.Moment): WorkDay {
     return {
       date: startDate.format(API_DATE),
-      dayType: t.DayType.WORKDAY,
-      workDayType: t.WorkDayType.FULL_DAY
+      dayType: t.DayType.Workday,
+      workDayType: t.WorkDayType.FullDay
     };
   }
 
   static createHalfWorkDay(startDate: moment.Moment): WorkDay {
     return {
       date: startDate.format(API_DATE),
-      dayType: t.DayType.WORKDAY,
-      workDayType: t.WorkDayType.HALF_DAY
+      dayType: t.DayType.Workday,
+      workDayType: t.WorkDayType.HalfDay
     };
   }
 
   static createSunday(startDate: moment.Moment): WorkDay {
     return {
       date: startDate.format(API_DATE),
-      dayType: t.DayType.WEEKEND,
-      workDayType: t.WorkDayType.FULL_DAY
+      dayType: t.DayType.Weekend,
+      workDayType: t.WorkDayType.FullDay
     };
   }
 
   static createPublicHoliday(findPublicHolidayResult: t.PublicHoliday): WorkDay {
     return {
       date: findPublicHolidayResult.date,
-      dayType: t.DayType.PUBLIC_HOLIDAY,
+      dayType: t.DayType.PublicHoliday,
       title: findPublicHolidayResult.title,
-      workDayType: t.WorkDayType.FULL_DAY
+      workDayType: t.WorkDayType.FullDay
     };
   }
 
@@ -123,16 +123,16 @@ export class WorkDayCalculator {
     let days = 0;
     for (const workday of workdays) {
       // on a workday it can be a full or half day
-      if (workday.dayType === t.DayType.WORKDAY) {
-        if (workday.workDayType === t.WorkDayType.FULL_DAY) {
+      if (workday.dayType === t.DayType.Workday) {
+        if (workday.workDayType === t.WorkDayType.FullDay) {
           days += 1.0;
         } else {
           days += 0.5;
         }
       }
       // on holiday and sickday it can only be a half day
-      if (workday.dayType === t.DayType.HOLIDAY || workday.dayType === t.DayType.SICKDAY) {
-        if (workday.workDayType === t.WorkDayType.HALF_DAY) {
+      if (workday.dayType === t.DayType.Holiday || workday.dayType === t.DayType.Sickday) {
+        if (workday.workDayType === t.WorkDayType.HalfDay) {
           days += 0.5;
         }
       }
@@ -150,7 +150,7 @@ export class WorkDayCalculator {
           leaveStart.add(1, 'day');
           continue;
         }
-        let workDayType = t.WorkDayType.FULL_DAY;
+        let workDayType = t.WorkDayType.FullDay;
         if (leaveStart.format(API_DATE) === leaveDate.start.date) {
           workDayType = leaveDate.start.type;
         }

@@ -41,6 +41,6 @@ describe('WorkDay Calculator Test', () => {
 
   it('should calculate LeaveDay for date', async () => {
     const leaveDay = await WorkDayCalculator.findLeaveDay(m.leaveDaysMockOnlyHoliday, moment('2017-12-03'));
-    expect(leaveDay).toEqual([{ date: '2017-12-03', workDayType: t.WorkDayType.HALF_DAY, dayType: t.DayType.HOLIDAY }]);
+    expect(leaveDay).toEqual([{ date: '2017-12-03', workDayType: t.WorkDayType.HalfDay, dayType: t.DayType.Holiday }]);
   });
 });

@@ -50,15 +50,15 @@ describe('leaveCollection Tests', () => {
           date: moment()
             .add(2, 'days')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
         end: {
           date: moment()
             .add(1, 'day')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
-        type: t.DayType.HOLIDAY
+        type: t.DayType.Holiday
       };
 
       return LeaveCollection.create(m.userMock.id, newLeave).catch(e => {
@@ -72,15 +72,15 @@ describe('leaveCollection Tests', () => {
       const newLeave = {
         start: {
           date: moment('2017-05-01').format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
         end: {
           date: moment('2017-05-01')
             .add(1, 'year')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
-        type: t.DayType.HOLIDAY
+        type: t.DayType.Holiday
       };
 
       return LeaveCollection.create(m.userMock.id, newLeave).catch(e => {
@@ -97,15 +97,15 @@ describe('leaveCollection Tests', () => {
           date: moment()
             .add(4, 'days')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
         end: {
           date: moment()
             .add(5, 'days')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
-        type: t.DayType.HOLIDAY
+        type: t.DayType.Holiday
       };
 
       return LeaveCollection.create(m.userMock.id, newLeave).catch(e => {
@@ -126,15 +126,15 @@ describe('leaveCollection Tests', () => {
           date: moment()
             .add(4, 'days')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
         end: {
           date: moment()
             .add(5, 'days')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
-        type: t.DayType.HOLIDAY
+        type: t.DayType.Holiday
       };
 
       return LeaveCollection.create(m.userMock.id, newLeave).catch(e => {
@@ -158,15 +158,15 @@ describe('leaveCollection Tests', () => {
           date: moment('2018-02-01')
             .add(2, 'days')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
         end: {
           date: moment('2018-02-01')
             .add(3, 'days')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
-        type: t.DayType.HOLIDAY
+        type: t.DayType.Holiday
       };
 
       let error = new Error(LeaveErrorKeys.LEAVEDAY_MISSING_DAYS);
@@ -183,8 +183,8 @@ describe('leaveCollection Tests', () => {
       expect(error.message).toEqual(LeaveErrorKeys.LEAVEDAY_MISSING_DAYS);
       expect(alreadyUsedLeaveDaysSpy).toBeCalledWith(m.userMock.id, currentYear, expect.anything());
       expect(leaveDaysForTimespanSpy).toBeCalledWith(
-        { date: newLeave.start.date, type: t.WorkDayType.FULL_DAY },
-        { date: newLeave.end.date, type: t.WorkDayType.FULL_DAY },
+        { date: newLeave.start.date, type: t.WorkDayType.FullDay },
+        { date: newLeave.end.date, type: t.WorkDayType.FullDay },
         expect.anything(),
         m.userMock.id
       );
@@ -205,15 +205,15 @@ describe('leaveCollection Tests', () => {
             date: moment()
               .add(5, 'days')
               .format(),
-            type: t.WorkDayType.FULL_DAY
+            type: t.WorkDayType.FullDay
           },
           end: {
             date: moment()
               .add(7, 'days')
               .format(),
-            type: t.WorkDayType.FULL_DAY
+            type: t.WorkDayType.FullDay
           },
-          type: t.DayType.HOLIDAY
+          type: t.DayType.Holiday
         };
         const currentYear = moment(newLeave.start.date).format('YYYY');
         LeaveCollection.db[dbKey].setState({ [currentYear]: [] });
@@ -236,13 +236,13 @@ describe('leaveCollection Tests', () => {
             date: moment()
               .add(3, 'days')
               .format(),
-            type: t.WorkDayType[t.WorkDayType.FULL_DAY]
+            type: t.WorkDayType.FullDay
           },
           end: {
             date: moment()
               .add(4, 'days')
               .format(),
-            type: t.WorkDayType[t.WorkDayType.FULL_DAY]
+            type: t.WorkDayType.FullDay
           }
         }
       ];
@@ -254,15 +254,15 @@ describe('leaveCollection Tests', () => {
           date: moment()
             .add(5, 'days')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
         end: {
           date: moment()
             .add(6, 'days')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
-        type: t.DayType.HOLIDAY
+        type: t.DayType.Holiday
       };
 
       const result = await LeaveCollection.isLeaveDayTimestampAlreadyExisting(m.userMock.id, newLeave);
@@ -278,13 +278,13 @@ describe('leaveCollection Tests', () => {
             date: moment()
               .add(3, 'days')
               .format(),
-            type: t.WorkDayType.FULL_DAY
+            type: t.WorkDayType.FullDay
           },
           end: {
             date: moment()
               .add(6, 'days')
               .format(),
-            type: t.WorkDayType.FULL_DAY
+            type: t.WorkDayType.FullDay
           }
         }
       ];
@@ -295,15 +295,15 @@ describe('leaveCollection Tests', () => {
           date: moment()
             .add(4, 'days')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
         end: {
           date: moment()
             .add(5, 'days')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
-        type: t.DayType.HOLIDAY
+        type: t.DayType.Holiday
       };
 
       const result = await LeaveCollection.isLeaveDayTimestampAlreadyExisting(m.userMock.id, newLeave);
@@ -340,30 +340,30 @@ describe('leaveCollection Tests', () => {
       const leaveDaysLastYear = [
         {
           id: '1',
-          type: t.DayType.HOLIDAY,
+          type: t.DayType.Holiday,
           start: {
             date: moment()
               .subtract(1, 'year')
               .subtract(6, 'days'),
-            type: t.WorkDayType.FULL_DAY
+            type: t.WorkDayType.FullDay
           },
           end: {
             date: moment().subtract(1, 'year'),
-            type: t.WorkDayType.FULL_DAY
+            type: t.WorkDayType.FullDay
           }
         }
       ];
       const leavedaysThisYear = [
         {
           id: '2',
-          type: t.DayType.HOLIDAY,
+          type: t.DayType.Holiday,
           start: {
             date: moment().subtract(3, 'days'),
-            type: t.WorkDayType.FULL_DAY
+            type: t.WorkDayType.FullDay
           },
           end: {
             date: moment().subtract(1, 'day'),
-            type: t.WorkDayType.FULL_DAY
+            type: t.WorkDayType.FullDay
           }
         }
       ];
@@ -383,8 +383,8 @@ describe('leaveCollection Tests', () => {
       expect(result).toEqual(4);
       expect(leaveDaysForTimespanSpy).toHaveBeenCalledTimes(1);
       expect(leaveDaysForTimespanSpy).toHaveBeenCalledWith(
-        { date: leavedaysThisYear[0].start.date, type: t.WorkDayType.FULL_DAY },
-        { date: leavedaysThisYear[0].end.date, type: t.WorkDayType.FULL_DAY },
+        { date: leavedaysThisYear[0].start.date, type: t.WorkDayType.FullDay },
+        { date: leavedaysThisYear[0].end.date, type: t.WorkDayType.FullDay },
         expect.anything(),
         m.userMock.id
       );
@@ -400,15 +400,15 @@ describe('leaveCollection Tests', () => {
           date: moment()
             .add(5, 'days')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
         end: {
           date: moment()
             .add(6, 'days')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
-        type: t.DayType.HOLIDAY
+        type: t.DayType.Holiday
       };
 
       const result = await LeaveCollection.isTimestampAlreadyExisting(m.userMock.id, newLeave);
@@ -439,15 +439,15 @@ describe('leaveCollection Tests', () => {
           date: moment()
             .add(5, 'days')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
         end: {
           date: moment()
             .add(6, 'days')
             .format(),
-          type: t.WorkDayType.FULL_DAY
+          type: t.WorkDayType.FullDay
         },
-        type: t.DayType.HOLIDAY
+        type: t.DayType.Holiday
       };
 
       const result = await LeaveCollection.isTimestampAlreadyExisting(m.userMock.id, newLeave);
@@ -465,15 +465,15 @@ describe('leaveCollection Tests', () => {
     it('should remove leave from database', async () => {
       const leave: t.Leave = {
         id: '1',
-        start: { date: moment('2017-06-01').format(), type: t.WorkDayType.FULL_DAY },
-        end: { date: moment('2017-06-05').format(), type: t.WorkDayType.FULL_DAY },
-        type: t.DayType.HOLIDAY,
+        start: { date: moment('2017-06-01').format(), type: t.WorkDayType.FullDay },
+        end: { date: moment('2017-06-05').format(), type: t.WorkDayType.FullDay },
+        type: t.DayType.Holiday,
         requestedLeaveDays: 5
       };
       const otherLeave = {
         id: '2',
-        start: { date: moment('2017-07-02').format(), type: t.WorkDayType.FULL_DAY },
-        end: { date: moment('2017-07-05').format(), type: t.WorkDayType.FULL_DAY }
+        start: { date: moment('2017-07-02').format(), type: t.WorkDayType.FullDay },
+        end: { date: moment('2017-07-05').format(), type: t.WorkDayType.FullDay }
       };
       LeaveCollection.db[dbKey].setState({ '2017': [leave, otherLeave] });
 
@@ -485,15 +485,15 @@ describe('leaveCollection Tests', () => {
     it('should return all leavedays after delete', async () => {
       const leave = {
         id: '1',
-        start: { date: moment('2017-06-01').format(), type: t.WorkDayType.FULL_DAY },
-        end: { date: moment('2017-06-05').format(), type: t.WorkDayType.FULL_DAY },
-        type: t.DayType.HOLIDAY,
+        start: { date: moment('2017-06-01').format(), type: t.WorkDayType.FullDay },
+        end: { date: moment('2017-06-05').format(), type: t.WorkDayType.FullDay },
+        type: t.DayType.Holiday,
         requestedLeaveDays: 5
       };
       const otherLeave = {
         id: '2',
-        start: { date: moment('2017-07-02').format(), type: t.WorkDayType.FULL_DAY },
-        end: { date: moment('2017-07-05').format(), type: t.WorkDayType.FULL_DAY },
+        start: { date: moment('2017-07-02').format(), type: t.WorkDayType.FullDay },
+        end: { date: moment('2017-07-05').format(), type: t.WorkDayType.FullDay },
         requestedLeaveDays: 0
       };
       LeaveCollection.db[dbKey].setState({ '2017': [leave, otherLeave] });
