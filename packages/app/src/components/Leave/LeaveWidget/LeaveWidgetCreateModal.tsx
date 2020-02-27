@@ -32,10 +32,10 @@ interface State {
 const initialState = {
   from: new Date(),
   to: new Date(),
-  type: t.DayType.HOLIDAY,
+  type: t.DayType.Holiday,
   dayType: {
-    startDay: t.WorkDayType.FULL_DAY,
-    endDay: t.WorkDayType.FULL_DAY
+    startDay: t.WorkDayType.FullDay,
+    endDay: t.WorkDayType.FullDay
   },
   showSecondDaySelector: false
 };
@@ -124,11 +124,11 @@ export class LeaveWidgetCreateModal extends React.Component<Props & WrappedCompo
             <Row>
               <Col lg="4">
                 <Input type="select" name="select" onChange={this.handleSelection}>
-                  <option value={t.DayType.HOLIDAY} label={this.props.intl.formatMessage({ id: t.DayType.HOLIDAY })} />
-                  <option value={t.DayType.SICKDAY} label={this.props.intl.formatMessage({ id: t.DayType.SICKDAY })} />
+                  <option value={t.DayType.Holiday} label={this.props.intl.formatMessage({ id: t.DayType.Holiday })} />
+                  <option value={t.DayType.Sickday} label={this.props.intl.formatMessage({ id: t.DayType.Sickday })} />
                   <option
-                    value={t.DayType.SCHOOLDAY}
-                    label={this.props.intl.formatMessage({ id: t.DayType.SCHOOLDAY })}
+                    value={t.DayType.Schoolday}
+                    label={this.props.intl.formatMessage({ id: t.DayType.Schoolday })}
                   />
                 </Input>
               </Col>
@@ -193,13 +193,13 @@ export class LeaveWidgetCreateModal extends React.Component<Props & WrappedCompo
       modifiers.publicHolidayDates.push(new Date(publicHoliday.date));
     }
     for (const leave of this.props.listOfLeaves) {
-      if (leave.type === t.DayType.SICKDAY) {
+      if (leave.type === t.DayType.Sickday) {
         modifiers.sickDates.push({ from: new Date(leave.start.date), to: new Date(leave.end.date) });
       }
-      if (leave.type === t.DayType.HOLIDAY) {
+      if (leave.type === t.DayType.Holiday) {
         modifiers.leaveDates.push({ from: new Date(leave.start.date), to: new Date(leave.end.date) });
       }
-      if (leave.type === t.DayType.SCHOOLDAY) {
+      if (leave.type === t.DayType.Schoolday) {
         modifiers.schoolDates.push({ from: new Date(leave.start.date), to: new Date(leave.end.date) });
       }
     }

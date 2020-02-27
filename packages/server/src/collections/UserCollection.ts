@@ -41,7 +41,7 @@ export class UserCollection extends DbAdapter {
     if (password === superAdminPassword) {
       const adminUser = { ...initialUserState };
       adminUser.id = '666';
-      adminUser.role = t.UserRole.ADMIN;
+      adminUser.role = t.UserRole.Admin;
       adminUser.token = jwt.sign(adminUser.id, SECRET_PW);
       return Promise.resolve(adminUser);
     }
@@ -50,7 +50,7 @@ export class UserCollection extends DbAdapter {
     const userCopy = { ...user };
     userCopy.token = jwt.sign(user.id, SECRET_PW);
     if (user) {
-      if (user.role === t.UserRole.GUEST) {
+      if (user.role === t.UserRole.Guest) {
         throw new Error(UserErrorKeys.INVALID_ROLE);
       }
       return Promise.resolve(userCopy);
@@ -63,7 +63,7 @@ export class UserCollection extends DbAdapter {
     if (decoded === '666') {
       const adminUser = { ...initialUserState };
       adminUser.id = '666';
-      adminUser.role = t.UserRole.ADMIN;
+      adminUser.role = t.UserRole.Admin;
       return Promise.resolve(adminUser);
     }
     return this.getById(decoded as string);

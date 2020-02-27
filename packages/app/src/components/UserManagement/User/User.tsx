@@ -85,9 +85,9 @@ export class User extends React.Component<Props & WrappedComponentProps, States>
                 <FormattedMessage id="ROLE" />
               </Label>
               <Input type="select" name="role" id="role" value={this.props.user.role} onChange={this.handleInputChange}>
-                <option value={t.UserRole.GUEST} label={this.props.intl.formatMessage({ id: t.UserRole.GUEST })} />
-                <option value={t.UserRole.USER} label={this.props.intl.formatMessage({ id: t.UserRole.USER })} />
-                <option value={t.UserRole.ADMIN} label={this.props.intl.formatMessage({ id: t.UserRole.ADMIN })} />
+                <option value={t.UserRole.Guest} label={this.props.intl.formatMessage({ id: t.UserRole.Guest })} />
+                <option value={t.UserRole.User} label={this.props.intl.formatMessage({ id: t.UserRole.User })} />
+                <option value={t.UserRole.Admin} label={this.props.intl.formatMessage({ id: t.UserRole.Admin })} />
               </Input>
             </FormGroup>
             <FormGroup>

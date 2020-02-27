@@ -47,8 +47,8 @@ export class Navigation extends React.Component<Props & WrappedComponentProps, S
 
   logout = (): void => {
     const isLoggedIn =
-      (this.props.loggedInUser && this.props.loggedInUser.role === t.UserRole.ADMIN) ||
-      this.props.loggedInUser.role === t.UserRole.USER ||
+      (this.props.loggedInUser && this.props.loggedInUser.role === t.UserRole.Admin) ||
+      this.props.loggedInUser.role === t.UserRole.User ||
       MOCKLOGIN;
     if (isLoggedIn) {
       this.props.logout();
@@ -56,8 +56,8 @@ export class Navigation extends React.Component<Props & WrappedComponentProps, S
   };
 
   render(): JSX.Element {
-    const isAdminLoggedIn = (this.props.loggedInUser && this.props.loggedInUser.role === t.UserRole.ADMIN) || MOCKLOGIN;
-    const isUserLoggedIn = this.props.loggedInUser && this.props.loggedInUser.role === t.UserRole.USER;
+    const isAdminLoggedIn = (this.props.loggedInUser && this.props.loggedInUser.role === t.UserRole.Admin) || MOCKLOGIN;
+    const isUserLoggedIn = this.props.loggedInUser && this.props.loggedInUser.role === t.UserRole.User;
     const navItems = [
       {
         path: '/',

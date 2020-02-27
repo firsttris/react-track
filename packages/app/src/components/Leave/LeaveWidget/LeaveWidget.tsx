@@ -108,11 +108,11 @@ export class LeaveWidget extends React.Component<Props, State> {
     const year = this.state.year;
     const maxLeaveDays = filter(this.props.selectedUser.holidays, { year }).reduce((a, b) => a + b.days, 0);
     const requestedSickDays = this.state.listOfLeave.reduce(
-      (a, b) => a + (b.type === t.DayType.SICKDAY ? b.requestedLeaveDays : 0),
+      (a, b) => a + (b.type === t.DayType.Sickday ? b.requestedLeaveDays : 0),
       0
     );
     const requestedLeaveDays = this.state.listOfLeave.reduce(
-      (a, b) => a + (b.type === t.DayType.HOLIDAY ? b.requestedLeaveDays : 0),
+      (a, b) => a + (b.type === t.DayType.Holiday ? b.requestedLeaveDays : 0),
       0
     );
 

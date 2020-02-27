@@ -124,7 +124,7 @@ describe('TimestampCollection Tests', () => {
       code: '1234',
       name: 'Max Mustermann',
       startDate: '',
-      role: t.UserRole.USER,
+      role: t.UserRole.User,
       workTimes: {
         monday: { startTime: '00:00', endTime: '00:00', mandatoryHours: '00:00' },
         tuesday: { startTime: '00:00', endTime: '00:00', mandatoryHours: '00:00' },

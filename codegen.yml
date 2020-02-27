@@ -1,0 +1,12 @@
+schema:
+  - "http://localhost:3001/graphql"
+documents:
+  - "packages/app/src/graphql/*.ts"
+config: {}
+generates:
+  packages/common/gen.ts:
+    config: {}
+    plugins:
+      - typescript
+      - typescript-operations
+require: []

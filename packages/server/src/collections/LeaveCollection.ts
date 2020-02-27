@@ -70,7 +70,7 @@ export class LeaveCollection extends DbAdapterWithColAndDbKey {
 
     const maxNumberOfLeaveDays = await this.getMaxNumberOfLeaveDays(userId, year);
     const leaveDaysLeft = maxNumberOfLeaveDays - alreadyUsedLeaveDays - requestedLeaveDays;
-    if (leaveDaysLeft < 0 && newLeave.type === t.DayType.HOLIDAY) {
+    if (leaveDaysLeft < 0 && newLeave.type === t.DayType.Holiday) {
       throw new Error(LeaveErrorKeys.LEAVEDAY_MISSING_DAYS);
     }
 
@@ -106,7 +106,7 @@ export class LeaveCollection extends DbAdapterWithColAndDbKey {
     let holidayDaysInThisYear = 0;
     const leaveDays = await this.getLeaveDays(userId, year);
     for (const leaveDay of leaveDays) {
-      if (leaveDay.type !== t.DayType.HOLIDAY) {
+      if (leaveDay.type !== t.DayType.Holiday) {
         continue;
       }
       holidayDaysInThisYear += leaveDay.requestedLeaveDays;
@@ -122,13 +122,13 @@ export class LeaveCollection extends DbAdapterWithColAndDbKey {
   ): Promise<number> {
     let days = 0;
     for (const workday of workdays) {
-      if (workday.dayType === t.DayType.PUBLIC_HOLIDAY) {
+      if (workday.dayType === t.DayType.PublicHoliday) {
         continue;
       }
       let workTimeInMilliseconds = await StatisticCalculator.getHoursForDay(workday, userId);
-      if (startDate.date === workday.date && startDate.type === t.WorkDayType.HALF_DAY) {
+      if (startDate.date === workday.date && startDate.type === t.WorkDayType.HalfDay) {
         workTimeInMilliseconds *= 0.5;
-      } else if (endDate.date === workday.date && endDate.type === t.WorkDayType.HALF_DAY) {
+      } else if (endDate.date === workday.date && endDate.type === t.WorkDayType.HalfDay) {
         workTimeInMilliseconds *= 0.5;
       }
       days += moment.duration(workTimeInMilliseconds, 'milliseconds').asHours() / 8;

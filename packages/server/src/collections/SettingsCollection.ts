@@ -11,10 +11,10 @@ export class SettingsCollection extends DbAdapterWithColKey {
       ['pauses']: [],
       ['superAdminPassword']: 'qwer1234',
       ['workTimeSettings']: {
-        schoolday: t.WorkDayPaymentType.PAID,
-        publicHoliday: t.WorkDayPaymentType.PAID,
-        holiday: t.WorkDayPaymentType.PAID,
-        sickday: t.WorkDayPaymentType.PAID
+        schoolday: t.WorkDayPaymentType.Paid,
+        publicHoliday: t.WorkDayPaymentType.Paid,
+        holiday: t.WorkDayPaymentType.Paid,
+        sickday: t.WorkDayPaymentType.Paid
       }
     };
   }

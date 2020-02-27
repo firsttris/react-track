@@ -20,7 +20,7 @@ export class ComplainWidgetItem extends React.Component<Props, {}> {
         <td>{this.props.complain.reason}</td>
         <td className="text-right">{this.props.complain.duration}</td>
         <td className="text-right">
-          {(this.props.userRole === t.UserRole.ADMIN || MOCKLOGIN) && (
+          {(this.props.userRole === t.UserRole.Admin || MOCKLOGIN) && (
             <i className="fa fa-trash pr-2" onClick={this.handleOnClick} style={{ cursor: 'pointer' }} />
           )}
         </td>
