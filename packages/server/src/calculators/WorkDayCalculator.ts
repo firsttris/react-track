@@ -2,6 +2,7 @@ import { API_DATE } from 'cons';
 import { find } from 'lodash';
 import * as moment from 'moment';
 import * as t from 'types';
+import { dayTypeEnumReverseMapping } from 'utils';
 import { LeaveCollection } from './../collections/LeaveCollection';
 import { PublicHolidayCollection } from './../collections/PublicHolidayCollection';
 import { WorkDay } from './../types';
@@ -159,7 +160,7 @@ export class WorkDayCalculator {
         }
         workdays.push({
           date: leaveStart.format(API_DATE),
-          dayType: t.DayType[leaveDate.type],
+          dayType: dayTypeEnumReverseMapping(leaveDate.type) || t.DayType.Workday,
           workDayType
         });
         leaveStart.add(1, 'day');
