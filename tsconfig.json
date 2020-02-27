@@ -16,6 +16,7 @@
       "assets/*": ["packages/app/src/assets/*"],
       "types": ["packages/common/gen.ts"],
       "cons": ["packages/common/cons.ts"],
+      "utils": ["packages/common/utils.ts"],
       "initialState": ["packages/common/initialState.ts"],
       "NumberFormatter": ["packages/common/NumberFormatter.ts"],
       "mocks": ["packages/common/mocks"],

@@ -5,6 +5,7 @@ import { MomentHelper } from './../helper/MomentHelper';
 import { StatisticValues, WorkDay } from './../types';
 import { StatisticCalculator } from './StatisticCalculator';
 import { WorkDayCalculator } from './WorkDayCalculator';
+import { omitTypeName } from 'utils';
 
 export class EvaluationCalculator {
   static async getEvaluationForUsers(date: string): Promise<t.UserEvaluation[]> {
@@ -71,7 +72,7 @@ export class EvaluationCalculator {
       date: day.date,
       title,
       icon: result.statistic.timeSpent > 0 ? 'fa-briefcase' : 'fa-times-circle',
-      ...this.formatStatistic(result.statistic)
+      ...omitTypeName(this.formatStatistic(result.statistic))
     };
   }
 
@@ -92,7 +93,7 @@ export class EvaluationCalculator {
       date: day.date,
       title: day.title || t.DayType.PublicHoliday,
       icon: 'fa-tree',
-      ...this.formatStatistic(result.statistic)
+      ...omitTypeName(this.formatStatistic(result.statistic))
     };
   }
 
@@ -104,7 +105,7 @@ export class EvaluationCalculator {
       date: day.date,
       title: day.dayType,
       icon,
-      ...this.formatStatistic(result.statistic)
+      ...omitTypeName(this.formatStatistic(result.statistic))
     };
   }
 

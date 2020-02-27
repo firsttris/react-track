@@ -30,58 +30,58 @@ declare global {
 // The resolvers
 const resolvers = {
   Query: {
-    getUsers: async (source: any, args: t.GetUsersQueryArgs) => UserCollection.find(args),
-    getUserById: async (source: any, args: t.GetUserByIdQueryArgs) => UserCollection.getById(args.userId),
-    loginUser: async (source: any, args: t.LoginUserQueryArgs) => UserCollection.loginUser(args.password),
-    verifyLogin: async (source: any, args: t.VerifyLoginQueryArgs) => UserCollection.verifyLogin(args.token),
+    getUsers: async (source: any, args: t.GetUsersQueryVariables) => UserCollection.find(args),
+    getUserById: async (source: any, args: t.GetUserByIdQueryVariables) => UserCollection.getById(args.userId),
+    loginUser: async (source: any, args: t.LoginUserQueryVariables) => UserCollection.loginUser(args.password),
+    verifyLogin: async (source: any, args: t.VerifyLoginQueryVariables) => UserCollection.verifyLogin(args.token),
     getWorkTimeSettings: async () => SettingsCollection.getWorkTimeSettings(),
-    getLeaveDays: async (source: any, args: t.GetLeaveDaysQueryArgs) =>
+    getLeaveDays: async (source: any, args: t.GetLeaveDaysQueryVariables) =>
       LeaveCollection.getLeaveDays(args.userId, args.year),
-    getPublicHolidays: async (source: any, args: t.GetPublicHolidaysQueryArgs) =>
+    getPublicHolidays: async (source: any, args: t.GetPublicHolidaysQueryVariables) =>
       PublicHolidayCollection.getPublicHolidays(args.year),
-    loadPublicHolidays: async (source: any, args: t.LoadPublicHolidaysQueryArgs) =>
+    loadPublicHolidays: async (source: any, args: t.LoadPublicHolidaysQueryVariables) =>
       PublicHolidayService.loadPublicHolidaysFromJarmedia(args.year),
-    getStatisticForDate: async (source: any, args: t.GetStatisticForDateQueryArgs) =>
+    getStatisticForDate: async (source: any, args: t.GetStatisticForDateQueryVariables) =>
       StatisticCalculator.getFormattedStatisticForDate(args.date, args.userId),
-    getStatisticForWeek: async (source: any, args: t.GetStatisticForWeekQueryArgs) =>
+    getStatisticForWeek: async (source: any, args: t.GetStatisticForWeekQueryVariables) =>
       StatisticCalculator.getStatisticForWeek(args.date, args.userId),
-    getStatisticForMonth: async (source: any, args: t.GetStatisticForMonthQueryArgs) =>
+    getStatisticForMonth: async (source: any, args: t.GetStatisticForMonthQueryVariables) =>
       StatisticCalculator.getStatisticForMonth(args.date, args.userId),
-    getYearSaldo: async (source: any, args: t.GetYearSaldoQueryArgs) =>
+    getYearSaldo: async (source: any, args: t.GetYearSaldoQueryVariables) =>
       StatisticCalculator.calculateYearSaldo(args.date, args.userId),
-    getComplains: async (source: any, args: t.GetComplainsQueryArgs) => ComplainCollection.get(args.userId, args.date),
-    getTimestamps: async (source: any, args: t.GetTimestampsQueryArgs) =>
+    getComplains: async (source: any, args: t.GetComplainsQueryVariables) => ComplainCollection.get(args.userId, args.date),
+    getTimestamps: async (source: any, args: t.GetTimestampsQueryVariables) =>
       TimestampCollection.getTimestamps(args.userId, args.date),
     getPauses: async (source: any, args: {}) => SettingsCollection.getPauses(),
-    getEvaluationForMonth: async (source: any, args: t.GetEvaluationForMonthQueryArgs) =>
+    getEvaluationForMonth: async (source: any, args: t.GetEvaluationForMonthQueryVariables) =>
       EvaluationCalculator.getEvaluationForMonth(args.date, args.userId),
-    getEvaluationForUsers: async (source: any, args: t.GetEvaluationForUsersQueryArgs) =>
+    getEvaluationForUsers: async (source: any, args: t.GetEvaluationForUsersQueryVariables) =>
       EvaluationCalculator.getEvaluationForUsers(args.date)
   },
   Mutation: {
-    createUser: async (source: any, args: t.CreateUserMutationArgs) => UserCollection.create(args.user),
-    updateUser: async (source: any, args: t.UpdateUserMutationArgs) => UserCollection.update(args.user),
-    deleteUser: async (source: any, args: t.DeleteUserMutationArgs) => UserCollection.deleteUser(args.userId),
-    updateWorkTimeSettings: async (source: any, args: t.UpdateWorkTimeSettingsMutationArgs) =>
+    createUser: async (source: any, args: t.CreateUserMutationVariables) => UserCollection.create(args.user),
+    updateUser: async (source: any, args: t.UpdateUserMutationVariables) => UserCollection.update(args.user),
+    deleteUser: async (source: any, args: t.DeleteUserMutationVariables) => UserCollection.deleteUser(args.userId),
+    updateWorkTimeSettings: async (source: any, args: t.UpdateWorkTimeSettingsMutationVariables) =>
       SettingsCollection.setWorkTimeSettings(args.settings),
-    updateAllUserWorkTimesById: async (source: any, args: t.UpdateAllUserWorkTimesByIdMutationArgs) =>
+    updateAllUserWorkTimesById: async (source: any, args: t.UpdateAllUserWorkTimesByIdMutationVariables) =>
       UserCollection.updateWorkTimesForAllUser(args.userId, args.workTimes),
-    createLeave: async (source: any, args: t.CreateLeaveMutationArgs) =>
+    createLeave: async (source: any, args: t.CreateLeaveMutationVariables) =>
       LeaveCollection.create(args.userId, args.leave),
-    deleteLeave: async (source: any, args: t.DeleteLeaveMutationArgs) =>
+    deleteLeave: async (source: any, args: t.DeleteLeaveMutationVariables) =>
       LeaveCollection.removeLeave(args.userId, args.leave),
-    updateTimestamps: async (source: any, args: t.UpdateTimestampsMutationArgs) =>
+    updateTimestamps: async (source: any, args: t.UpdateTimestampsMutationVariables) =>
       TimestampCollection.update(args.userId, args.date, args.timestamps),
-    updateComplains: async (source: any, args: t.UpdateComplainsMutationArgs) =>
+    updateComplains: async (source: any, args: t.UpdateComplainsMutationVariables) =>
       ComplainCollection.update(args.userId, args.date, args.complains),
-    createPause: async (source: any, args: t.CreatePauseMutationArgs) => SettingsCollection.createPause(args.pause),
-    deletePause: async (source: any, args: t.DeletePauseMutationArgs) =>
+    createPause: async (source: any, args: t.CreatePauseMutationVariables) => SettingsCollection.createPause(args.pause),
+    deletePause: async (source: any, args: t.DeletePauseMutationVariables) =>
       SettingsCollection.removePauseById(args.pauseId),
-    createPublicHoliday: async (source: any, args: t.CreatePublicHolidayMutationArgs) =>
+    createPublicHoliday: async (source: any, args: t.CreatePublicHolidayMutationVariables) =>
       PublicHolidayCollection.create(args.holiday),
-    deletePublicHoliday: async (source: any, args: t.DeletePublicHolidayMutationArgs) =>
+    deletePublicHoliday: async (source: any, args: t.DeletePublicHolidayMutationVariables) =>
       PublicHolidayCollection.removePublicHolidayById(args.year, args.holidayId),
-    addTimestampByCode: async (source: any, args: t.AddTimestampByCodeMutationArgs) =>
+    addTimestampByCode: async (source: any, args: t.AddTimestampByCodeMutationVariables) =>
       UserCollection.addTimestampByCode(args.code),
     rewriteTimestamps: async (source: any, args: any) => TimestampsBatch.rewriteTimestamps(args.userId, args.date)
   }
