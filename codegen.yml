@@ -1,0 +1,15 @@
+schema:
+  - "http://localhost:3001/graphql"
+documents:
+  - "packages/app/src/graphql/*.ts"
+config: {}
+generates:
+  packages/common/gen.ts:
+    config:
+      namingConvention:
+        typeNames: pascal-case#pascalCase
+        enumValues: upper-case#upperCase
+    plugins:
+      - typescript
+      - typescript-operations
+require: []
