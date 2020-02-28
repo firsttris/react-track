@@ -36,7 +36,7 @@ This lists the essential technology stack the application uses.
 
 ## Formatting, Linter
 
-- [**tslint**](https://github.com/palantir/tslint) linter for typescript
+- [**eslint**](https://eslint.org/) linter for typescript
 - [**prettier**](https://github.com/prettier/prettier) prettier
 
 ## Testing

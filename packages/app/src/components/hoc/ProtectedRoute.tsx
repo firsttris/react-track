@@ -18,8 +18,6 @@ interface State {
   loading: boolean;
 }
 
-/* tslint:disable */
-
 export class ProtectedRoute extends React.Component<Props, State> {
   state = {
     user: initialUserState,

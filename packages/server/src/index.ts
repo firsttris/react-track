@@ -26,8 +26,6 @@ declare global {
   }
 }
 
-/* tslint:disable:no-object-literal-type-assertion */
-// The resolvers
 const resolvers = {
   Query: {
     getUsers: async (source: any, args: t.GetUsersQueryVariables) => UserCollection.find(args),

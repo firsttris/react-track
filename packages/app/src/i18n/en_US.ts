@@ -1,5 +1,3 @@
-/* tslint:disable:variable-name */
-
 export const en_US = {
   CREATE_USER: 'Create User',
   USER_PROFILE: 'User Profile',
