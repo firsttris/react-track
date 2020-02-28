@@ -1,406 +1,29 @@
-/* tslint:disable */
-import { GraphQLResolveInfo } from 'graphql';
+export type Maybe<T> = T | null;
+/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: string,
+  String: string,
+  Boolean: boolean,
+  Int: number,
+  Float: number,
+  Upload: any,
+};
 
-type Resolver<Result, Args = any> = (
-  parent: any,
-  args: Args,
-  context: any,
-  info: GraphQLResolveInfo
-) => Promise<Result> | Result;
-
-/** The `Upload` scalar type represents a file upload promise that resolves an object containing `stream`, `filename`, `mimetype` and `encoding`. */
-export type Upload = any;
-
-export interface Query {
-  getUsers: User[];
-  getUserById: User;
-  verifyLogin: User;
-  loginUser: User;
-  getWorkTimeSettings: WorkTimeSettings;
-  getLeaveDays: Leave[];
-  getPublicHolidays: PublicHoliday[];
-  loadPublicHolidays: PublicHoliday[];
-  getStatisticForDate: StatisticForDate;
-  getStatisticForWeek: StatisticForWeek;
-  getStatisticForMonth: StatisticForMonth;
-  getYearSaldo: string;
-  getComplains: Complain[];
-  getTimestamps: Timestamp[];
-  getPauses: Pause[];
-  getEvaluationForMonth: Evaluation[];
-  getEvaluationForUsers: UserEvaluation[];
+export enum CacheControlScope {
+  PUBLIC = 'PUBLIC',
+  PRIVATE = 'PRIVATE'
 }
 
-export interface User {
-  id: string;
-  name: string;
-  holidays: Holiday[];
-  code: string;
-  role: UserRole;
-  token?: string | null;
-  workTimes: WorkTimes;
-  startDate: string;
-  saldos: Saldo[];
-}
+export type Complain = {
+   __typename?: 'Complain',
+  reason: Scalars['String'],
+  duration: Scalars['String'],
+};
 
-export interface Holiday {
-  year: string;
-  comment?: string | null;
-  days: number;
-}
-
-export interface WorkTimes {
-  monday: WorkTime;
-  tuesday: WorkTime;
-  wednesday: WorkTime;
-  thursday: WorkTime;
-  friday: WorkTime;
-  saturday: WorkTime;
-  sunday: WorkTime;
-}
-
-export interface WorkTime {
-  startTime: string;
-  endTime: string;
-  mandatoryHours: string;
-}
-
-export interface Saldo {
-  year: string;
-  comment?: string | null;
-  hours: number;
-}
-
-export interface WorkTimeSettings {
-  schoolday: WorkDayPaymentType;
-  publicHoliday: WorkDayPaymentType;
-  holiday: WorkDayPaymentType;
-  sickday: WorkDayPaymentType;
-}
-
-export interface Leave {
-  id: string;
-  start: LeaveDate;
-  end: LeaveDate;
-  type: DayType;
-  requestedLeaveDays: number;
-}
-
-export interface LeaveDate {
-  date: string;
-  type: WorkDayType;
-}
-
-export interface PublicHoliday {
-  id: string;
-  title: string;
-  date: string;
-  locs?: (string | null)[] | null;
-}
-
-export interface StatisticForDate {
-  statisticForDate: Statistic;
-  selectedDate: string;
-}
-
-export interface Statistic {
-  timeComplain: string;
-  timeSpent: string;
-  timeLeft: string;
-  timeEarned: string;
-  timePause: string;
-  totalHours: string;
-}
-
-export interface StatisticForWeek {
-  statisticForWeek: Statistic;
-  selectedDate: string;
-}
-
-export interface StatisticForMonth {
-  statisticForMonth: Statistic;
-  hoursSpentForMonthPerDay: HoursPerDay[];
-  selectedDate: string;
-}
-
-export interface HoursPerDay {
-  day: number;
-  hours: string;
-  range: number[];
-  hasError: boolean;
-}
-
-export interface Complain {
-  reason: string;
-  duration: string;
-}
-
-export interface Timestamp {
-  id: string;
-  time: string;
-  actualTime: string;
-  status: string;
-  type: string;
-}
-
-export interface Pause {
-  id: string;
-  time: string;
-  durationInMinutes: string;
-}
-
-export interface Evaluation {
-  timeComplain: string;
-  timeSpent: string;
-  timeLeft: string;
-  timeEarned: string;
-  timePause: string;
-  totalHours: string;
-  date: string;
-  title: string;
-  icon: string;
-}
-
-export interface UserEvaluation {
-  userName: string;
-  listOfEvaluation: Evaluation[];
-}
-
-export interface Mutation {
-  createUser: User;
-  updateUser: User;
-  deleteUser: User[];
-  updateWorkTimeSettings: WorkTimeSettings;
-  updateAllUserWorkTimesById: WorkTimes;
-  createLeave: Leave[];
-  deleteLeave: Leave[];
-  updateTimestamps: ValidatedTimestamps;
-  updateComplains: Complain[];
-  createPause: Pause[];
-  deletePause: Pause[];
-  createPublicHoliday: PublicHoliday[];
-  deletePublicHoliday: PublicHoliday[];
-  addTimestampByCode: TimestampUserAndStatistic;
-  rewriteTimestamps?: boolean | null;
-}
-
-export interface ValidatedTimestamps {
-  timestamps: Timestamp[];
-  error?: string | null;
-}
-
-export interface TimestampUserAndStatistic {
-  timestamp: Timestamp;
-  user: User;
-  timeLeft: string;
-}
-
-export interface UserInput {
-  id?: string | null;
-  name: string;
-  holidays: HolidayInput[];
-  code: string;
-  role: UserRole;
-  token?: string | null;
-  startDate: string;
-  workTimes: WorkTimesInput;
-  saldos: SaldoInput[];
-}
-
-export interface HolidayInput {
-  year: string;
-  comment?: string | null;
-  days: number;
-}
-
-export interface WorkTimesInput {
-  monday: WorkTimeInput;
-  tuesday: WorkTimeInput;
-  wednesday: WorkTimeInput;
-  thursday: WorkTimeInput;
-  friday: WorkTimeInput;
-  saturday: WorkTimeInput;
-  sunday: WorkTimeInput;
-}
-
-export interface WorkTimeInput {
-  startTime: string;
-  endTime: string;
-  mandatoryHours: string;
-}
-
-export interface SaldoInput {
-  year: string;
-  comment?: string | null;
-  hours: number;
-}
-
-export interface WorkTimeSettingsInput {
-  schoolday: WorkDayPaymentType;
-  publicHoliday: WorkDayPaymentType;
-  holiday: WorkDayPaymentType;
-  sickday: WorkDayPaymentType;
-}
-
-export interface LeaveInput {
-  id?: string | null;
-  start: LeaveDateInput;
-  end: LeaveDateInput;
-  type: DayType;
-  requestedLeaveDays?: number | null;
-}
-
-export interface LeaveDateInput {
-  date: string;
-  type: WorkDayType;
-}
-
-export interface TimestampInput {
-  id: string;
-  time: string;
-  actualTime: string;
-  status: string;
-  type: string;
-}
-
-export interface ComplainInput {
-  reason: string;
-  duration: string;
-}
-
-export interface PauseInput {
-  time: string;
-  durationInMinutes: string;
-}
-
-export interface PublicHolidayInput {
-  title: string;
-  date: string;
-}
-export interface GetUsersQueryArgs {
-  userId?: string | null;
-  name?: string | null;
-}
-export interface GetUserByIdQueryArgs {
-  userId: string;
-}
-export interface VerifyLoginQueryArgs {
-  token: string;
-}
-export interface LoginUserQueryArgs {
-  password: string;
-}
-export interface GetLeaveDaysQueryArgs {
-  userId: string;
-  year: string;
-}
-export interface GetPublicHolidaysQueryArgs {
-  year: string;
-}
-export interface LoadPublicHolidaysQueryArgs {
-  year: string;
-}
-export interface GetStatisticForDateQueryArgs {
-  date: string;
-  userId: string;
-}
-export interface GetStatisticForWeekQueryArgs {
-  date: string;
-  userId: string;
-}
-export interface GetStatisticForMonthQueryArgs {
-  date: string;
-  userId: string;
-}
-export interface GetYearSaldoQueryArgs {
-  date: string;
-  userId: string;
-}
-export interface GetComplainsQueryArgs {
-  userId: string;
-  date: string;
-}
-export interface GetTimestampsQueryArgs {
-  userId: string;
-  date: string;
-}
-export interface GetEvaluationForMonthQueryArgs {
-  date: string;
-  userId: string;
-}
-export interface GetEvaluationForUsersQueryArgs {
-  date: string;
-}
-export interface CreateUserMutationArgs {
-  user: UserInput;
-}
-export interface UpdateUserMutationArgs {
-  user: UserInput;
-}
-export interface DeleteUserMutationArgs {
-  userId: string;
-}
-export interface UpdateWorkTimeSettingsMutationArgs {
-  settings: WorkTimeSettingsInput;
-}
-export interface UpdateAllUserWorkTimesByIdMutationArgs {
-  userId: string;
-  workTimes: WorkTimesInput;
-}
-export interface CreateLeaveMutationArgs {
-  userId: string;
-  leave: LeaveInput;
-}
-export interface DeleteLeaveMutationArgs {
-  userId: string;
-  leave: LeaveInput;
-}
-export interface UpdateTimestampsMutationArgs {
-  userId: string;
-  date: string;
-  timestamps: TimestampInput[];
-}
-export interface UpdateComplainsMutationArgs {
-  userId: string;
-  date: string;
-  complains: ComplainInput[];
-}
-export interface CreatePauseMutationArgs {
-  pause: PauseInput;
-}
-export interface DeletePauseMutationArgs {
-  pauseId: string;
-}
-export interface CreatePublicHolidayMutationArgs {
-  holiday: PublicHolidayInput;
-}
-export interface DeletePublicHolidayMutationArgs {
-  year: string;
-  holidayId: string;
-}
-export interface AddTimestampByCodeMutationArgs {
-  code: string;
-}
-export interface RewriteTimestampsMutationArgs {
-  userId: string;
-  date: string;
-}
-
-export enum UserRole {
-  GUEST = 'GUEST',
-  ADMIN = 'ADMIN',
-  USER = 'USER'
-}
-
-export enum WorkDayPaymentType {
-  PAID = 'PAID',
-  UNPAID = 'UNPAID'
-}
-
-export enum WorkDayType {
-  FULL_DAY = 'FULL_DAY',
-  HALF_DAY = 'HALF_DAY'
-}
+export type ComplainInput = {
+  reason: Scalars['String'],
+  duration: Scalars['String'],
+};
 
 export enum DayType {
   WORKDAY = 'WORKDAY',
@@ -412,1146 +35,1076 @@ export enum DayType {
   AWAY = 'AWAY'
 }
 
-export namespace QueryResolvers {
-  export interface Resolvers {
-    getUsers?: GetUsersResolver;
-    getUserById?: GetUserByIdResolver;
-    verifyLogin?: VerifyLoginResolver;
-    loginUser?: LoginUserResolver;
-    getWorkTimeSettings?: GetWorkTimeSettingsResolver;
-    getLeaveDays?: GetLeaveDaysResolver;
-    getPublicHolidays?: GetPublicHolidaysResolver;
-    loadPublicHolidays?: LoadPublicHolidaysResolver;
-    getStatisticForDate?: GetStatisticForDateResolver;
-    getStatisticForWeek?: GetStatisticForWeekResolver;
-    getStatisticForMonth?: GetStatisticForMonthResolver;
-    getYearSaldo?: GetYearSaldoResolver;
-    getComplains?: GetComplainsResolver;
-    getTimestamps?: GetTimestampsResolver;
-    getPauses?: GetPausesResolver;
-    getEvaluationForMonth?: GetEvaluationForMonthResolver;
-    getEvaluationForUsers?: GetEvaluationForUsersResolver;
-  }
-
-  export type GetUsersResolver = Resolver<User[], GetUsersArgs>;
-  export interface GetUsersArgs {
-    userId?: string | null;
-    name?: string | null;
-  }
-
-  export type GetUserByIdResolver = Resolver<User, GetUserByIdArgs>;
-  export interface GetUserByIdArgs {
-    userId: string;
-  }
-
-  export type VerifyLoginResolver = Resolver<User, VerifyLoginArgs>;
-  export interface VerifyLoginArgs {
-    token: string;
-  }
-
-  export type LoginUserResolver = Resolver<User, LoginUserArgs>;
-  export interface LoginUserArgs {
-    password: string;
-  }
-
-  export type GetWorkTimeSettingsResolver = Resolver<WorkTimeSettings>;
-  export type GetLeaveDaysResolver = Resolver<Leave[], GetLeaveDaysArgs>;
-  export interface GetLeaveDaysArgs {
-    userId: string;
-    year: string;
-  }
-
-  export type GetPublicHolidaysResolver = Resolver<PublicHoliday[], GetPublicHolidaysArgs>;
-  export interface GetPublicHolidaysArgs {
-    year: string;
-  }
-
-  export type LoadPublicHolidaysResolver = Resolver<PublicHoliday[], LoadPublicHolidaysArgs>;
-  export interface LoadPublicHolidaysArgs {
-    year: string;
-  }
-
-  export type GetStatisticForDateResolver = Resolver<StatisticForDate, GetStatisticForDateArgs>;
-  export interface GetStatisticForDateArgs {
-    date: string;
-    userId: string;
-  }
-
-  export type GetStatisticForWeekResolver = Resolver<StatisticForWeek, GetStatisticForWeekArgs>;
-  export interface GetStatisticForWeekArgs {
-    date: string;
-    userId: string;
-  }
-
-  export type GetStatisticForMonthResolver = Resolver<StatisticForMonth, GetStatisticForMonthArgs>;
-  export interface GetStatisticForMonthArgs {
-    date: string;
-    userId: string;
-  }
-
-  export type GetYearSaldoResolver = Resolver<string, GetYearSaldoArgs>;
-  export interface GetYearSaldoArgs {
-    date: string;
-    userId: string;
-  }
-
-  export type GetComplainsResolver = Resolver<Complain[], GetComplainsArgs>;
-  export interface GetComplainsArgs {
-    userId: string;
-    date: string;
-  }
-
-  export type GetTimestampsResolver = Resolver<Timestamp[], GetTimestampsArgs>;
-  export interface GetTimestampsArgs {
-    userId: string;
-    date: string;
-  }
-
-  export type GetPausesResolver = Resolver<Pause[]>;
-  export type GetEvaluationForMonthResolver = Resolver<Evaluation[], GetEvaluationForMonthArgs>;
-  export interface GetEvaluationForMonthArgs {
-    date: string;
-    userId: string;
-  }
-
-  export type GetEvaluationForUsersResolver = Resolver<UserEvaluation[], GetEvaluationForUsersArgs>;
-  export interface GetEvaluationForUsersArgs {
-    date: string;
-  }
-}
-export namespace UserResolvers {
-  export interface Resolvers {
-    id?: IdResolver;
-    name?: NameResolver;
-    holidays?: HolidaysResolver;
-    code?: CodeResolver;
-    role?: RoleResolver;
-    token?: TokenResolver;
-    workTimes?: WorkTimesResolver;
-    startDate?: StartDateResolver;
-    saldos?: SaldosResolver;
-  }
-
-  export type IdResolver = Resolver<string>;
-  export type NameResolver = Resolver<string>;
-  export type HolidaysResolver = Resolver<Holiday[]>;
-  export type CodeResolver = Resolver<string>;
-  export type RoleResolver = Resolver<UserRole>;
-  export type TokenResolver = Resolver<string | null>;
-  export type WorkTimesResolver = Resolver<WorkTimes>;
-  export type StartDateResolver = Resolver<string>;
-  export type SaldosResolver = Resolver<Saldo[]>;
-}
-export namespace HolidayResolvers {
-  export interface Resolvers {
-    year?: YearResolver;
-    comment?: CommentResolver;
-    days?: DaysResolver;
-  }
-
-  export type YearResolver = Resolver<string>;
-  export type CommentResolver = Resolver<string | null>;
-  export type DaysResolver = Resolver<number>;
-}
-export namespace WorkTimesResolvers {
-  export interface Resolvers {
-    monday?: MondayResolver;
-    tuesday?: TuesdayResolver;
-    wednesday?: WednesdayResolver;
-    thursday?: ThursdayResolver;
-    friday?: FridayResolver;
-    saturday?: SaturdayResolver;
-    sunday?: SundayResolver;
-  }
-
-  export type MondayResolver = Resolver<WorkTime>;
-  export type TuesdayResolver = Resolver<WorkTime>;
-  export type WednesdayResolver = Resolver<WorkTime>;
-  export type ThursdayResolver = Resolver<WorkTime>;
-  export type FridayResolver = Resolver<WorkTime>;
-  export type SaturdayResolver = Resolver<WorkTime>;
-  export type SundayResolver = Resolver<WorkTime>;
-}
-export namespace WorkTimeResolvers {
-  export interface Resolvers {
-    startTime?: StartTimeResolver;
-    endTime?: EndTimeResolver;
-    mandatoryHours?: MandatoryHoursResolver;
-  }
-
-  export type StartTimeResolver = Resolver<string>;
-  export type EndTimeResolver = Resolver<string>;
-  export type MandatoryHoursResolver = Resolver<string>;
-}
-export namespace SaldoResolvers {
-  export interface Resolvers {
-    year?: YearResolver;
-    comment?: CommentResolver;
-    hours?: HoursResolver;
-  }
-
-  export type YearResolver = Resolver<string>;
-  export type CommentResolver = Resolver<string | null>;
-  export type HoursResolver = Resolver<number>;
-}
-export namespace WorkTimeSettingsResolvers {
-  export interface Resolvers {
-    schoolday?: SchooldayResolver;
-    publicHoliday?: PublicHolidayResolver;
-    holiday?: HolidayResolver;
-    sickday?: SickdayResolver;
-  }
-
-  export type SchooldayResolver = Resolver<WorkDayPaymentType>;
-  export type PublicHolidayResolver = Resolver<WorkDayPaymentType>;
-  export type HolidayResolver = Resolver<WorkDayPaymentType>;
-  export type SickdayResolver = Resolver<WorkDayPaymentType>;
-}
-export namespace LeaveResolvers {
-  export interface Resolvers {
-    id?: IdResolver;
-    start?: StartResolver;
-    end?: EndResolver;
-    type?: TypeResolver;
-    requestedLeaveDays?: RequestedLeaveDaysResolver;
-  }
-
-  export type IdResolver = Resolver<string>;
-  export type StartResolver = Resolver<LeaveDate>;
-  export type EndResolver = Resolver<LeaveDate>;
-  export type TypeResolver = Resolver<DayType>;
-  export type RequestedLeaveDaysResolver = Resolver<number>;
-}
-export namespace LeaveDateResolvers {
-  export interface Resolvers {
-    date?: DateResolver;
-    type?: TypeResolver;
-  }
-
-  export type DateResolver = Resolver<string>;
-  export type TypeResolver = Resolver<WorkDayType>;
-}
-export namespace PublicHolidayResolvers {
-  export interface Resolvers {
-    id?: IdResolver;
-    title?: TitleResolver;
-    date?: DateResolver;
-    locs?: LocsResolver;
-  }
-
-  export type IdResolver = Resolver<string>;
-  export type TitleResolver = Resolver<string>;
-  export type DateResolver = Resolver<string>;
-  export type LocsResolver = Resolver<(string | null)[] | null>;
-}
-export namespace StatisticForDateResolvers {
-  export interface Resolvers {
-    statisticForDate?: StatisticForDateResolver;
-    selectedDate?: SelectedDateResolver;
-  }
-
-  export type StatisticForDateResolver = Resolver<Statistic>;
-  export type SelectedDateResolver = Resolver<string>;
-}
-export namespace StatisticResolvers {
-  export interface Resolvers {
-    timeComplain?: TimeComplainResolver;
-    timeSpent?: TimeSpentResolver;
-    timeLeft?: TimeLeftResolver;
-    timeEarned?: TimeEarnedResolver;
-    timePause?: TimePauseResolver;
-    totalHours?: TotalHoursResolver;
-  }
-
-  export type TimeComplainResolver = Resolver<string>;
-  export type TimeSpentResolver = Resolver<string>;
-  export type TimeLeftResolver = Resolver<string>;
-  export type TimeEarnedResolver = Resolver<string>;
-  export type TimePauseResolver = Resolver<string>;
-  export type TotalHoursResolver = Resolver<string>;
-}
-export namespace StatisticForWeekResolvers {
-  export interface Resolvers {
-    statisticForWeek?: StatisticForWeekResolver;
-    selectedDate?: SelectedDateResolver;
-  }
-
-  export type StatisticForWeekResolver = Resolver<Statistic>;
-  export type SelectedDateResolver = Resolver<string>;
-}
-export namespace StatisticForMonthResolvers {
-  export interface Resolvers {
-    statisticForMonth?: StatisticForMonthResolver;
-    hoursSpentForMonthPerDay?: HoursSpentForMonthPerDayResolver;
-    selectedDate?: SelectedDateResolver;
-  }
-
-  export type StatisticForMonthResolver = Resolver<Statistic>;
-  export type HoursSpentForMonthPerDayResolver = Resolver<HoursPerDay[]>;
-  export type SelectedDateResolver = Resolver<string>;
-}
-export namespace HoursPerDayResolvers {
-  export interface Resolvers {
-    day?: DayResolver;
-    hours?: HoursResolver;
-    range?: RangeResolver;
-    hasError?: HasErrorResolver;
-  }
-
-  export type DayResolver = Resolver<number>;
-  export type HoursResolver = Resolver<string>;
-  export type RangeResolver = Resolver<number[]>;
-  export type HasErrorResolver = Resolver<boolean>;
-}
-export namespace ComplainResolvers {
-  export interface Resolvers {
-    reason?: ReasonResolver;
-    duration?: DurationResolver;
-  }
-
-  export type ReasonResolver = Resolver<string>;
-  export type DurationResolver = Resolver<string>;
-}
-export namespace TimestampResolvers {
-  export interface Resolvers {
-    id?: IdResolver;
-    time?: TimeResolver;
-    actualTime?: ActualTimeResolver;
-    status?: StatusResolver;
-    type?: TypeResolver;
-  }
-
-  export type IdResolver = Resolver<string>;
-  export type TimeResolver = Resolver<string>;
-  export type ActualTimeResolver = Resolver<string>;
-  export type StatusResolver = Resolver<string>;
-  export type TypeResolver = Resolver<string>;
-}
-export namespace PauseResolvers {
-  export interface Resolvers {
-    id?: IdResolver;
-    time?: TimeResolver;
-    durationInMinutes?: DurationInMinutesResolver;
-  }
-
-  export type IdResolver = Resolver<string>;
-  export type TimeResolver = Resolver<string>;
-  export type DurationInMinutesResolver = Resolver<string>;
-}
-export namespace EvaluationResolvers {
-  export interface Resolvers {
-    timeComplain?: TimeComplainResolver;
-    timeSpent?: TimeSpentResolver;
-    timeLeft?: TimeLeftResolver;
-    timeEarned?: TimeEarnedResolver;
-    timePause?: TimePauseResolver;
-    totalHours?: TotalHoursResolver;
-    date?: DateResolver;
-    title?: TitleResolver;
-    icon?: IconResolver;
-  }
-
-  export type TimeComplainResolver = Resolver<string>;
-  export type TimeSpentResolver = Resolver<string>;
-  export type TimeLeftResolver = Resolver<string>;
-  export type TimeEarnedResolver = Resolver<string>;
-  export type TimePauseResolver = Resolver<string>;
-  export type TotalHoursResolver = Resolver<string>;
-  export type DateResolver = Resolver<string>;
-  export type TitleResolver = Resolver<string>;
-  export type IconResolver = Resolver<string>;
-}
-export namespace UserEvaluationResolvers {
-  export interface Resolvers {
-    userName?: UserNameResolver;
-    listOfEvaluation?: ListOfEvaluationResolver;
-  }
-
-  export type UserNameResolver = Resolver<string>;
-  export type ListOfEvaluationResolver = Resolver<Evaluation[]>;
-}
-export namespace MutationResolvers {
-  export interface Resolvers {
-    createUser?: CreateUserResolver;
-    updateUser?: UpdateUserResolver;
-    deleteUser?: DeleteUserResolver;
-    updateWorkTimeSettings?: UpdateWorkTimeSettingsResolver;
-    updateAllUserWorkTimesById?: UpdateAllUserWorkTimesByIdResolver;
-    createLeave?: CreateLeaveResolver;
-    deleteLeave?: DeleteLeaveResolver;
-    updateTimestamps?: UpdateTimestampsResolver;
-    updateComplains?: UpdateComplainsResolver;
-    createPause?: CreatePauseResolver;
-    deletePause?: DeletePauseResolver;
-    createPublicHoliday?: CreatePublicHolidayResolver;
-    deletePublicHoliday?: DeletePublicHolidayResolver;
-    addTimestampByCode?: AddTimestampByCodeResolver;
-    rewriteTimestamps?: RewriteTimestampsResolver;
-  }
-
-  export type CreateUserResolver = Resolver<User, CreateUserArgs>;
-  export interface CreateUserArgs {
-    user: UserInput;
-  }
-
-  export type UpdateUserResolver = Resolver<User, UpdateUserArgs>;
-  export interface UpdateUserArgs {
-    user: UserInput;
-  }
-
-  export type DeleteUserResolver = Resolver<User[], DeleteUserArgs>;
-  export interface DeleteUserArgs {
-    userId: string;
-  }
-
-  export type UpdateWorkTimeSettingsResolver = Resolver<WorkTimeSettings, UpdateWorkTimeSettingsArgs>;
-  export interface UpdateWorkTimeSettingsArgs {
-    settings: WorkTimeSettingsInput;
-  }
-
-  export type UpdateAllUserWorkTimesByIdResolver = Resolver<WorkTimes, UpdateAllUserWorkTimesByIdArgs>;
-  export interface UpdateAllUserWorkTimesByIdArgs {
-    userId: string;
-    workTimes: WorkTimesInput;
-  }
-
-  export type CreateLeaveResolver = Resolver<Leave[], CreateLeaveArgs>;
-  export interface CreateLeaveArgs {
-    userId: string;
-    leave: LeaveInput;
-  }
-
-  export type DeleteLeaveResolver = Resolver<Leave[], DeleteLeaveArgs>;
-  export interface DeleteLeaveArgs {
-    userId: string;
-    leave: LeaveInput;
-  }
-
-  export type UpdateTimestampsResolver = Resolver<ValidatedTimestamps, UpdateTimestampsArgs>;
-  export interface UpdateTimestampsArgs {
-    userId: string;
-    date: string;
-    timestamps: TimestampInput[];
-  }
-
-  export type UpdateComplainsResolver = Resolver<Complain[], UpdateComplainsArgs>;
-  export interface UpdateComplainsArgs {
-    userId: string;
-    date: string;
-    complains: ComplainInput[];
-  }
-
-  export type CreatePauseResolver = Resolver<Pause[], CreatePauseArgs>;
-  export interface CreatePauseArgs {
-    pause: PauseInput;
-  }
-
-  export type DeletePauseResolver = Resolver<Pause[], DeletePauseArgs>;
-  export interface DeletePauseArgs {
-    pauseId: string;
-  }
-
-  export type CreatePublicHolidayResolver = Resolver<PublicHoliday[], CreatePublicHolidayArgs>;
-  export interface CreatePublicHolidayArgs {
-    holiday: PublicHolidayInput;
-  }
-
-  export type DeletePublicHolidayResolver = Resolver<PublicHoliday[], DeletePublicHolidayArgs>;
-  export interface DeletePublicHolidayArgs {
-    year: string;
-    holidayId: string;
-  }
-
-  export type AddTimestampByCodeResolver = Resolver<TimestampUserAndStatistic, AddTimestampByCodeArgs>;
-  export interface AddTimestampByCodeArgs {
-    code: string;
-  }
-
-  export type RewriteTimestampsResolver = Resolver<boolean | null, RewriteTimestampsArgs>;
-  export interface RewriteTimestampsArgs {
-    userId: string;
-    date: string;
-  }
-}
-export namespace ValidatedTimestampsResolvers {
-  export interface Resolvers {
-    timestamps?: TimestampsResolver;
-    error?: ErrorResolver;
-  }
-
-  export type TimestampsResolver = Resolver<Timestamp[]>;
-  export type ErrorResolver = Resolver<string | null>;
-}
-export namespace TimestampUserAndStatisticResolvers {
-  export interface Resolvers {
-    timestamp?: TimestampResolver;
-    user?: UserResolver;
-    timeLeft?: TimeLeftResolver;
-  }
-
-  export type TimestampResolver = Resolver<Timestamp>;
-  export type UserResolver = Resolver<User>;
-  export type TimeLeftResolver = Resolver<string>;
-}
-export namespace UpdateAllUserWorkTimesById {
-  export type Variables = {
-    userId: string;
-    workTimes: WorkTimesInput;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-    updateAllUserWorkTimesById: UpdateAllUserWorkTimesById;
-  };
-
-  export type UpdateAllUserWorkTimesById = WorkTimesFields.Fragment;
-}
-export namespace CreateUser {
-  export type Variables = {
-    user: UserInput;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-    createUser: CreateUser;
-  };
-
-  export type CreateUser = UserFields.Fragment;
-}
-export namespace UpdateUser {
-  export type Variables = {
-    user: UserInput;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-    updateUser: UpdateUser;
-  };
-
-  export type UpdateUser = UserFields.Fragment;
-}
-export namespace DeleteUser {
-  export type Variables = {
-    userId: string;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-    deleteUser: DeleteUser[];
-  };
-
-  export type DeleteUser = UserFields.Fragment;
-}
-export namespace CreateLeave {
-  export type Variables = {
-    userId: string;
-    leave: LeaveInput;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-    createLeave: CreateLeave[];
-  };
-
-  export type CreateLeave = LeaveFields.Fragment;
-}
-export namespace DeleteLeave {
-  export type Variables = {
-    userId: string;
-    leave: LeaveInput;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-    deleteLeave: DeleteLeave[];
-  };
-
-  export type DeleteLeave = LeaveFields.Fragment;
-}
-export namespace UpdateTimestamps {
-  export type Variables = {
-    userId: string;
-    date: string;
-    timestamps: TimestampInput[];
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-    updateTimestamps: UpdateTimestamps;
-  };
-
-  export type UpdateTimestamps = {
-    __typename?: 'ValidatedTimestamps';
-    timestamps: Timestamps[];
-    error?: string | null;
-  };
-
-  export type Timestamps = TimestampFields.Fragment;
-}
-export namespace RewriteTimestamps {
-  export type Variables = {
-    userId: string;
-    date: string;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-    rewriteTimestamps?: boolean | null;
-  };
-}
-export namespace AddTimestampByCode {
-  export type Variables = {
-    code: string;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-    addTimestampByCode: AddTimestampByCode;
-  };
-
-  export type AddTimestampByCode = TimestampUserAndStatisticFields.Fragment;
-}
-export namespace UpdateComplains {
-  export type Variables = {
-    userId: string;
-    date: string;
-    complains: ComplainInput[];
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-    updateComplains: UpdateComplains[];
-  };
-
-  export type UpdateComplains = ComplainFields.Fragment;
-}
-export namespace DeletePublicHoliday {
-  export type Variables = {
-    year: string;
-    holidayId: string;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-    deletePublicHoliday: DeletePublicHoliday[];
-  };
-
-  export type DeletePublicHoliday = PublicHolidayFields.Fragment;
-}
-export namespace CreatePublicHoliday {
-  export type Variables = {
-    holiday: PublicHolidayInput;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-    createPublicHoliday: CreatePublicHoliday[];
-  };
-
-  export type CreatePublicHoliday = PublicHolidayFields.Fragment;
-}
-export namespace DeletePause {
-  export type Variables = {
-    pauseId: string;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-    deletePause: DeletePause[];
-  };
-
-  export type DeletePause = PauseFields.Fragment;
-}
-export namespace CreatePause {
-  export type Variables = {
-    pause: PauseInput;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-    createPause: CreatePause[];
-  };
-
-  export type CreatePause = PauseFields.Fragment;
-}
-export namespace UpdateWorkTimeSettings {
-  export type Variables = {
-    settings: WorkTimeSettingsInput;
-  };
-
-  export type Mutation = {
-    __typename?: 'Mutation';
-    updateWorkTimeSettings: UpdateWorkTimeSettings;
-  };
-
-  export type UpdateWorkTimeSettings = WorkTimeSettingsFields.Fragment;
-}
-export namespace GetUsers {
-  export type Variables = {};
-
-  export type Query = {
-    __typename?: 'Query';
-    getUsers: GetUsers[];
-  };
-
-  export type GetUsers = {
-    __typename?: 'User';
-    id: string;
-    name: string;
-  };
-}
-export namespace GetUserById {
-  export type Variables = {
-    userId: string;
-  };
-
-  export type Query = {
-    __typename?: 'Query';
-    getUserById: GetUserById;
-  };
-
-  export type GetUserById = UserFields.Fragment;
-}
-export namespace LoginUser {
-  export type Variables = {
-    password: string;
-  };
-
-  export type Query = {
-    __typename?: 'Query';
-    loginUser: LoginUser;
-  };
-
-  export type LoginUser = {
-    __typename?: 'User';
-    token?: string | null;
-  } & UserFields.Fragment;
-}
-export namespace VerifyLogin {
-  export type Variables = {
-    token: string;
-  };
-
-  export type Query = {
-    __typename?: 'Query';
-    verifyLogin: VerifyLogin;
-  };
-
-  export type VerifyLogin = UserFields.Fragment;
-}
-export namespace GetLeaveDays {
-  export type Variables = {
-    userId: string;
-    year: string;
-  };
-
-  export type Query = {
-    __typename?: 'Query';
-    getLeaveDays: GetLeaveDays[];
-  };
-
-  export type GetLeaveDays = LeaveFields.Fragment;
-}
-export namespace GetPublicHolidays {
-  export type Variables = {
-    year: string;
-  };
-
-  export type Query = {
-    __typename?: 'Query';
-    getPublicHolidays: GetPublicHolidays[];
-  };
-
-  export type GetPublicHolidays = PublicHolidayFields.Fragment;
-}
-export namespace GetLeaveDaysAndPublicHolidays {
-  export type Variables = {
-    userId: string;
-    year: string;
-  };
-
-  export type Query = {
-    __typename?: 'Query';
-    getLeaveDays: GetLeaveDays[];
-    getPublicHolidays: GetPublicHolidays[];
-  };
-
-  export type GetLeaveDays = LeaveFields.Fragment;
-
-  export type GetPublicHolidays = PublicHolidayFields.Fragment;
-}
-export namespace LoadPublicHolidays {
-  export type Variables = {
-    year: string;
-  };
-
-  export type Query = {
-    __typename?: 'Query';
-    loadPublicHolidays: LoadPublicHolidays[];
-  };
-
-  export type LoadPublicHolidays = PublicHolidayFields.Fragment;
-}
-export namespace GetEvaluationForMonth {
-  export type Variables = {
-    userId: string;
-    date: string;
-  };
-
-  export type Query = {
-    __typename?: 'Query';
-    getEvaluationForMonth: GetEvaluationForMonth[];
-  };
-
-  export type GetEvaluationForMonth = EvaluationFields.Fragment;
-}
-export namespace GetEvaluationForUsers {
-  export type Variables = {
-    date: string;
-  };
-
-  export type Query = {
-    __typename?: 'Query';
-    getEvaluationForUsers: GetEvaluationForUsers[];
-  };
-
-  export type GetEvaluationForUsers = UserEvaluationFields.Fragment;
-}
-export namespace GetStatisticForDate {
-  export type Variables = {
-    date: string;
-    userId: string;
-  };
-
-  export type Query = {
-    __typename?: 'Query';
-    getStatisticForDate: GetStatisticForDate;
-    getYearSaldo: string;
-  };
-
-  export type GetStatisticForDate = {
-    __typename?: 'StatisticForDate';
-    statisticForDate: StatisticForDate;
-    selectedDate: string;
-  };
-
-  export type StatisticForDate = StatisticFields.Fragment;
-}
-export namespace GetStatisticForWeek {
-  export type Variables = {
-    date: string;
-    userId: string;
-  };
-
-  export type Query = {
-    __typename?: 'Query';
-    getStatisticForWeek: GetStatisticForWeek;
-  };
-
-  export type GetStatisticForWeek = {
-    __typename?: 'StatisticForWeek';
-    statisticForWeek: StatisticForWeek;
-    selectedDate: string;
-  };
-
-  export type StatisticForWeek = StatisticFields.Fragment;
-}
-export namespace GetStatisticForMonth {
-  export type Variables = {
-    date: string;
-    userId: string;
-  };
-
-  export type Query = {
-    __typename?: 'Query';
-    getStatisticForMonth: GetStatisticForMonth;
-  };
-
-  export type GetStatisticForMonth = {
-    __typename?: 'StatisticForMonth';
-    statisticForMonth: StatisticForMonth;
-    hoursSpentForMonthPerDay: HoursSpentForMonthPerDay[];
-    selectedDate: string;
-  };
-
-  export type StatisticForMonth = StatisticFields.Fragment;
-
-  export type HoursSpentForMonthPerDay = HoursPerDayFields.Fragment;
-}
-export namespace GetYearSaldo {
-  export type Variables = {
-    date: string;
-    userId: string;
-  };
-
-  export type Query = {
-    __typename?: 'Query';
-    getYearSaldo: string;
-  };
-}
-export namespace GetComplains {
-  export type Variables = {
-    userId: string;
-    date: string;
-  };
-
-  export type Query = {
-    __typename?: 'Query';
-    getComplains: GetComplains[];
-  };
-
-  export type GetComplains = ComplainFields.Fragment;
-}
-export namespace GetTimestamps {
-  export type Variables = {
-    userId: string;
-    date: string;
-  };
-
-  export type Query = {
-    __typename?: 'Query';
-    getTimestamps: GetTimestamps[];
-  };
-
-  export type GetTimestamps = TimestampFields.Fragment;
-}
-export namespace GetComplainsAndTimestamps {
-  export type Variables = {
-    userId: string;
-    date: string;
-  };
-
-  export type Query = {
-    __typename?: 'Query';
-    getComplains: GetComplains[];
-    getTimestamps: GetTimestamps[];
-  };
-
-  export type GetComplains = ComplainFields.Fragment;
-
-  export type GetTimestamps = TimestampFields.Fragment;
-}
-export namespace GetPauses {
-  export type Variables = {};
-
-  export type Query = {
-    __typename?: 'Query';
-    getPauses: GetPauses[];
-  };
-
-  export type GetPauses = PauseFields.Fragment;
-}
-export namespace GetWorkTimeSettings {
-  export type Variables = {};
-
-  export type Query = {
-    __typename?: 'Query';
-    getWorkTimeSettings: GetWorkTimeSettings;
-  };
-
-  export type GetWorkTimeSettings = WorkTimeSettingsFields.Fragment;
-}
+export type Evaluation = {
+   __typename?: 'Evaluation',
+  timeComplain: Scalars['String'],
+  timeSpent: Scalars['String'],
+  timeLeft: Scalars['String'],
+  timeEarned: Scalars['String'],
+  timePause: Scalars['String'],
+  totalHours: Scalars['String'],
+  date: Scalars['String'],
+  title: Scalars['String'],
+  icon: Scalars['String'],
+};
+
+export type Holiday = {
+   __typename?: 'Holiday',
+  year: Scalars['String'],
+  comment?: Maybe<Scalars['String']>,
+  days: Scalars['Float'],
+};
+
+export type HolidayInput = {
+  year: Scalars['String'],
+  comment?: Maybe<Scalars['String']>,
+  days: Scalars['Float'],
+};
+
+export type HoursPerDay = {
+   __typename?: 'HoursPerDay',
+  day: Scalars['Float'],
+  hours: Scalars['String'],
+  range: Array<Scalars['Float']>,
+  hasError: Scalars['Boolean'],
+};
+
+export type Leave = {
+   __typename?: 'Leave',
+  id: Scalars['String'],
+  start: LeaveDate,
+  end: LeaveDate,
+  type: DayType,
+  requestedLeaveDays: Scalars['Float'],
+};
+
+export type LeaveDate = {
+   __typename?: 'LeaveDate',
+  date: Scalars['String'],
+  type: WorkDayType,
+};
+
+export type LeaveDateInput = {
+  date: Scalars['String'],
+  type: WorkDayType,
+};
+
+export type LeaveInput = {
+  id?: Maybe<Scalars['String']>,
+  start: LeaveDateInput,
+  end: LeaveDateInput,
+  type: DayType,
+  requestedLeaveDays?: Maybe<Scalars['Float']>,
+};
+
+export type Mutation = {
+   __typename?: 'Mutation',
+  createUser: User,
+  updateUser: User,
+  deleteUser: Array<User>,
+  updateWorkTimeSettings: WorkTimeSettings,
+  updateAllUserWorkTimesById: WorkTimes,
+  createLeave: Array<Leave>,
+  deleteLeave: Array<Leave>,
+  updateTimestamps: ValidatedTimestamps,
+  updateComplains: Array<Complain>,
+  createPause: Array<Pause>,
+  deletePause: Array<Pause>,
+  createPublicHoliday: Array<PublicHoliday>,
+  deletePublicHoliday: Array<PublicHoliday>,
+  addTimestampByCode: TimestampUserAndStatistic,
+  rewriteTimestamps?: Maybe<Scalars['Boolean']>,
+};
+
+
+export type MutationCreateUserArgs = {
+  user: UserInput
+};
+
+
+export type MutationUpdateUserArgs = {
+  user: UserInput
+};
+
+
+export type MutationDeleteUserArgs = {
+  userId: Scalars['String']
+};
+
+
+export type MutationUpdateWorkTimeSettingsArgs = {
+  settings: WorkTimeSettingsInput
+};
+
 
-export namespace WorkTimeFields {
-  export type Fragment = {
-    __typename?: 'WorkTime';
-    startTime: string;
-    endTime: string;
-    mandatoryHours: string;
-  };
-}
+export type MutationUpdateAllUserWorkTimesByIdArgs = {
+  userId: Scalars['String'],
+  workTimes: WorkTimesInput
+};
 
-export namespace WorkTimesFields {
-  export type Fragment = {
-    __typename?: 'WorkTimes';
-    monday: Monday;
-    tuesday: Tuesday;
-    wednesday: Wednesday;
-    thursday: Thursday;
-    friday: Friday;
-    saturday: Saturday;
-    sunday: Sunday;
-  };
 
-  export type Monday = WorkTimeFields.Fragment;
+export type MutationCreateLeaveArgs = {
+  userId: Scalars['String'],
+  leave: LeaveInput
+};
 
-  export type Tuesday = WorkTimeFields.Fragment;
 
-  export type Wednesday = WorkTimeFields.Fragment;
+export type MutationDeleteLeaveArgs = {
+  userId: Scalars['String'],
+  leave: LeaveInput
+};
 
-  export type Thursday = WorkTimeFields.Fragment;
 
-  export type Friday = WorkTimeFields.Fragment;
+export type MutationUpdateTimestampsArgs = {
+  userId: Scalars['String'],
+  date: Scalars['String'],
+  timestamps: Array<TimestampInput>
+};
 
-  export type Saturday = WorkTimeFields.Fragment;
 
-  export type Sunday = WorkTimeFields.Fragment;
-}
+export type MutationUpdateComplainsArgs = {
+  userId: Scalars['String'],
+  date: Scalars['String'],
+  complains: Array<ComplainInput>
+};
 
-export namespace SaldoFields {
-  export type Fragment = {
-    __typename?: 'Saldo';
-    year: string;
-    comment?: string | null;
-    hours: number;
-  };
-}
 
-export namespace HolidayFields {
-  export type Fragment = {
-    __typename?: 'Holiday';
-    year: string;
-    comment?: string | null;
-    days: number;
-  };
-}
+export type MutationCreatePauseArgs = {
+  pause: PauseInput
+};
 
-export namespace PublicHolidayFields {
-  export type Fragment = {
-    __typename?: 'PublicHoliday';
-    id: string;
-    title: string;
-    date: string;
-  };
-}
 
-export namespace PauseFields {
-  export type Fragment = {
-    __typename?: 'Pause';
-    id: string;
-    time: string;
-    durationInMinutes: string;
-  };
-}
+export type MutationDeletePauseArgs = {
+  pauseId: Scalars['String']
+};
 
-export namespace WorkTimeSettingsFields {
-  export type Fragment = {
-    __typename?: 'WorkTimeSettings';
-    schoolday: WorkDayPaymentType;
-    publicHoliday: WorkDayPaymentType;
-    holiday: WorkDayPaymentType;
-    sickday: WorkDayPaymentType;
-  };
-}
 
-export namespace TimestampFields {
-  export type Fragment = {
-    __typename?: 'Timestamp';
-    id: string;
-    time: string;
-    actualTime: string;
-    status: string;
-    type: string;
-  };
-}
+export type MutationCreatePublicHolidayArgs = {
+  holiday: PublicHolidayInput
+};
 
-export namespace StatisticFields {
-  export type Fragment = {
-    __typename?: 'Statistic';
-    timeComplain: string;
-    timeSpent: string;
-    timeLeft: string;
-    timeEarned: string;
-    timePause: string;
-    totalHours: string;
-  };
-}
 
-export namespace EvaluationFields {
-  export type Fragment = {
-    __typename?: 'Evaluation';
-    date: string;
-    title: string;
-    icon: string;
-    timeComplain: string;
-    timeSpent: string;
-    timeLeft: string;
-    timeEarned: string;
-    timePause: string;
-    totalHours: string;
-  };
-}
+export type MutationDeletePublicHolidayArgs = {
+  year: Scalars['String'],
+  holidayId: Scalars['String']
+};
 
-export namespace UserEvaluationFields {
-  export type Fragment = {
-    __typename?: 'UserEvaluation';
-    userName: string;
-    listOfEvaluation: ListOfEvaluation[];
-  };
-
-  export type ListOfEvaluation = EvaluationFields.Fragment;
-}
 
-export namespace HoursPerDayFields {
-  export type Fragment = {
-    __typename?: 'HoursPerDay';
-    day: number;
-    hours: string;
-    range: number[];
-    hasError: boolean;
-  };
-}
+export type MutationAddTimestampByCodeArgs = {
+  code: Scalars['String']
+};
 
-export namespace ComplainFields {
-  export type Fragment = {
-    __typename?: 'Complain';
-    reason: string;
-    duration: string;
-  };
-}
 
-export namespace LeaveDateFields {
-  export type Fragment = {
-    __typename?: 'LeaveDate';
-    date: string;
-    type: WorkDayType;
-  };
-}
+export type MutationRewriteTimestampsArgs = {
+  userId: Scalars['String'],
+  date: Scalars['String']
+};
 
-export namespace LeaveFields {
-  export type Fragment = {
-    __typename?: 'Leave';
-    id: string;
-    start: Start;
-    end: End;
-    type: DayType;
-    requestedLeaveDays: number;
-  };
-
-  export type Start = LeaveDateFields.Fragment;
-
-  export type End = LeaveDateFields.Fragment;
-}
+export type Pause = {
+   __typename?: 'Pause',
+  id: Scalars['String'],
+  time: Scalars['String'],
+  durationInMinutes: Scalars['String'],
+};
 
-export namespace UserFields {
-  export type Fragment = {
-    __typename?: 'User';
-    id: string;
-    name: string;
-    holidays: Holidays[];
-    role: UserRole;
-    workTimes: WorkTimes;
-    code: string;
-    startDate: string;
-    saldos: Saldos[];
-  };
-
-  export type Holidays = HolidayFields.Fragment;
-
-  export type WorkTimes = WorkTimesFields.Fragment;
-
-  export type Saldos = SaldoFields.Fragment;
-}
+export type PauseInput = {
+  time: Scalars['String'],
+  durationInMinutes: Scalars['String'],
+};
 
-export namespace TimestampUserAndStatisticFields {
-  export type Fragment = {
-    __typename?: 'TimestampUserAndStatistic';
-    timestamp: Timestamp;
-    user: User;
-    timeLeft: string;
-  };
+export type PublicHoliday = {
+   __typename?: 'PublicHoliday',
+  id: Scalars['String'],
+  title: Scalars['String'],
+  date: Scalars['String'],
+  locs?: Maybe<Array<Maybe<Scalars['String']>>>,
+};
 
-  export type Timestamp = TimestampFields.Fragment;
+export type PublicHolidayInput = {
+  title: Scalars['String'],
+  date: Scalars['String'],
+};
 
-  export type User = UserFields.Fragment;
-}
+export type Query = {
+   __typename?: 'Query',
+  getUsers: Array<User>,
+  getUserById: User,
+  verifyLogin: User,
+  loginUser: User,
+  getWorkTimeSettings: WorkTimeSettings,
+  getLeaveDays: Array<Leave>,
+  getPublicHolidays: Array<PublicHoliday>,
+  loadPublicHolidays: Array<PublicHoliday>,
+  getStatisticForDate: StatisticForDate,
+  getStatisticForWeek: StatisticForWeek,
+  getStatisticForMonth: StatisticForMonth,
+  getYearSaldo: Scalars['String'],
+  getComplains: Array<Complain>,
+  getTimestamps: Array<Timestamp>,
+  getPauses: Array<Pause>,
+  getEvaluationForMonth: Array<Evaluation>,
+  getEvaluationForUsers: Array<UserEvaluation>,
+};
+
+
+export type QueryGetUsersArgs = {
+  userId?: Maybe<Scalars['String']>,
+  name?: Maybe<Scalars['String']>
+};
+
+
+export type QueryGetUserByIdArgs = {
+  userId: Scalars['String']
+};
+
+
+export type QueryVerifyLoginArgs = {
+  token: Scalars['String']
+};
+
+
+export type QueryLoginUserArgs = {
+  password: Scalars['String']
+};
+
+
+export type QueryGetLeaveDaysArgs = {
+  userId: Scalars['String'],
+  year: Scalars['String']
+};
+
+
+export type QueryGetPublicHolidaysArgs = {
+  year: Scalars['String']
+};
+
+
+export type QueryLoadPublicHolidaysArgs = {
+  year: Scalars['String']
+};
+
+
+export type QueryGetStatisticForDateArgs = {
+  date: Scalars['String'],
+  userId: Scalars['String']
+};
+
+
+export type QueryGetStatisticForWeekArgs = {
+  date: Scalars['String'],
+  userId: Scalars['String']
+};
+
+
+export type QueryGetStatisticForMonthArgs = {
+  date: Scalars['String'],
+  userId: Scalars['String']
+};
+
+
+export type QueryGetYearSaldoArgs = {
+  date: Scalars['String'],
+  userId: Scalars['String']
+};
+
+
+export type QueryGetComplainsArgs = {
+  userId: Scalars['String'],
+  date: Scalars['String']
+};
+
+
+export type QueryGetTimestampsArgs = {
+  userId: Scalars['String'],
+  date: Scalars['String']
+};
+
+
+export type QueryGetEvaluationForMonthArgs = {
+  date: Scalars['String'],
+  userId: Scalars['String']
+};
+
+
+export type QueryGetEvaluationForUsersArgs = {
+  date: Scalars['String']
+};
+
+export type Saldo = {
+   __typename?: 'Saldo',
+  year: Scalars['String'],
+  comment?: Maybe<Scalars['String']>,
+  hours: Scalars['Float'],
+};
+
+export type SaldoInput = {
+  year: Scalars['String'],
+  comment?: Maybe<Scalars['String']>,
+  hours: Scalars['Float'],
+};
+
+export type Statistic = {
+   __typename?: 'Statistic',
+  timeComplain: Scalars['String'],
+  timeSpent: Scalars['String'],
+  timeLeft: Scalars['String'],
+  timeEarned: Scalars['String'],
+  timePause: Scalars['String'],
+  totalHours: Scalars['String'],
+};
+
+export type StatisticForDate = {
+   __typename?: 'StatisticForDate',
+  statisticForDate: Statistic,
+  selectedDate: Scalars['String'],
+};
+
+export type StatisticForMonth = {
+   __typename?: 'StatisticForMonth',
+  statisticForMonth: Statistic,
+  hoursSpentForMonthPerDay: Array<HoursPerDay>,
+  selectedDate: Scalars['String'],
+};
+
+export type StatisticForWeek = {
+   __typename?: 'StatisticForWeek',
+  statisticForWeek: Statistic,
+  selectedDate: Scalars['String'],
+};
+
+export type Timestamp = {
+   __typename?: 'Timestamp',
+  id: Scalars['String'],
+  time: Scalars['String'],
+  actualTime: Scalars['String'],
+  status: Scalars['String'],
+  type: Scalars['String'],
+};
+
+export type TimestampInput = {
+  id: Scalars['String'],
+  time: Scalars['String'],
+  actualTime: Scalars['String'],
+  status: Scalars['String'],
+  type: Scalars['String'],
+};
+
+export type TimestampUserAndStatistic = {
+   __typename?: 'TimestampUserAndStatistic',
+  timestamp: Timestamp,
+  user: User,
+  timeLeft: Scalars['String'],
+};
+
+
+export type User = {
+   __typename?: 'User',
+  id: Scalars['String'],
+  name: Scalars['String'],
+  holidays: Array<Holiday>,
+  code: Scalars['String'],
+  role: UserRole,
+  token?: Maybe<Scalars['String']>,
+  workTimes: WorkTimes,
+  startDate: Scalars['String'],
+  saldos: Array<Saldo>,
+};
+
+export type UserEvaluation = {
+   __typename?: 'UserEvaluation',
+  userName: Scalars['String'],
+  listOfEvaluation: Array<Evaluation>,
+};
+
+export type UserInput = {
+  id?: Maybe<Scalars['String']>,
+  name: Scalars['String'],
+  holidays: Array<HolidayInput>,
+  code: Scalars['String'],
+  role: UserRole,
+  token?: Maybe<Scalars['String']>,
+  startDate: Scalars['String'],
+  workTimes: WorkTimesInput,
+  saldos: Array<SaldoInput>,
+};
+
+export enum UserRole {
+  GUEST = 'GUEST',
+  ADMIN = 'ADMIN',
+  USER = 'USER'
+}
+
+export type ValidatedTimestamps = {
+   __typename?: 'ValidatedTimestamps',
+  timestamps: Array<Timestamp>,
+  error?: Maybe<Scalars['String']>,
+};
+
+export enum WorkDayPaymentType {
+  PAID = 'PAID',
+  UNPAID = 'UNPAID'
+}
+
+export enum WorkDayType {
+  FULL_DAY = 'FULL_DAY',
+  HALF_DAY = 'HALF_DAY'
+}
+
+export type WorkTime = {
+   __typename?: 'WorkTime',
+  startTime: Scalars['String'],
+  endTime: Scalars['String'],
+  mandatoryHours: Scalars['String'],
+};
+
+export type WorkTimeInput = {
+  startTime: Scalars['String'],
+  endTime: Scalars['String'],
+  mandatoryHours: Scalars['String'],
+};
+
+export type WorkTimes = {
+   __typename?: 'WorkTimes',
+  monday: WorkTime,
+  tuesday: WorkTime,
+  wednesday: WorkTime,
+  thursday: WorkTime,
+  friday: WorkTime,
+  saturday: WorkTime,
+  sunday: WorkTime,
+};
+
+export type WorkTimeSettings = {
+   __typename?: 'WorkTimeSettings',
+  schoolday: WorkDayPaymentType,
+  publicHoliday: WorkDayPaymentType,
+  holiday: WorkDayPaymentType,
+  sickday: WorkDayPaymentType,
+};
+
+export type WorkTimeSettingsInput = {
+  schoolday: WorkDayPaymentType,
+  publicHoliday: WorkDayPaymentType,
+  holiday: WorkDayPaymentType,
+  sickday: WorkDayPaymentType,
+};
+
+export type WorkTimesInput = {
+  monday: WorkTimeInput,
+  tuesday: WorkTimeInput,
+  wednesday: WorkTimeInput,
+  thursday: WorkTimeInput,
+  friday: WorkTimeInput,
+  saturday: WorkTimeInput,
+  sunday: WorkTimeInput,
+};
+
+export type WorkTimeFieldsFragment = (
+  { __typename?: 'WorkTime' }
+  & Pick<WorkTime, 'startTime' | 'endTime' | 'mandatoryHours'>
+);
+
+export type WorkTimesFieldsFragment = (
+  { __typename?: 'WorkTimes' }
+  & { monday: (
+    { __typename?: 'WorkTime' }
+    & WorkTimeFieldsFragment
+  ), tuesday: (
+    { __typename?: 'WorkTime' }
+    & WorkTimeFieldsFragment
+  ), wednesday: (
+    { __typename?: 'WorkTime' }
+    & WorkTimeFieldsFragment
+  ), thursday: (
+    { __typename?: 'WorkTime' }
+    & WorkTimeFieldsFragment
+  ), friday: (
+    { __typename?: 'WorkTime' }
+    & WorkTimeFieldsFragment
+  ), saturday: (
+    { __typename?: 'WorkTime' }
+    & WorkTimeFieldsFragment
+  ), sunday: (
+    { __typename?: 'WorkTime' }
+    & WorkTimeFieldsFragment
+  ) }
+);
+
+export type SaldoFieldsFragment = (
+  { __typename?: 'Saldo' }
+  & Pick<Saldo, 'year' | 'comment' | 'hours'>
+);
+
+export type HolidayFieldsFragment = (
+  { __typename?: 'Holiday' }
+  & Pick<Holiday, 'year' | 'comment' | 'days'>
+);
+
+export type PublicHolidayFieldsFragment = (
+  { __typename?: 'PublicHoliday' }
+  & Pick<PublicHoliday, 'id' | 'title' | 'date'>
+);
+
+export type PauseFieldsFragment = (
+  { __typename?: 'Pause' }
+  & Pick<Pause, 'id' | 'time' | 'durationInMinutes'>
+);
+
+export type WorkTimeSettingsFieldsFragment = (
+  { __typename?: 'WorkTimeSettings' }
+  & Pick<WorkTimeSettings, 'schoolday' | 'publicHoliday' | 'holiday' | 'sickday'>
+);
+
+export type TimestampFieldsFragment = (
+  { __typename?: 'Timestamp' }
+  & Pick<Timestamp, 'id' | 'time' | 'actualTime' | 'status' | 'type'>
+);
+
+export type StatisticFieldsFragment = (
+  { __typename?: 'Statistic' }
+  & Pick<Statistic, 'timeComplain' | 'timeSpent' | 'timeLeft' | 'timeEarned' | 'timePause' | 'totalHours'>
+);
+
+export type EvaluationFieldsFragment = (
+  { __typename?: 'Evaluation' }
+  & Pick<Evaluation, 'date' | 'title' | 'icon' | 'timeComplain' | 'timeSpent' | 'timeLeft' | 'timeEarned' | 'timePause' | 'totalHours'>
+);
+
+export type UserEvaluationFieldsFragment = (
+  { __typename?: 'UserEvaluation' }
+  & Pick<UserEvaluation, 'userName'>
+  & { listOfEvaluation: Array<(
+    { __typename?: 'Evaluation' }
+    & EvaluationFieldsFragment
+  )> }
+);
+
+export type HoursPerDayFieldsFragment = (
+  { __typename?: 'HoursPerDay' }
+  & Pick<HoursPerDay, 'day' | 'hours' | 'range' | 'hasError'>
+);
+
+export type ComplainFieldsFragment = (
+  { __typename?: 'Complain' }
+  & Pick<Complain, 'reason' | 'duration'>
+);
+
+export type LeaveDateFieldsFragment = (
+  { __typename?: 'LeaveDate' }
+  & Pick<LeaveDate, 'date' | 'type'>
+);
+
+export type LeaveFieldsFragment = (
+  { __typename?: 'Leave' }
+  & Pick<Leave, 'id' | 'type' | 'requestedLeaveDays'>
+  & { start: (
+    { __typename?: 'LeaveDate' }
+    & LeaveDateFieldsFragment
+  ), end: (
+    { __typename?: 'LeaveDate' }
+    & LeaveDateFieldsFragment
+  ) }
+);
+
+export type UserFieldsFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'id' | 'name' | 'role' | 'code' | 'startDate'>
+  & { holidays: Array<(
+    { __typename?: 'Holiday' }
+    & HolidayFieldsFragment
+  )>, workTimes: (
+    { __typename?: 'WorkTimes' }
+    & WorkTimesFieldsFragment
+  ), saldos: Array<(
+    { __typename?: 'Saldo' }
+    & SaldoFieldsFragment
+  )> }
+);
+
+export type TimestampUserAndStatisticFieldsFragment = (
+  { __typename?: 'TimestampUserAndStatistic' }
+  & Pick<TimestampUserAndStatistic, 'timeLeft'>
+  & { timestamp: (
+    { __typename?: 'Timestamp' }
+    & TimestampFieldsFragment
+  ), user: (
+    { __typename?: 'User' }
+    & UserFieldsFragment
+  ) }
+);
+
+export type UpdateAllUserWorkTimesByIdMutationVariables = {
+  userId: Scalars['String'],
+  workTimes: WorkTimesInput
+};
+
+
+export type UpdateAllUserWorkTimesByIdMutation = (
+  { __typename?: 'Mutation' }
+  & { updateAllUserWorkTimesById: (
+    { __typename?: 'WorkTimes' }
+    & WorkTimesFieldsFragment
+  ) }
+);
+
+export type CreateUserMutationVariables = {
+  user: UserInput
+};
+
+
+export type CreateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { createUser: (
+    { __typename?: 'User' }
+    & UserFieldsFragment
+  ) }
+);
+
+export type UpdateUserMutationVariables = {
+  user: UserInput
+};
+
+
+export type UpdateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { updateUser: (
+    { __typename?: 'User' }
+    & UserFieldsFragment
+  ) }
+);
+
+export type DeleteUserMutationVariables = {
+  userId: Scalars['String']
+};
+
+
+export type DeleteUserMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteUser: Array<(
+    { __typename?: 'User' }
+    & UserFieldsFragment
+  )> }
+);
+
+export type CreateLeaveMutationVariables = {
+  userId: Scalars['String'],
+  leave: LeaveInput
+};
+
+
+export type CreateLeaveMutation = (
+  { __typename?: 'Mutation' }
+  & { createLeave: Array<(
+    { __typename?: 'Leave' }
+    & LeaveFieldsFragment
+  )> }
+);
+
+export type DeleteLeaveMutationVariables = {
+  userId: Scalars['String'],
+  leave: LeaveInput
+};
+
+
+export type DeleteLeaveMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteLeave: Array<(
+    { __typename?: 'Leave' }
+    & LeaveFieldsFragment
+  )> }
+);
+
+export type UpdateTimestampsMutationVariables = {
+  userId: Scalars['String'],
+  date: Scalars['String'],
+  timestamps: Array<TimestampInput>
+};
+
+
+export type UpdateTimestampsMutation = (
+  { __typename?: 'Mutation' }
+  & { updateTimestamps: (
+    { __typename?: 'ValidatedTimestamps' }
+    & Pick<ValidatedTimestamps, 'error'>
+    & { timestamps: Array<(
+      { __typename?: 'Timestamp' }
+      & TimestampFieldsFragment
+    )> }
+  ) }
+);
+
+export type RewriteTimestampsMutationVariables = {
+  userId: Scalars['String'],
+  date: Scalars['String']
+};
+
+
+export type RewriteTimestampsMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'rewriteTimestamps'>
+);
+
+export type AddTimestampByCodeMutationVariables = {
+  code: Scalars['String']
+};
+
+
+export type AddTimestampByCodeMutation = (
+  { __typename?: 'Mutation' }
+  & { addTimestampByCode: (
+    { __typename?: 'TimestampUserAndStatistic' }
+    & TimestampUserAndStatisticFieldsFragment
+  ) }
+);
+
+export type UpdateComplainsMutationVariables = {
+  userId: Scalars['String'],
+  date: Scalars['String'],
+  complains: Array<ComplainInput>
+};
+
+
+export type UpdateComplainsMutation = (
+  { __typename?: 'Mutation' }
+  & { updateComplains: Array<(
+    { __typename?: 'Complain' }
+    & ComplainFieldsFragment
+  )> }
+);
+
+export type DeletePublicHolidayMutationVariables = {
+  year: Scalars['String'],
+  holidayId: Scalars['String']
+};
+
+
+export type DeletePublicHolidayMutation = (
+  { __typename?: 'Mutation' }
+  & { deletePublicHoliday: Array<(
+    { __typename?: 'PublicHoliday' }
+    & PublicHolidayFieldsFragment
+  )> }
+);
+
+export type CreatePublicHolidayMutationVariables = {
+  holiday: PublicHolidayInput
+};
+
+
+export type CreatePublicHolidayMutation = (
+  { __typename?: 'Mutation' }
+  & { createPublicHoliday: Array<(
+    { __typename?: 'PublicHoliday' }
+    & PublicHolidayFieldsFragment
+  )> }
+);
+
+export type DeletePauseMutationVariables = {
+  pauseId: Scalars['String']
+};
+
+
+export type DeletePauseMutation = (
+  { __typename?: 'Mutation' }
+  & { deletePause: Array<(
+    { __typename?: 'Pause' }
+    & PauseFieldsFragment
+  )> }
+);
+
+export type CreatePauseMutationVariables = {
+  pause: PauseInput
+};
+
+
+export type CreatePauseMutation = (
+  { __typename?: 'Mutation' }
+  & { createPause: Array<(
+    { __typename?: 'Pause' }
+    & PauseFieldsFragment
+  )> }
+);
+
+export type UpdateWorkTimeSettingsMutationVariables = {
+  settings: WorkTimeSettingsInput
+};
+
+
+export type UpdateWorkTimeSettingsMutation = (
+  { __typename?: 'Mutation' }
+  & { updateWorkTimeSettings: (
+    { __typename?: 'WorkTimeSettings' }
+    & WorkTimeSettingsFieldsFragment
+  ) }
+);
+
+export type GetUsersQueryVariables = {};
+
+
+export type GetUsersQuery = (
+  { __typename?: 'Query' }
+  & { getUsers: Array<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'name'>
+  )> }
+);
+
+export type GetUserByIdQueryVariables = {
+  userId: Scalars['String']
+};
+
+
+export type GetUserByIdQuery = (
+  { __typename?: 'Query' }
+  & { getUserById: (
+    { __typename?: 'User' }
+    & UserFieldsFragment
+  ) }
+);
+
+export type LoginUserQueryVariables = {
+  password: Scalars['String']
+};
+
+
+export type LoginUserQuery = (
+  { __typename?: 'Query' }
+  & { loginUser: (
+    { __typename?: 'User' }
+    & Pick<User, 'token'>
+    & UserFieldsFragment
+  ) }
+);
+
+export type VerifyLoginQueryVariables = {
+  token: Scalars['String']
+};
+
+
+export type VerifyLoginQuery = (
+  { __typename?: 'Query' }
+  & { verifyLogin: (
+    { __typename?: 'User' }
+    & UserFieldsFragment
+  ) }
+);
+
+export type GetLeaveDaysQueryVariables = {
+  userId: Scalars['String'],
+  year: Scalars['String']
+};
+
+
+export type GetLeaveDaysQuery = (
+  { __typename?: 'Query' }
+  & { getLeaveDays: Array<(
+    { __typename?: 'Leave' }
+    & LeaveFieldsFragment
+  )> }
+);
+
+export type GetPublicHolidaysQueryVariables = {
+  year: Scalars['String']
+};
+
+
+export type GetPublicHolidaysQuery = (
+  { __typename?: 'Query' }
+  & { getPublicHolidays: Array<(
+    { __typename?: 'PublicHoliday' }
+    & PublicHolidayFieldsFragment
+  )> }
+);
+
+export type GetLeaveDaysAndPublicHolidaysQueryVariables = {
+  userId: Scalars['String'],
+  year: Scalars['String']
+};
+
+
+export type GetLeaveDaysAndPublicHolidaysQuery = (
+  { __typename?: 'Query' }
+  & { getLeaveDays: Array<(
+    { __typename?: 'Leave' }
+    & LeaveFieldsFragment
+  )>, getPublicHolidays: Array<(
+    { __typename?: 'PublicHoliday' }
+    & PublicHolidayFieldsFragment
+  )> }
+);
+
+export type LoadPublicHolidaysQueryVariables = {
+  year: Scalars['String']
+};
+
+
+export type LoadPublicHolidaysQuery = (
+  { __typename?: 'Query' }
+  & { loadPublicHolidays: Array<(
+    { __typename?: 'PublicHoliday' }
+    & PublicHolidayFieldsFragment
+  )> }
+);
+
+export type GetEvaluationForMonthQueryVariables = {
+  userId: Scalars['String'],
+  date: Scalars['String']
+};
+
+
+export type GetEvaluationForMonthQuery = (
+  { __typename?: 'Query' }
+  & { getEvaluationForMonth: Array<(
+    { __typename?: 'Evaluation' }
+    & EvaluationFieldsFragment
+  )> }
+);
+
+export type GetEvaluationForUsersQueryVariables = {
+  date: Scalars['String']
+};
+
+
+export type GetEvaluationForUsersQuery = (
+  { __typename?: 'Query' }
+  & { getEvaluationForUsers: Array<(
+    { __typename?: 'UserEvaluation' }
+    & UserEvaluationFieldsFragment
+  )> }
+);
+
+export type GetStatisticForDateQueryVariables = {
+  date: Scalars['String'],
+  userId: Scalars['String']
+};
+
+
+export type GetStatisticForDateQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'getYearSaldo'>
+  & { getStatisticForDate: (
+    { __typename?: 'StatisticForDate' }
+    & Pick<StatisticForDate, 'selectedDate'>
+    & { statisticForDate: (
+      { __typename?: 'Statistic' }
+      & StatisticFieldsFragment
+    ) }
+  ) }
+);
+
+export type GetStatisticForWeekQueryVariables = {
+  date: Scalars['String'],
+  userId: Scalars['String']
+};
+
+
+export type GetStatisticForWeekQuery = (
+  { __typename?: 'Query' }
+  & { getStatisticForWeek: (
+    { __typename?: 'StatisticForWeek' }
+    & Pick<StatisticForWeek, 'selectedDate'>
+    & { statisticForWeek: (
+      { __typename?: 'Statistic' }
+      & StatisticFieldsFragment
+    ) }
+  ) }
+);
+
+export type GetStatisticForMonthQueryVariables = {
+  date: Scalars['String'],
+  userId: Scalars['String']
+};
+
+
+export type GetStatisticForMonthQuery = (
+  { __typename?: 'Query' }
+  & { getStatisticForMonth: (
+    { __typename?: 'StatisticForMonth' }
+    & Pick<StatisticForMonth, 'selectedDate'>
+    & { statisticForMonth: (
+      { __typename?: 'Statistic' }
+      & StatisticFieldsFragment
+    ), hoursSpentForMonthPerDay: Array<(
+      { __typename?: 'HoursPerDay' }
+      & HoursPerDayFieldsFragment
+    )> }
+  ) }
+);
+
+export type GetYearSaldoQueryVariables = {
+  date: Scalars['String'],
+  userId: Scalars['String']
+};
+
+
+export type GetYearSaldoQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'getYearSaldo'>
+);
+
+export type GetComplainsQueryVariables = {
+  userId: Scalars['String'],
+  date: Scalars['String']
+};
+
+
+export type GetComplainsQuery = (
+  { __typename?: 'Query' }
+  & { getComplains: Array<(
+    { __typename?: 'Complain' }
+    & ComplainFieldsFragment
+  )> }
+);
+
+export type GetTimestampsQueryVariables = {
+  userId: Scalars['String'],
+  date: Scalars['String']
+};
+
+
+export type GetTimestampsQuery = (
+  { __typename?: 'Query' }
+  & { getTimestamps: Array<(
+    { __typename?: 'Timestamp' }
+    & TimestampFieldsFragment
+  )> }
+);
+
+export type GetComplainsAndTimestampsQueryVariables = {
+  userId: Scalars['String'],
+  date: Scalars['String']
+};
+
+
+export type GetComplainsAndTimestampsQuery = (
+  { __typename?: 'Query' }
+  & { getComplains: Array<(
+    { __typename?: 'Complain' }
+    & ComplainFieldsFragment
+  )>, getTimestamps: Array<(
+    { __typename?: 'Timestamp' }
+    & TimestampFieldsFragment
+  )> }
+);
+
+export type GetPausesQueryVariables = {};
+
+
+export type GetPausesQuery = (
+  { __typename?: 'Query' }
+  & { getPauses: Array<(
+    { __typename?: 'Pause' }
+    & PauseFieldsFragment
+  )> }
+);
+
+export type GetWorkTimeSettingsQueryVariables = {};
+
+
+export type GetWorkTimeSettingsQuery = (
+  { __typename?: 'Query' }
+  & { getWorkTimeSettings: (
+    { __typename?: 'WorkTimeSettings' }
+    & WorkTimeSettingsFieldsFragment
+  ) }
+);
