@@ -8,7 +8,7 @@ import * as React from 'react';
 import { ExecutionResult } from 'apollo-boost';
 import { FormattedMessage } from 'react-intl';
 import { Button, Card, CardBody, CardFooter, CardHeader, Table } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 import { LeaveWidgetCreateModalContainer } from './LeaveWidgetCreateModal';
 import { LeaveWidgetItem } from './LeaveWidgetItem';
 

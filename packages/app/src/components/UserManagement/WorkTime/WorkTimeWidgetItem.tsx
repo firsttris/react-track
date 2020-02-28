@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormattedMessage, WrappedComponentProps } from 'react-intl';
 import { Col, FormGroup, Input, Label, Row } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 import { WorkTimeWidgetCreateModal } from './WorkTimeWidgetCreateModal';
 
 interface Props extends WrappedComponentProps {

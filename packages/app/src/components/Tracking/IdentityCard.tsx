@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Card, CardBody, CardHeader, Container } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 import { TimeStampStatus } from './TimeStampStatus';
 
 interface Props {

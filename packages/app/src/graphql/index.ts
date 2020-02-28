@@ -1,6 +1,6 @@
 import { ApolloQueryResult, FetchResult, MutationOptions, QueryOptions } from 'apollo-boost';
-import * as t from 'types';
-import { omitTypeName } from 'utils';
+import * as t from 'common/types';
+import { omitTypeName } from 'common/utils';
 import { client } from './apollo/client';
 import * as gql from './gql';
 

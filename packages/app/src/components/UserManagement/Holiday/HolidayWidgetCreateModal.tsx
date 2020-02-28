@@ -1,10 +1,10 @@
 import { MonthAndYearPicker } from 'components/TimePicker/MonthAndYearPicker.tsx';
 import * as moment from 'moment';
-import { formatNumber, parseFormattedString } from 'NumberFormatter';
+import { formatNumber, parseFormattedString } from 'common/NumberFormatter';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Button, FormGroup, Input, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 
 interface State {
   year: string;

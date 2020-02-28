@@ -2,7 +2,7 @@ import * as moment from 'moment';
 import 'moment/locale/de';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import * as t from 'types';
+import * as t from 'common/types';
 
 interface Props {
   timestamp: t.Timestamp;

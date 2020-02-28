@@ -1,4 +1,4 @@
-import { API_DATE } from 'cons';
+import { API_DATE } from 'common/constants';
 import { cloneDeep } from 'lodash';
 import * as moment from 'moment';
 import * as React from 'react';
@@ -6,7 +6,7 @@ import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import { Button, Col, Container, Input, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 import { DayTypePicker } from './DayTypePicker';
 import './LeaveWidgetCreateModal.css';
 

@@ -1,4 +1,4 @@
-import * as t from 'types';
+import * as t from 'common/types';
 
 export const pauseMock: t.Pause = {
   time: '8:00',

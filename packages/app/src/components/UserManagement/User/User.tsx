@@ -1,5 +1,5 @@
 import { GraphQLErrorMessage } from 'components/Error/GraphQLErrorMessage';
-import { API_DATE } from 'cons';
+import { API_DATE } from 'common/constants';
 import { GraphQLError } from 'graphql';
 import * as moment from 'moment';
 import * as React from 'react';
@@ -7,7 +7,7 @@ import * as React from 'react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { FormattedMessage, WrappedComponentProps } from 'react-intl';
 import { Card, CardBody, CardFooter, CardHeader, FormGroup, Input, Label } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 import { CodeInput } from './CodeInput';
 import './DayPickerInput.css';
 

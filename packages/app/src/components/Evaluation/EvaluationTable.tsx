@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import * as React from 'react';
 import { FormattedMessage, WrappedComponentProps } from 'react-intl';
 import { Card, CardBody, CardFooter, CardHeader, Col, Row, Table } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 import * as bootstraps from '../../Bootstrap';
 import './EvaluationTable.css';
 

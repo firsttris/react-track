@@ -1,13 +1,13 @@
 import { BarChartWidget } from 'components/Charts/BarChartWidget';
 import { ApolloProps, withApollo } from 'components/hoc/WithApollo';
-import { API_DATE } from 'cons';
+import { API_DATE } from 'common/constants';
 import { GraphQLError } from 'graphql';
-import { initialUserState } from 'initialState';
+import { initialUserState } from 'common/initialState';
 import * as moment from 'moment';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 import { ComplainWidget } from './ComplainWidget/ComplainWidget';
 import { DayPickerWidgetContainer } from './DayPickerWidget';
 import { StatisticWidget } from './StatisticWidget';

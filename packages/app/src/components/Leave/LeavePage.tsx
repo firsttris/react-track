@@ -1,9 +1,9 @@
 import { ApolloProps, withApollo } from 'components/hoc/WithApollo';
-import { initialUserState } from 'initialState';
+import { initialUserState } from 'common/initialState';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 import { LeaveWidget } from './LeaveWidget/LeaveWidget';
 import { PublicHolidayWidget } from './PublicHolidayWidget/PublicHolidayWidget';
 

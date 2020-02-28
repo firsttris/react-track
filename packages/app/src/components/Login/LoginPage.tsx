@@ -1,9 +1,9 @@
 import { ErrorMessage } from 'components/Error/ErrorMessage';
-import { initialUserState } from 'initialState';
+import { initialUserState } from 'common/initialState';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Redirect } from 'react-router-dom';
-import * as t from 'types';
+import * as t from 'common/types';
 import { loginUser } from './../../graphql/apollo/client';
 
 interface Props {}

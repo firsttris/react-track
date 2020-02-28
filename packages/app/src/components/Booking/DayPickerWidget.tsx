@@ -3,7 +3,7 @@ import * as React from 'react';
 import DayPicker from 'react-day-picker';
 import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import { Card, CardBody, CardFooter, CardHeader, Col, Row } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 // Include the locale utils designed for moment
 const MomentLocaleUtils = require('react-day-picker/moment');
 

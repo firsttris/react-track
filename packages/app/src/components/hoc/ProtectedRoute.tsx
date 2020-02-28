@@ -1,10 +1,10 @@
 import { NavigationContainer } from 'components/Navigation/Navigation';
 import { LoadingSpinner } from 'components/Spinner/LoadingSpinner';
-import * as c from 'cons';
-import { initialUserState } from 'initialState';
+import * as c from 'common/constants';
+import { initialUserState } from 'common/initialState';
 import * as React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
-import * as t from 'types';
+import * as t from 'common/types';
 import { Apollo } from './../../graphql';
 declare let MOCKLOGIN: boolean;
 

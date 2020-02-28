@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import * as React from 'react';
-import * as t from 'types';
+import * as t from 'common/types';
 
 interface Props {
   holiday: t.PublicHoliday;

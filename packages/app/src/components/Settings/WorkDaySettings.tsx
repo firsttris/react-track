@@ -2,7 +2,7 @@ import { ApolloProps } from 'components/hoc/WithApollo';
 import * as React from 'react';
 import { FormattedMessage, WrappedComponentProps } from 'react-intl';
 import { Card, CardBody, CardFooter, CardHeader, FormGroup, Input, Label } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 
 interface Props extends WrappedComponentProps, ApolloProps {}
 

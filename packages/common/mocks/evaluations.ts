@@ -1,4 +1,4 @@
-import * as t from 'types';
+import * as t from 'common/types';
 export const evaluationMock: t.Evaluation[] = [
   {
     date: '2017-10-01',

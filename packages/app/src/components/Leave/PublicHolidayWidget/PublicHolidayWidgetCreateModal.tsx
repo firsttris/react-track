@@ -1,10 +1,10 @@
-import { API_DATE } from 'cons';
+import { API_DATE } from 'common/constants';
 import * as moment from 'moment';
 import * as React from 'react';
 import DayPicker from 'react-day-picker';
 import { FormattedMessage } from 'react-intl';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 
 interface Props {
   toggleModal: () => void;

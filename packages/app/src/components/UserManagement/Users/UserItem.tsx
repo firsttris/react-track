@@ -1,5 +1,5 @@
 import { CheckModal } from 'components/Modal/CheckModal';
-import { API_DATE } from 'cons';
+import { API_DATE } from 'common/constants';
 import * as moment from 'moment';
 import * as React from 'react';
 import { WrappedComponentProps } from 'react-intl';

@@ -4,7 +4,7 @@ import { GraphQLError } from 'graphql';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Button, Card, CardBody, CardFooter, CardHeader, Table } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 import { PauseWidgetCreateModal } from './PauseWidgetCreateModal';
 import { PauseWidgetItem } from './PauseWidgetItem';
 

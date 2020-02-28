@@ -2,7 +2,7 @@ import { TimePicker } from 'components/TimePicker/TimePicker';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Button, Col, Input, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 
 interface State {
   duration: string;

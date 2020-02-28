@@ -1,4 +1,4 @@
-import { API_DATE } from 'common/cons';
+import { API_DATE } from 'common/constants';
 import { find } from 'lodash';
 import * as moment from 'moment';
 import * as t from 'common/types';

@@ -12,7 +12,7 @@ import { UserPageContainer } from 'components/UserManagement/Users/UsersPage';
 import { UserTabPageContainer } from 'components/UserManagement/UserTabPage';
 import * as React from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import * as t from 'types';
+import * as t from 'common/types';
 
 const UserAndAdminRole = [t.UserRole.ADMIN, t.UserRole.USER];
 

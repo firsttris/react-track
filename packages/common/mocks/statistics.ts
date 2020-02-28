@@ -1,4 +1,4 @@
-import * as t from 'types';
+import * as t from 'common/types';
 
 export const calculatedTimeMock = { timeSpent: 37800000, timePause: 0, timeEarned: 37800000 };
 

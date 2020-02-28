@@ -1,13 +1,13 @@
 import classNames = require('classnames');
 import { ApolloProps, withApollo } from 'components/hoc/WithApollo';
 import { GraphQLError } from 'graphql';
-import { initialUserState } from 'initialState';
+import { initialUserState } from 'common/initialState';
 import * as moment from 'moment';
 import * as React from 'react';
 import { FormattedMessage, WrappedComponentProps, injectIntl } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 import { HolidayWidget } from './Holiday/HolidayWidget';
 import { SaldoWidget } from './Saldo/SaldoWidget';
 import { CreateUser } from './User/CreateUser';

@@ -1,9 +1,9 @@
 import classNames = require('classnames');
-import { API_DATE } from 'cons';
+import { API_DATE } from 'common/constants';
 import * as moment from 'moment';
 import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
-import * as t from 'types';
+import * as t from 'common/types';
 import { LinkItem } from './LinkItem';
 import './Navigation.css';
 declare let MOCKLOGIN: boolean;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import 'react-day-picker/lib/style.css';
 import { WrappedComponentProps } from 'react-intl';
 import { Input } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 
 interface Props extends WrappedComponentProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;

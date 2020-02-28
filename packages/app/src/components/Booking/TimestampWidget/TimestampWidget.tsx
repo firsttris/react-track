@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Button, Card, CardBody, CardFooter, CardHeader, Table } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 import { TimestampWidgetCreateModal } from './TimestampWidgetCreateModal';
 import { TimestampWidgetItem } from './TimestampWidgetItem';
 declare let MOCKLOGIN: boolean;

@@ -1,4 +1,4 @@
-import * as t from 'types';
+import * as t from 'common/types';
 
 export const userMock: t.User = {
   id: '123456789',

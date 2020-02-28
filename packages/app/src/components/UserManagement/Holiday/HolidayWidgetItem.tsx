@@ -1,6 +1,6 @@
-import { formatNumber } from 'NumberFormatter';
+import { formatNumber } from 'common/NumberFormatter';
 import * as React from 'react';
-import * as t from 'types';
+import * as t from 'common/types';
 
 interface Props {
   holiday: t.Holiday;

@@ -1,12 +1,12 @@
 import { ApolloProps, withApollo } from 'components/hoc/WithApollo';
 import { LoadingSpinner } from 'components/Spinner/LoadingSpinner';
-import { API_DATE } from 'cons';
+import { API_DATE } from 'common/constants';
 import * as moment from 'moment';
 import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { RouteComponentProps } from 'react-router-dom';
 import { Container } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 import { EvaluationTable } from './EvaluationTable';
 import { MonthAndYearPickerWidget } from './MonthAndYearPickerWidget';
 

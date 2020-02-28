@@ -1,11 +1,11 @@
 import { GraphQLErrorMessage } from 'components/Error/GraphQLErrorMessage';
 import { ApolloProps, withApollo } from 'components/hoc/WithApollo';
-import { API_DATE } from 'cons';
+import { API_DATE } from 'common/constants';
 import { GraphQLError } from 'graphql';
-import { initialUserState } from 'initialState';
+import { initialUserState } from 'common/initialState';
 import * as moment from 'moment';
 import * as React from 'react';
-import * as t from 'types';
+import * as t from 'common/types';
 import { beepSound } from './Audio';
 import { IdentityCard } from './IdentityCard';
 import './Tracking.css';

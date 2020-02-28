@@ -1,7 +1,7 @@
 import { GraphQLError } from 'graphql';
 import * as React from 'react';
 import { WrappedComponentProps } from 'react-intl';
-import * as t from 'types';
+import * as t from 'common/types';
 import { User } from './User';
 
 interface Props {

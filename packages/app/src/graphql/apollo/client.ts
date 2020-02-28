@@ -1,5 +1,5 @@
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
-import * as t from 'types';
+import * as t from 'common/types';
 import { SettingsCollection } from './../../collections/SettingsCollection';
 
 const url = SettingsCollection.get().url;

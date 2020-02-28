@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Card, CardBody, CardFooter, CardHeader, Table } from 'reactstrap';
-import * as t from 'types';
+import * as t from 'common/types';
 
 interface Props {
   yearSaldo: string;

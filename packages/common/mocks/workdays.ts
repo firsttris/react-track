@@ -1,4 +1,4 @@
-import { DayType, WorkDayType } from 'types';
+import { DayType, WorkDayType } from 'common/types';
 
 export interface WorkDay {
   date: string;

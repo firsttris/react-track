@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as t from 'types';
+import * as t from 'common/types';
 
 interface Props {
   pause: t.Pause;
