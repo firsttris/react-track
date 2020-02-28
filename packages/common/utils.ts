@@ -1,5 +1,4 @@
 import * as _ from 'lodash';
-import * as t from 'types';
 
 export function omitDeep(input: any, props: any): any {
   function omitDeepOnOwnProps(obj: any) {
@@ -36,15 +35,4 @@ export function omitDeep(input: any, props: any): any {
 
 export function omitTypeName(input: any) {
   return omitDeep(input, '__typename');
-}
-
-export function dayTypeEnumReverseMapping(value: string) {
-  const values = Object.values(t.DayType);
-  const keys = Object.keys(t.DayType);
-  for (let i = 0; i < values.length; i++) {
-    if (keys[i] === value) {
-      return values[i];
-    }
-  }
-  return undefined;
 }
