@@ -47,26 +47,26 @@ export class EvaluationCalculator {
   }
 
   static isPublicHoliday(workDay: WorkDay): boolean {
-    return workDay.dayType === t.DayType.PublicHoliday;
+    return workDay.dayType === t.DayType.PUBLIC_HOLIDAY;
   }
 
   static isLeaveDay(workDay: WorkDay): boolean {
     return (
-      workDay.dayType === t.DayType.Sickday ||
-      workDay.dayType === t.DayType.Holiday ||
-      workDay.dayType === t.DayType.Schoolday
+      workDay.dayType === t.DayType.SICKDAY ||
+      workDay.dayType === t.DayType.HOLIDAY ||
+      workDay.dayType === t.DayType.SCHOOLDAY
     );
   }
 
   static isWorkDayOrWeekend(workDay: WorkDay): boolean {
-    return workDay.dayType === t.DayType.Workday || workDay.dayType === t.DayType.Weekend;
+    return workDay.dayType === t.DayType.WORKDAY || workDay.dayType === t.DayType.WEEKEND;
   }
 
   static async createWorkDay(day: WorkDay, userId: string): Promise<t.Evaluation> {
     const result = await StatisticCalculator.getStatisticForWorkDay(day, userId);
     let title = day.dayType;
-    if (day.dayType === t.DayType.Workday && result.statistic.timeSpent <= 0) {
-      title = t.DayType.Away;
+    if (day.dayType === t.DayType.WORKDAY && result.statistic.timeSpent <= 0) {
+      title = t.DayType.AWAY;
     }
     return {
       date: day.date,
@@ -91,7 +91,7 @@ export class EvaluationCalculator {
     const result = await StatisticCalculator.getStatisticForWorkDay(day, userId);
     return {
       date: day.date,
-      title: day.title || t.DayType.PublicHoliday,
+      title: day.title || t.DayType.PUBLIC_HOLIDAY,
       icon: 'fa-tree',
       ...omitTypeName(this.formatStatistic(result.statistic))
     };
@@ -99,8 +99,8 @@ export class EvaluationCalculator {
 
   static async createLeaveDay(day: WorkDay, userId: string): Promise<t.Evaluation> {
     const result = await StatisticCalculator.getStatisticForWorkDay(day, userId);
-    let icon = day.dayType === t.DayType.Sickday ? 'fa-user-md' : 'fa-sun-o';
-    icon = day.dayType === t.DayType.Schoolday ? 'fa-graduation-cap' : 'fa-sun-o';
+    let icon = day.dayType === t.DayType.SICKDAY ? 'fa-user-md' : 'fa-sun-o';
+    icon = day.dayType === t.DayType.SCHOOLDAY ? 'fa-graduation-cap' : 'fa-sun-o';
     return {
       date: day.date,
       title: day.dayType,
@@ -153,13 +153,13 @@ export class EvaluationCalculator {
   static calculateTotalHoliday(daysOfMonth: t.Evaluation[]): t.Evaluation {
     const totalHours = moment.duration();
     for (const day of daysOfMonth) {
-      if (day.title === t.DayType.Holiday) {
+      if (day.title === t.DayType.HOLIDAY) {
         totalHours.add(day.timeSpent, 'hours');
       }
     }
     return {
       date: '',
-      title: t.DayType.Holiday,
+      title: t.DayType.HOLIDAY,
       icon: '',
       timeSpent: '',
       timeLeft: '',
@@ -173,7 +173,7 @@ export class EvaluationCalculator {
   static calculateTotalSickness(daysOfMonth: t.Evaluation[]): t.Evaluation {
     const totalHours = moment.duration();
     for (const day of daysOfMonth) {
-      if (day.title === t.DayType.Sickday) {
+      if (day.title === t.DayType.SICKDAY) {
         totalHours.add(day.timeSpent, 'hours');
       }
     }

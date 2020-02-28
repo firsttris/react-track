@@ -6,7 +6,7 @@ export const initialUserState: t.User = {
   holidays: [],
   code: '',
   token: '',
-  role: t.UserRole.Guest,
+  role: t.UserRole.GUEST,
   workTimes: {
     monday: { startTime: '00:00', endTime: '00:00', mandatoryHours: '00:00' },
     tuesday: { startTime: '00:00', endTime: '00:00', mandatoryHours: '00:00' },
