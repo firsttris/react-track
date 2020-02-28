@@ -7,7 +7,7 @@ import { UserItem } from './UserItem';
 interface Props extends ApolloProps {}
 
 interface States {
-  users: { id: string; name: string }[];
+  users: Array<{ id: string; name: string }>;
 }
 
 export class UsersPage extends React.Component<Props & WrappedComponentProps, States> {

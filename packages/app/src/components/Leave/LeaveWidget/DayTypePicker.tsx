@@ -13,8 +13,8 @@ export class DayTypePicker extends React.Component<Props, {}> {
   render(): JSX.Element {
     return (
       <Input type="select" name={this.props.name} onChange={this.props.onChange}>
-        <option value={t.WorkDayType.FullDay} label={this.props.intl.formatMessage({ id: t.WorkDayType.FullDay })} />
-        <option value={t.WorkDayType.HalfDay} label={this.props.intl.formatMessage({ id: t.WorkDayType.HalfDay })} />
+        <option value={t.WorkDayType.FULL_DAY} label={this.props.intl.formatMessage({ id: t.WorkDayType.FULL_DAY })} />
+        <option value={t.WorkDayType.HALF_DAY} label={this.props.intl.formatMessage({ id: t.WorkDayType.HALF_DAY })} />
       </Input>
     );
   }

@@ -15,10 +15,10 @@ export class WorkDaySettings extends React.Component<Props, State> {
     super(props);
     this.state = {
       workTimeSettings: {
-        holiday: t.WorkDayPaymentType.Unpaid,
-        publicHoliday: t.WorkDayPaymentType.Unpaid,
-        schoolday: t.WorkDayPaymentType.Unpaid,
-        sickday: t.WorkDayPaymentType.Unpaid
+        holiday: t.WorkDayPaymentType.UNPAID,
+        publicHoliday: t.WorkDayPaymentType.UNPAID,
+        schoolday: t.WorkDayPaymentType.UNPAID,
+        sickday: t.WorkDayPaymentType.UNPAID
       }
     };
   }
@@ -49,8 +49,8 @@ export class WorkDaySettings extends React.Component<Props, State> {
               value={this.state.workTimeSettings.publicHoliday}
               onChange={this.handleInputChange}
             >
-              <option value={t.WorkDayPaymentType.Paid}>{this.props.intl.messages.Paid}</option>
-              <option value={t.WorkDayPaymentType.Unpaid}>{this.props.intl.messages.Unpaid}</option>
+              <option value={t.WorkDayPaymentType.PAID}>{this.props.intl.messages.PAID}</option>
+              <option value={t.WorkDayPaymentType.UNPAID}>{this.props.intl.messages.UNPAID}</option>
             </Input>
           </FormGroup>
           <FormGroup>
@@ -66,8 +66,8 @@ export class WorkDaySettings extends React.Component<Props, State> {
               value={this.state.workTimeSettings.schoolday}
               onChange={this.handleInputChange}
             >
-              <option value={t.WorkDayPaymentType.Paid}>{this.props.intl.messages.Paid}</option>
-              <option value={t.WorkDayPaymentType.Unpaid}>{this.props.intl.messages.Unpaid}</option>
+              <option value={t.WorkDayPaymentType.PAID}>{this.props.intl.messages.PAID}</option>
+              <option value={t.WorkDayPaymentType.UNPAID}>{this.props.intl.messages.UNPAID}</option>
             </Input>
           </FormGroup>
           <FormGroup>
@@ -81,8 +81,8 @@ export class WorkDaySettings extends React.Component<Props, State> {
               value={this.state.workTimeSettings.holiday}
               onChange={this.handleInputChange}
             >
-              <option value={t.WorkDayPaymentType.Paid}>{this.props.intl.messages.Paid}</option>
-              <option value={t.WorkDayPaymentType.Unpaid}>{this.props.intl.messages.Unpaid}</option>
+              <option value={t.WorkDayPaymentType.PAID}>{this.props.intl.messages.PAID}</option>
+              <option value={t.WorkDayPaymentType.UNPAID}>{this.props.intl.messages.UNPAID}</option>
             </Input>
           </FormGroup>
           <FormGroup>
@@ -96,8 +96,8 @@ export class WorkDaySettings extends React.Component<Props, State> {
               value={this.state.workTimeSettings.sickday}
               onChange={this.handleInputChange}
             >
-              <option value={t.WorkDayPaymentType.Paid}>{this.props.intl.messages.Paid}</option>
-              <option value={t.WorkDayPaymentType.Unpaid}>{this.props.intl.messages.Unpaid}</option>
+              <option value={t.WorkDayPaymentType.PAID}>{this.props.intl.messages.PAID}</option>
+              <option value={t.WorkDayPaymentType.UNPAID}>{this.props.intl.messages.UNPAID}</option>
             </Input>
           </FormGroup>
         </CardBody>

@@ -14,9 +14,9 @@ import * as React from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import * as t from 'types';
 
-const UserAndAdminRole = [t.UserRole.Admin, t.UserRole.User];
+const UserAndAdminRole = [t.UserRole.ADMIN, t.UserRole.USER];
 
-const AdminRole = [t.UserRole.Admin];
+const AdminRole = [t.UserRole.ADMIN];
 
 class Router extends React.Component<{}, {}> {
   render() {

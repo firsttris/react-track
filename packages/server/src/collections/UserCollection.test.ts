@@ -148,10 +148,7 @@ describe('User Collection Test', () => {
   });
 
   describe('updateSaldoForUserId()', () => {
-    const saldos = [
-      { year: '2016', hours: 1 },
-      { year: '2017', hours: -1 }
-    ];
+    const saldos = [{ year: '2016', hours: 1 }, { year: '2017', hours: -1 }];
     const userMock = { ...mocks.userMock };
 
     beforeEach(() => {
@@ -186,18 +183,12 @@ describe('User Collection Test', () => {
     });
 
     it('should return true if years are not duplicated', () => {
-      const saldos = [
-        { year: '2016', hours: 1 },
-        { year: '2017', hours: -1 }
-      ];
+      const saldos = [{ year: '2016', hours: 1 }, { year: '2017', hours: -1 }];
       expect(UserCollection.areSaldosValid(saldos)).toBe(true);
     });
 
     it('should return false if years are duplicated', () => {
-      const saldos = [
-        { year: '2016', hours: 1 },
-        { year: '2016', hours: -1 }
-      ];
+      const saldos = [{ year: '2016', hours: 1 }, { year: '2016', hours: -1 }];
       expect(UserCollection.areSaldosValid(saldos)).toBe(false);
     });
   });

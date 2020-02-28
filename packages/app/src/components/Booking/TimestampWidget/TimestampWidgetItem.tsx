@@ -36,7 +36,7 @@ export class TimestampWidgetItem extends React.Component<Props, {}> {
         </td>
         <td className="text-right">{this.props.timestamp.type}</td>
         <td className="text-right">
-          {(this.props.userRole === t.UserRole.Admin || MOCKLOGIN) && (
+          {(this.props.userRole === t.UserRole.ADMIN || MOCKLOGIN) && (
             <>
               <i
                 title="Gebuchte Zeit Aktualisieren"

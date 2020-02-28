@@ -89,7 +89,7 @@ export class ComplainWidget extends React.Component<Props, State> {
               )}
             </CardBody>
             <CardFooter className="text-muted">
-              {this.props.userRole === (t.UserRole.Admin || MOCKLOGIN) && (
+              {this.props.userRole === (t.UserRole.ADMIN || MOCKLOGIN) && (
                 <Button onClick={this.toggleModal}>
                   <i className="fa fa-plus" />
                 </Button>

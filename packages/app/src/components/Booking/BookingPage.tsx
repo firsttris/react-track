@@ -77,8 +77,8 @@ export class BookingPage extends React.Component<Props, States> {
         if (startDate.format(API_DATE) === selectedDate.format(API_DATE)) {
           if (
             (firstDate.format(API_DATE) === selectedDate.format(API_DATE) &&
-              leave.start.type === t.WorkDayType.HalfDay) ||
-            (lastDate.format(API_DATE) === selectedDate.format(API_DATE) && leave.end.type === t.WorkDayType.HalfDay)
+              leave.start.type === t.WorkDayType.HALF_DAY) ||
+            (lastDate.format(API_DATE) === selectedDate.format(API_DATE) && leave.end.type === t.WorkDayType.HALF_DAY)
           ) {
             startDate.add(1, 'day');
             continue;

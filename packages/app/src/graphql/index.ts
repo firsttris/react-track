@@ -19,7 +19,7 @@ export class Apollo {
 
   static UpdateWorkTimeSettings(
     settings: t.WorkTimeSettingsInput
-  ): Promise<FetchResult<t.UpdateWorkTimeSettingsMutation>> {
+  ): Promise<FetchResult<t.UpdateWorkTimeSettings.Mutation>> {
     return this.mutate({
       variables: {
         settings
@@ -28,7 +28,7 @@ export class Apollo {
     });
   }
 
-  static deletePause(pauseId: string): Promise<FetchResult<t.DeletePauseMutation>> {
+  static deletePause(pauseId: string): Promise<FetchResult<t.DeletePause.Mutation>> {
     return this.mutate({
       variables: {
         pauseId
@@ -37,7 +37,7 @@ export class Apollo {
     });
   }
 
-  static createPause(pause: t.PauseInput): Promise<FetchResult<t.CreatePauseMutation>> {
+  static createPause(pause: t.PauseInput): Promise<FetchResult<t.CreatePause.Mutation>> {
     return this.mutate({
       variables: {
         pause
@@ -46,7 +46,7 @@ export class Apollo {
     });
   }
 
-  static deletePublicHoliday(year: string, holidayId: string): Promise<FetchResult<t.DeletePublicHolidayMutation>> {
+  static deletePublicHoliday(year: string, holidayId: string): Promise<FetchResult<t.DeletePublicHoliday.Mutation>> {
     return this.mutate({
       variables: {
         year,
@@ -56,7 +56,7 @@ export class Apollo {
     });
   }
 
-  static createPublicHoliday(holiday: t.PublicHolidayInput): Promise<FetchResult<t.CreatePublicHolidayMutation>> {
+  static createPublicHoliday(holiday: t.PublicHolidayInput): Promise<FetchResult<t.CreatePublicHoliday.Mutation>> {
     return this.mutate({
       variables: {
         holiday
@@ -65,7 +65,7 @@ export class Apollo {
     });
   }
 
-  static addTimestampByCode(code: string): Promise<FetchResult<t.AddTimestampByCodeMutation>> {
+  static addTimestampByCode(code: string): Promise<FetchResult<t.AddTimestampByCode.Mutation>> {
     return this.mutate({
       variables: {
         code
@@ -78,7 +78,7 @@ export class Apollo {
     userId: string,
     date: string,
     complains: t.ComplainInput[]
-  ): Promise<FetchResult<t.UpdateComplainsMutation>> {
+  ): Promise<FetchResult<t.UpdateComplains.Mutation>> {
     return this.mutate({
       variables: {
         userId,
@@ -89,7 +89,7 @@ export class Apollo {
     });
   }
 
-  static deleteLeave(userId: string, leave: t.LeaveInput): Promise<FetchResult<t.DeleteLeaveMutation>> {
+  static deleteLeave(userId: string, leave: t.LeaveInput): Promise<FetchResult<t.DeleteLeave.Mutation>> {
     return this.mutate({
       variables: {
         userId,
@@ -103,7 +103,7 @@ export class Apollo {
     userId: string,
     date: string,
     timestamps: t.TimestampInput[]
-  ): Promise<FetchResult<t.UpdateTimestampsMutation>> {
+  ): Promise<FetchResult<t.UpdateTimestamps.Mutation>> {
     return this.mutate({
       variables: {
         userId,
@@ -114,7 +114,7 @@ export class Apollo {
     });
   }
 
-  static rewriteTimestamps(userId: string, date: string): Promise<FetchResult<t.RewriteTimestampsMutation>> {
+  static rewriteTimestamps(userId: string, date: string): Promise<FetchResult<t.RewriteTimestamps.Mutation>> {
     return this.mutate({
       variables: {
         userId,
@@ -124,7 +124,7 @@ export class Apollo {
     });
   }
 
-  static updateUser(user: t.UserInput): Promise<FetchResult<t.UpdateUserMutation>> {
+  static updateUser(user: t.UserInput): Promise<FetchResult<t.UpdateUser.Mutation>> {
     return this.mutate({
       variables: {
         user
@@ -133,7 +133,7 @@ export class Apollo {
     });
   }
 
-  static deleteUser(userId: string): Promise<FetchResult<t.DeleteUserMutation>> {
+  static deleteUser(userId: string): Promise<FetchResult<t.DeleteUser.Mutation>> {
     return this.mutate({
       variables: {
         userId
@@ -150,7 +150,7 @@ export class Apollo {
     });
   }
 
-  static createLeave(userId: string, leave: t.LeaveInput): Promise<FetchResult<t.CreateLeaveMutation>> {
+  static createLeave(userId: string, leave: t.LeaveInput): Promise<FetchResult<t.CreateLeave.Mutation>> {
     return this.mutate({
       variables: {
         userId,
@@ -163,21 +163,21 @@ export class Apollo {
   static updateAllUserWorkTimesById(
     userId: string,
     workTimes: t.WorkTimesInput
-  ): Promise<FetchResult<t.UpdateAllUserWorkTimesByIdMutation>> {
+  ): Promise<FetchResult<t.UpdateAllUserWorkTimesById.Mutation>> {
     return this.mutate({
       variables: { userId, workTimes },
       mutation: gql.UPDATE_ALL_USER_WORKTIMES_BYID
     });
   }
 
-  static createUser(user: t.UserInput): Promise<FetchResult<t.CreateUserMutation>> {
+  static createUser(user: t.UserInput): Promise<FetchResult<t.CreateUser.Mutation>> {
     return this.mutate({
       variables: {
         user
       },
       mutation: gql.CREATE_USER,
       update: (cache, result: any) => {
-        const currentCache = cache.readQuery({ query: gql.GET_USERS }) as t.GetUsersQuery;
+        const currentCache = cache.readQuery({ query: gql.GET_USERS }) as t.GetUsers.Query;
         if (currentCache && result && result.data) {
           cache.writeQuery({
             query: gql.GET_USERS,
@@ -192,26 +192,26 @@ export class Apollo {
    * QUERIES
    */
 
-  static getWorkTimeSettings(): Promise<ApolloQueryResult<t.GetWorkTimeSettingsQuery>> {
+  static getWorkTimeSettings(): Promise<ApolloQueryResult<t.GetWorkTimeSettings.Query>> {
     return this.query({
       query: gql.GET_WORKTIME_SETTINGS
     });
   }
 
-  static getPauses(): Promise<ApolloQueryResult<t.GetPausesQuery>> {
+  static getPauses(): Promise<ApolloQueryResult<t.GetPauses.Query>> {
     return this.query({
       query: gql.GET_PAUSES
     });
   }
 
-  static getTimestamps(userId: string, date: string): Promise<ApolloQueryResult<t.GetTimestampsQuery>> {
+  static getTimestamps(userId: string, date: string): Promise<ApolloQueryResult<t.GetTimestamps.Query>> {
     return this.query({
       variables: { userId, date },
       query: gql.GET_TIMESTAMPS
     });
   }
 
-  static getComplains(userId: string, date: string): Promise<ApolloQueryResult<t.GetComplainsQuery>> {
+  static getComplains(userId: string, date: string): Promise<ApolloQueryResult<t.GetComplains.Query>> {
     return this.query({
       variables: { userId, date },
       query: gql.GET_COMPLAINS
@@ -221,42 +221,42 @@ export class Apollo {
   static getComplainsAndTimestamps(
     userId: string,
     date: string
-  ): Promise<ApolloQueryResult<t.GetComplainsAndTimestampsQuery>> {
+  ): Promise<ApolloQueryResult<t.GetComplainsAndTimestamps.Query>> {
     return this.query({
       variables: { userId, date },
       query: gql.GET_COMPLAINS_AND_TIMESTAMPS
     });
   }
 
-  static getYearSaldo(userId: string, date: string): Promise<ApolloQueryResult<t.GetYearSaldoQuery>> {
+  static getYearSaldo(userId: string, date: string): Promise<ApolloQueryResult<t.GetYearSaldo.Query>> {
     return this.query({
       variables: { userId, date },
       query: gql.GET_YEAR_SALDO
     });
   }
 
-  static getStatisticForMonth(userId: string, date: string): Promise<ApolloQueryResult<t.GetStatisticForMonthQuery>> {
+  static getStatisticForMonth(userId: string, date: string): Promise<ApolloQueryResult<t.GetStatisticForMonth.Query>> {
     return this.query({
       variables: { userId, date },
       query: gql.GET_STATISTIC_FOR_MONTH
     });
   }
 
-  static getStatisticForWeek(userId: string, date: string): Promise<ApolloQueryResult<t.GetStatisticForWeekQuery>> {
+  static getStatisticForWeek(userId: string, date: string): Promise<ApolloQueryResult<t.GetStatisticForWeek.Query>> {
     return this.query({
       variables: { userId, date },
       query: gql.GET_STATISTIC_FOR_WEEK
     });
   }
 
-  static getStatisticForDate(userId: string, date: string): Promise<ApolloQueryResult<t.GetStatisticForDateQuery>> {
+  static getStatisticForDate(userId: string, date: string): Promise<ApolloQueryResult<t.GetStatisticForDate.Query>> {
     return this.query({
       variables: { userId, date },
       query: gql.GET_STATISTIC_FOR_DATE
     });
   }
 
-  static getEvaluationForUsers(date: string): Promise<ApolloQueryResult<t.GetEvaluationForUsersQuery>> {
+  static getEvaluationForUsers(date: string): Promise<ApolloQueryResult<t.GetEvaluationForUsers.Query>> {
     return this.query({
       variables: { date },
       query: gql.GET_EVALUATION_FOR_USERS
@@ -266,35 +266,35 @@ export class Apollo {
   static getEvaluationForMonth(
     userId: string,
     date: string
-  ): Promise<ApolloQueryResult<t.GetEvaluationForMonthQuery>> {
+  ): Promise<ApolloQueryResult<t.GetEvaluationForMonth.Query>> {
     return this.query({
       variables: { userId, date },
       query: gql.GET_EVALUATION_FOR_MONTH
     });
   }
 
-  static loadPublicHolidays(year: string): Promise<ApolloQueryResult<t.LoadPublicHolidaysQuery>> {
+  static loadPublicHolidays(year: string): Promise<ApolloQueryResult<t.LoadPublicHolidays.Query>> {
     return this.query({
       variables: { year },
       query: gql.LOAD_PUBLIC_HOLIDAYS
     });
   }
 
-  static getPublicHolidays(year: string): Promise<ApolloQueryResult<t.GetPublicHolidaysQuery>> {
+  static getPublicHolidays(year: string): Promise<ApolloQueryResult<t.GetPublicHolidays.Query>> {
     return this.query({
       variables: { year },
       query: gql.GET_PUBLIC_HOLIDAYS
     });
   }
 
-  static loginUser(password: string): Promise<ApolloQueryResult<t.LoginUserQuery>> {
+  static loginUser(password: string): Promise<ApolloQueryResult<t.LoginUser.Query>> {
     return this.query({
       variables: { password },
       query: gql.LOGIN_USER
     });
   }
 
-  static verifyLogin(token: string): Promise<ApolloQueryResult<t.VerifyLoginQuery>> {
+  static verifyLogin(token: string): Promise<ApolloQueryResult<t.VerifyLogin.Query>> {
     return this.query({
       variables: { token },
       query: gql.VERIFY_LOGIN
@@ -305,7 +305,7 @@ export class Apollo {
     return client.cache.reset();
   }
 
-  static getLeaveDays(userId: string, year: string): Promise<ApolloQueryResult<t.GetLeaveDaysQuery>> {
+  static getLeaveDays(userId: string, year: string): Promise<ApolloQueryResult<t.GetLeaveDays.Query>> {
     return this.query({
       variables: { userId, year },
       query: gql.GET_LEAVE_DAYS
@@ -315,20 +315,20 @@ export class Apollo {
   static getLeaveDaysAndPublicHoliday(
     userId: string,
     year: string
-  ): Promise<ApolloQueryResult<t.GetLeaveDaysAndPublicHolidaysQuery>> {
+  ): Promise<ApolloQueryResult<t.GetLeaveDaysAndPublicHolidays.Query>> {
     return this.query({
       variables: { userId, year },
       query: gql.GET_LEAVE_DAYS_AND_PUBLIC_HOLIDAYS
     });
   }
 
-  static getUsers(): Promise<ApolloQueryResult<t.GetUsersQuery>> {
+  static getUsers(): Promise<ApolloQueryResult<t.GetUsers.Query>> {
     return this.query({
       query: gql.GET_USERS
     });
   }
 
-  static getUserById(userId: string): Promise<ApolloQueryResult<t.GetUserByIdQuery>> {
+  static getUserById(userId: string): Promise<ApolloQueryResult<t.GetUserById.Query>> {
     return this.query({
       variables: { userId },
       query: gql.GET_USER_BY_ID

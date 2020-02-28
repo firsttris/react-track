@@ -53,7 +53,7 @@ export class LoginPage extends React.Component<Props, States> {
   };
 
   render(): JSX.Element {
-    if (this.state.user.role === t.UserRole.Admin || this.state.user.role === t.UserRole.User) {
+    if (this.state.user.role === t.UserRole.ADMIN || this.state.user.role === t.UserRole.USER) {
       return <Redirect to={'/'} />;
     }
 
