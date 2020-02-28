@@ -1,8 +1,8 @@
 jest.mock('lowdb/adapters/FileAsync');
-import { API_DATE } from 'cons';
-import * as mocks from 'mocks';
+import { API_DATE } from 'common/constants';
+import * as mocks from 'common/mocks';
 import * as moment from 'moment';
-import * as t from 'types';
+import * as t from 'common/types';
 import { TimestampsErrorKeys } from './../errorKeys';
 import { TimestampCollection } from './TimestampCollection';
 

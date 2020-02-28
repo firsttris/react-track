@@ -1,4 +1,4 @@
-import * as m from 'mocks';
+import * as m from 'common/mocks';
 import * as moment from 'moment';
 import { StatisticCalculator } from './../calculators/StatisticCalculator';
 import { EvaluationCalculator } from './EvaluationCalculator';

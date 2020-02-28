@@ -1,11 +1,11 @@
 import * as moment from 'moment';
-import * as t from 'types';
+import * as t from 'common/types';
 import { UserCollection } from './../collections/UserCollection';
 import { MomentHelper } from './../helper/MomentHelper';
 import { StatisticValues, WorkDay } from './../types';
 import { StatisticCalculator } from './StatisticCalculator';
 import { WorkDayCalculator } from './WorkDayCalculator';
-import { omitTypeName } from 'utils';
+import { omitTypeName } from 'common/utils';
 
 export class EvaluationCalculator {
   static async getEvaluationForUsers(date: string): Promise<t.UserEvaluation[]> {

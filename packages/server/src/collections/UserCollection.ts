@@ -1,6 +1,6 @@
-import { initialUserState } from 'initialState';
+import { initialUserState } from 'common/initialState';
 import jwt = require('jsonwebtoken');
-import * as t from 'types';
+import * as t from 'common/types';
 import { v4 } from 'uuid';
 import { StatisticCalculator } from './../calculators/StatisticCalculator';
 import { UserErrorKeys } from './../errorKeys';

@@ -1,5 +1,5 @@
 jest.mock('lowdb/adapters/FileAsync');
-import * as m from 'mocks';
+import * as m from 'common/mocks';
 import { PublicHolidayCollection } from './PublicHolidayCollection';
 
 describe('PublicHolidayCollection Tests', () => {

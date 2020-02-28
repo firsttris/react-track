@@ -1,6 +1,6 @@
-import * as m from 'mocks';
+import * as m from 'common/mocks';
 import * as moment from 'moment';
-import * as t from 'types';
+import * as t from 'common/types';
 import { LeaveCollection } from './../collections/LeaveCollection';
 import { PublicHolidayCollection } from './../collections/PublicHolidayCollection';
 import { WorkDayCalculator } from './WorkDayCalculator';

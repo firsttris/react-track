@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import * as t from 'types';
+import * as t from 'common/types';
 import { v4 } from 'uuid';
 import { DbAdapterWithColKey } from './DbAdapterWithColKey';
 

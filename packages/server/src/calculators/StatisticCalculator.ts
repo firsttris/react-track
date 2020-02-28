@@ -1,7 +1,7 @@
-import { API_DATE } from 'cons';
+import { API_DATE } from 'common/constants';
 import { camelCase } from 'lodash';
 import * as moment from 'moment';
-import * as t from 'types';
+import * as t from 'common/types';
 import { ComplainCollection } from './../collections/ComplainCollection';
 import { SettingsCollection } from './../collections/SettingsCollection';
 import { TimestampCollection } from './../collections/TimestampCollection';

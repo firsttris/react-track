@@ -1,7 +1,7 @@
-import { API_DATE } from 'cons';
+import { API_DATE } from 'common/constants';
 import { filter } from 'lodash';
 import * as moment from 'moment';
-import * as t from 'types';
+import * as t from 'common/types';
 import { v4 } from 'uuid';
 import { StatisticCalculator } from '../calculators/StatisticCalculator';
 import { WorkDayCalculator } from '../calculators/WorkDayCalculator';

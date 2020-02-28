@@ -1,4 +1,4 @@
-import * as m from 'mocks';
+import * as m from 'common/mocks';
 import { ComplainCollection } from './ComplainCollection';
 const dbKey = m.userMock.id;
 

@@ -3,7 +3,7 @@ import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import { IResolvers } from 'graphql-tools';
 import * as path from 'path';
-import * as t from 'types';
+import * as t from 'common/types';
 import './backup';
 import { TimestampsBatch } from './batch/TimestampsBatch';
 import { EvaluationCalculator } from './calculators/EvaluationCalculator';

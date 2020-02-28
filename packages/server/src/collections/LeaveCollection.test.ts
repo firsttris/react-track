@@ -1,7 +1,7 @@
 jest.mock('lowdb/adapters/FileAsync');
-import * as m from 'mocks';
+import * as m from 'common/mocks';
 import * as moment from 'moment';
-import * as t from 'types';
+import * as t from 'common/types';
 import { LeaveErrorKeys } from './../errorKeys';
 import { DirectoryHelper } from './../helper/DirectoryHelper';
 import { LeaveCollection } from './LeaveCollection';

@@ -1,5 +1,5 @@
 jest.mock('lowdb/adapters/FileAsync');
-import * as mocks from 'mocks';
+import * as mocks from 'common/mocks';
 import { StatisticCalculator } from './../calculators/StatisticCalculator';
 import { UserErrorKeys } from './../errorKeys';
 import { TimestampCollection } from './TimestampCollection';

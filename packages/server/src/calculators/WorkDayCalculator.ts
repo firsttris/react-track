@@ -1,7 +1,7 @@
-import { API_DATE } from 'cons';
+import { API_DATE } from 'common/cons';
 import { find } from 'lodash';
 import * as moment from 'moment';
-import * as t from 'types';
+import * as t from 'common/types';
 import { LeaveCollection } from './../collections/LeaveCollection';
 import { PublicHolidayCollection } from './../collections/PublicHolidayCollection';
 import { WorkDay } from './../types';

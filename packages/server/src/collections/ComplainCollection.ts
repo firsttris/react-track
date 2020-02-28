@@ -1,4 +1,4 @@
-import { Complain } from 'types';
+import { Complain } from 'common/types';
 import { DbAdapterWithColAndDbKey } from './DbAdapterWithColAndDbKey';
 
 export class ComplainCollection extends DbAdapterWithColAndDbKey {

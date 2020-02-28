@@ -1,4 +1,4 @@
-import * as t from 'types';
+import * as t from 'common/types';
 
 export interface StatisticValues {
   timeComplain: number;
