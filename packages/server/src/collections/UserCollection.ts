@@ -13,8 +13,8 @@ const SECRET_PW = 'yxcvbnm321';
 
 export class UserCollection extends DbAdapter {
   static db: any;
-  static jsonFileName: string = 'users.json';
-  static collectionKey: string = 'users';
+  static jsonFileName = 'users.json';
+  static collectionKey = 'users';
 
   static async create(user: t.UserInput): Promise<t.User> {
     if (!this.areUserPropsValid(user)) {

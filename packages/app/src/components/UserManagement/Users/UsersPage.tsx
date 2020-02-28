@@ -4,7 +4,7 @@ import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { UserItem } from './UserItem';
 
-interface Props extends ApolloProps {}
+type Props = ApolloProps;
 
 interface States {
   users: Array<{ id: string; name: string }>;

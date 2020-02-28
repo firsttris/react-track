@@ -8,7 +8,7 @@ import * as t from 'types';
 import { PublicHolidayWidgetCreateModal } from './PublicHolidayWidgetCreateModal';
 import { PublicHolidayWidgetItem } from './PublicHolidayWidgetItem';
 
-interface Props extends ApolloProps {}
+type Props = ApolloProps;
 
 interface State {
   isOpen: boolean;

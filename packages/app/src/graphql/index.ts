@@ -263,10 +263,7 @@ export class Apollo {
     });
   }
 
-  static getEvaluationForMonth(
-    userId: string,
-    date: string
-  ): Promise<ApolloQueryResult<t.GetEvaluationForMonthQuery>> {
+  static getEvaluationForMonth(userId: string, date: string): Promise<ApolloQueryResult<t.GetEvaluationForMonthQuery>> {
     return this.query({
       variables: { userId, date },
       query: gql.GET_EVALUATION_FOR_MONTH

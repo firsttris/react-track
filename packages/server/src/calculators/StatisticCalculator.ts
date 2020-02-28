@@ -199,8 +199,8 @@ export class StatisticCalculator {
       .duration(spentTime)
       .asHours()
       .toPrecision(2);
-    let come: number = 0;
-    let go: number = 0;
+    let come = 0;
+    let go = 0;
     const hasError = !TimestampCollection.isTimestampsValid(timestamps);
     if (timestamps.length) {
       if (hasError) {

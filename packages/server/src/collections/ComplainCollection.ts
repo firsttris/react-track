@@ -3,7 +3,7 @@ import { DbAdapterWithColAndDbKey } from './DbAdapterWithColAndDbKey';
 
 export class ComplainCollection extends DbAdapterWithColAndDbKey {
   static db: { [userId: string]: any } = {};
-  static jsonFileName: string = 'complains.json';
+  static jsonFileName = 'complains.json';
 
   static async removeComplain(userId: string, dateKey: string, complainId: string): Promise<Complain[]> {
     await this.removeById(userId, dateKey, complainId);

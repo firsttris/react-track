@@ -5,7 +5,7 @@ import { DbAdapterWithColKey } from './DbAdapterWithColKey';
 
 export class PublicHolidayCollection extends DbAdapterWithColKey {
   static db: any;
-  static jsonFileName: string = 'publicHolidays.json';
+  static jsonFileName = 'publicHolidays.json';
 
   static async create(newHoliday: t.PublicHolidayInput): Promise<t.PublicHoliday[]> {
     const holiday: t.PublicHoliday = newHoliday as t.PublicHoliday;

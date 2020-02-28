@@ -8,7 +8,7 @@ import * as t from 'types';
 import { PauseWidgetCreateModal } from './PauseWidgetCreateModal';
 import { PauseWidgetItem } from './PauseWidgetItem';
 
-interface Props extends ApolloProps {}
+type Props = ApolloProps;
 
 interface State {
   isOpen: boolean;

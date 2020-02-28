@@ -21,37 +21,38 @@ interface State {
 /* tslint:disable */
 
 export class ProtectedRoute extends React.Component<Props, State> {
-
   state = {
     user: initialUserState,
     loading: true
-  }
+  };
 
   componentDidMount() {
     this.verifyLogin();
   }
 
   logout = () => {
-    this.setState({user: initialUserState});
+    this.setState({ user: initialUserState });
     localStorage.removeItem(c.LOCAL_STORAGE_KEY.TOKEN);
     Apollo.logout();
-  }
+  };
 
   verifyLogin() {
     const token = localStorage.getItem(c.LOCAL_STORAGE_KEY.TOKEN);
     if (token) {
-      Apollo.verifyLogin(token).then((result) => {
-        if (result.data) {
-          this.setState({ user: result.data.verifyLogin, loading: false });
-        }
-      }).catch(() => this.setState({ loading: false }));
+      Apollo.verifyLogin(token)
+        .then(result => {
+          if (result.data) {
+            this.setState({ user: result.data.verifyLogin, loading: false });
+          }
+        })
+        .catch(() => this.setState({ loading: false }));
     } else {
       this.setState({ loading: false });
     }
   }
 
   render(): JSX.Element {
-    const { component: Component, ...rest } = this.props
+    const { component: Component, ...rest } = this.props;
     const pathname = this.props.location ? this.props.location.pathname : '';
     return (
       <Route
@@ -62,13 +63,15 @@ export class ProtectedRoute extends React.Component<Props, State> {
               <NavigationContainer loggedInUser={this.state.user} path={pathname} logout={this.logout} />
               <Component {...props} loggedInUser={this.state.user} />
             </>
-          ) : this.state.loading ? 
-            <LoadingSpinner /> : 
+          ) : this.state.loading ? (
+            <LoadingSpinner />
+          ) : (
             <Redirect
-            to={{
-              pathname: '/login'
-            }}
-          />
+              to={{
+                pathname: '/login'
+              }}
+            />
+          )
         }
       />
     );

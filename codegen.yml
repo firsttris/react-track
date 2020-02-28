@@ -4,7 +4,7 @@ documents:
   - "packages/app/src/graphql/*.ts"
 config: {}
 generates:
-  packages/common/gen.ts:
+  packages/common/types.ts:
     config:
       namingConvention:
         typeNames: pascal-case#pascalCase

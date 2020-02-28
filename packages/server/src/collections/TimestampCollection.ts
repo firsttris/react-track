@@ -7,7 +7,7 @@ import { DbAdapterWithColAndDbKey } from './DbAdapterWithColAndDbKey';
 
 export class TimestampCollection extends DbAdapterWithColAndDbKey {
   static db: { [userId: string]: any } = {};
-  static jsonFileName: string = 'timestamps.json';
+  static jsonFileName = 'timestamps.json';
 
   static async removeTimestamp(userId: string, timestamp: t.Timestamp): Promise<t.Timestamp[]> {
     const dateKey = this.getDateKey(timestamp);

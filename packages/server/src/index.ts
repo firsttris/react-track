@@ -16,7 +16,7 @@ import { TimestampCollection } from './collections/TimestampCollection';
 import { UserCollection } from './collections/UserCollection';
 import { typeDefs } from './schema';
 import { PublicHolidayService } from './services/PublicHolidayService';
-const cors = require('cors');
+import cors = require('cors');
 
 declare global {
   namespace Express {
@@ -49,7 +49,8 @@ const resolvers = {
       StatisticCalculator.getStatisticForMonth(args.date, args.userId),
     getYearSaldo: async (source: any, args: t.GetYearSaldoQueryVariables) =>
       StatisticCalculator.calculateYearSaldo(args.date, args.userId),
-    getComplains: async (source: any, args: t.GetComplainsQueryVariables) => ComplainCollection.get(args.userId, args.date),
+    getComplains: async (source: any, args: t.GetComplainsQueryVariables) =>
+      ComplainCollection.get(args.userId, args.date),
     getTimestamps: async (source: any, args: t.GetTimestampsQueryVariables) =>
       TimestampCollection.getTimestamps(args.userId, args.date),
     getPauses: async (source: any, args: {}) => SettingsCollection.getPauses(),
@@ -74,7 +75,8 @@ const resolvers = {
       TimestampCollection.update(args.userId, args.date, args.timestamps),
     updateComplains: async (source: any, args: t.UpdateComplainsMutationVariables) =>
       ComplainCollection.update(args.userId, args.date, args.complains),
-    createPause: async (source: any, args: t.CreatePauseMutationVariables) => SettingsCollection.createPause(args.pause),
+    createPause: async (source: any, args: t.CreatePauseMutationVariables) =>
+      SettingsCollection.createPause(args.pause),
     deletePause: async (source: any, args: t.DeletePauseMutationVariables) =>
       SettingsCollection.removePauseById(args.pauseId),
     createPublicHoliday: async (source: any, args: t.CreatePublicHolidayMutationVariables) =>

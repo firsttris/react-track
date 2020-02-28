@@ -14,14 +14,8 @@
     "baseUrl": ".",
     "paths": {
       "assets/*": ["packages/app/src/assets/*"],
-      "types": ["packages/common/gen.ts"],
-      "cons": ["packages/common/cons.ts"],
-      "utils": ["packages/common/utils.ts"],
-      "initialState": ["packages/common/initialState.ts"],
-      "NumberFormatter": ["packages/common/NumberFormatter.ts"],
-      "mocks": ["packages/common/mocks"],
-      "components/*": ["packages/app/src/components/*"],
-      "container/*": ["packages/app/src/container/*"]
+      "common/*": ["packages/common/*"],
+      "components/*": ["packages/app/src/components/*"]
     }
   }
 }

@@ -13,7 +13,7 @@ import { UserCollection } from './UserCollection';
 
 export class LeaveCollection extends DbAdapterWithColAndDbKey {
   static db: { [userId: string]: any } = {};
-  static jsonFileName: string = 'leaveDays.json';
+  static jsonFileName = 'leaveDays.json';
 
   static async removeLeave(userId: string, leave: t.LeaveInput): Promise<t.Leave[]> {
     const year = this.getDateKey(leave);

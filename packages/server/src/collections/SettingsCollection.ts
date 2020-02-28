@@ -4,7 +4,7 @@ import { DbAdapterWithColKey } from './DbAdapterWithColKey';
 
 export class SettingsCollection extends DbAdapterWithColKey {
   static db: any;
-  static jsonFileName: string = 'settings.json';
+  static jsonFileName = 'settings.json';
 
   static defaultObject(): object {
     return {
