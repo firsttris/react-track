@@ -1,7 +1,9 @@
 const path = require('path'),
   webpack = require('webpack'),
-  cleanWebpackPlugin = require('clean-webpack-plugin'),
-  tsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+  tsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin'),
+  fsExtra = require('fs-extra');
+
+fsExtra.emptyDirSync(path.join(__dirname, 'dist'));
 
 module.exports = {
   mode: 'production',
@@ -31,12 +33,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.mjs', '.js', '.ts', '.tsx', '.jsx', '.json'],
-    plugins: [
-      new tsConfigPathsPlugin()
-    ]
+    plugins: [new tsConfigPathsPlugin()]
   },
   plugins: [
-    new cleanWebpackPlugin(['dist']),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     })

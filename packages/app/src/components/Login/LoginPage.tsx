@@ -24,12 +24,6 @@ export class LoginPage extends React.Component<Props, States> {
     };
   }
 
-  componentDidMount(): void {}
-
-  componentWillUnmount(): void {
-    // this.props.resetLoggedInUserError();
-  }
-
   onKeyPressEvent = (event: any): void => {
     if (event && (event.which === 13 || event.keyCode === 13)) {
       this.loginWithPassword();
@@ -37,7 +31,6 @@ export class LoginPage extends React.Component<Props, States> {
   };
 
   loginWithPassword = (): void => {
-    // this.props.verifySuperAdmin(this.state.password);
     loginUser(this.state.password)
       .then(result => {
         localStorage.setItem('timetracking-login-token', result.token || '');

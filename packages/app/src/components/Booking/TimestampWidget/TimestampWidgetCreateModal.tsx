@@ -29,10 +29,6 @@ const initialValue = {
 export class TimestampWidgetCreateModal extends React.Component<Props, State> {
   state = initialValue;
 
-  componentWillReceiveProps(nextProps: Props) {
-    this.setState(initialValue);
-  }
-
   saveModal = (): void => {
     const date = this.getDate();
     const timestamps = this.props.timestamps.slice();

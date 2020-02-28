@@ -161,7 +161,7 @@ describe('User Collection Test', () => {
       });
     });
 
-    it('should return error if saldos are invalid', async () => {
+    it('should return error if saldos are invalid', () => {
       userMock.saldos = [{ year: '2016', hours: 1 }];
       jest.spyOn(UserCollection, 'areSaldosValid').mockImplementation(() => false);
 

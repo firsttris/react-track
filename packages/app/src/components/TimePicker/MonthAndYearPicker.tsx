@@ -44,10 +44,10 @@ export class MonthAndYearPicker extends React.Component<Props, State> {
     this.props.onChange(copy);
   };
 
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.selectedDate) {
-      this.setState({ currentDate: moment(nextProps.selectedDate) });
-    }
+  static getDerivedStateFromProps(nextProps: Props, prevState: Props) {
+    if (nextProps.selectedDate !== prevState.selectedDate) {
+      return { currentDate: moment(nextProps.selectedDate) };
+    } else return null;
   }
 
   render(): JSX.Element {

@@ -50,8 +50,10 @@
     "start:web": "cd packages/app && yarn start:web",
     "start:server": "cd packages/server && yarn start:server",
     "test": "jest",
+    "lint": "eslint \"packages/**/*.{ts,tsx}\"",
     "lint:fix": "eslint --fix \"packages/**/*.{ts,tsx}\"",
     "generate-types": "graphql-codegen",
+    "build": "yarn build:web && yarn build:server",
     "build:web": "cd packages/app && yarn build:web",
     "build:server": "cd packages/server && yarn build"
   },

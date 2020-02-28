@@ -18,8 +18,10 @@ export class HoursPicker extends React.Component<Props, State> {
     };
   }
 
-  componentWillReceiveProps(nextProps: Props): void {
-    this.setState({ hour: nextProps.hours });
+  static getDerivedStateFromProps(nextProps: Props, prevState: Props) {
+    if (nextProps.hours !== prevState.hours) {
+      return { hour: nextProps.hours };
+    } else return null;
   }
 
   updateHour = (evt: any): void => {

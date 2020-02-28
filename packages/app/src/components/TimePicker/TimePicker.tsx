@@ -46,11 +46,29 @@ export class TimePicker extends React.Component<Props, State> {
     }
   };
 
-  componentWillReceiveProps(nextProps: Props): void {
-    const time = this.parseTime(nextProps);
-    if (time) {
-      this.setState(time);
+  static getDerivedStateFromProps(nextProps: Props, prevState: Props) {
+    if (nextProps.time !== prevState.time) {
+      const time = this.parseTime(nextProps);
+      if (time) {
+        return time;
+      }
+    } else return null;
+  }
+
+  static parseTime(props: Props): State | undefined {
+    if (!props.time) {
+      return;
     }
+
+    const timeComponents = props.time.split(':');
+    if (timeComponents.length !== 2) {
+      return;
+    }
+
+    return {
+      hour: timeComponents[0],
+      minute: timeComponents[1]
+    };
   }
 
   parseTime(props: Props): State | undefined {

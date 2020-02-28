@@ -23,8 +23,10 @@ export class WorkTimeWidgetCreateModal extends React.Component<Props, State> {
     };
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    this.setState({ time: nextProps.time });
+  static getDerivedStateFromProps(nextProps: Props, prevState: Props) {
+    if (nextProps.time !== prevState.time) {
+      return { time: nextProps.time };
+    } else return null;
   }
 
   save = (): void => {

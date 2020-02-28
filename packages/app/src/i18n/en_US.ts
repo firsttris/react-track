@@ -1,3 +1,4 @@
+//eslint-disable-next-line @typescript-eslint/camelcase
 export const en_US = {
   CREATE_USER: 'Create User',
   USER_PROFILE: 'User Profile',

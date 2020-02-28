@@ -1,21 +1,18 @@
 const base = require('./base'),
-  webpack = require('webpack')
-  webappWebpackPlugin = require('webapp-webpack-plugin');
-  
-base.mode = "production";
-base.module.rules.push(
-  {
-    test: /\.tsx?$/,
-    use: [
-      {
-        loader: 'ts-loader'
-      }
-    ]
-  }
-);
+  webpack = require('webpack');
+webappWebpackPlugin = require('webapp-webpack-plugin');
 
-base.optimization = {
-};
+base.mode = 'production';
+base.module.rules.push({
+  test: /\.tsx?$/,
+  use: [
+    {
+      loader: 'ts-loader'
+    }
+  ]
+});
+
+base.optimization = {};
 
 base.plugins.push(
   new webpack.DefinePlugin({
@@ -27,9 +24,9 @@ base.plugins.push(
     prefix: 'webapp/',
     favicons: {
       appName: 'Zeiterfassung',
-      theme_color: "black", 
+      theme_color: 'black'
     }
-  }),
+  })
 );
 
 module.exports = base;

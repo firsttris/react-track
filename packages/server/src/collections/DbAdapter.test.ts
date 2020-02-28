@@ -74,7 +74,7 @@ describe('DbAdapter Test', () => {
 
     it('should delete database if file does exist', () => {
       jest.spyOn(fs, 'existsSync').mockImplementation(() => true);
-      const unlinkSyncSpy = jest.spyOn(fs, 'unlinkSync').mockImplementation(() => {});
+      const unlinkSyncSpy = jest.spyOn(fs, 'unlinkSync').mockImplementation(jest.fn());
       DirectoryHelper.getDatabasePath = jest.fn(() => '123456789-timestamps.json');
       DbAdapter.remove();
       expect(unlinkSyncSpy).toHaveBeenCalledWith('123456789-timestamps.json');

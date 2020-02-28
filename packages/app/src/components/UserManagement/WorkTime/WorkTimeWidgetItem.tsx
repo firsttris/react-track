@@ -28,10 +28,10 @@ export class WorkTimeWidgetItem extends React.Component<Props, States> {
     };
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.workTime) {
-      this.setState({ workTime: nextProps.workTime });
-    }
+  static getDerivedStateFromProps(nextProps: Props, prevState: Props) {
+    if (!Object.is(nextProps.workTime, prevState.workTime)) {
+      return { workTime: nextProps.workTime };
+    } else return null;
   }
 
   setWorkStartTime = (startTime: string): void => {

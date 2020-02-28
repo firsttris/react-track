@@ -1,11 +1,11 @@
 const path = require('path'),
   htmlWebpackPlugin = require('html-webpack-plugin'),
   tsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin'),
-  fsExtra = require("fs-extra");
+  fsExtra = require('fs-extra');
 
-fsExtra.emptyDirSync(path.join(__dirname, "../dist-web"));
-fsExtra.emptyDirSync(path.join(__dirname, "../dist-electron"));
-fsExtra.emptyDirSync(path.join(__dirname, "../builds"));
+fsExtra.emptyDirSync(path.join(__dirname, '../dist-web'));
+fsExtra.emptyDirSync(path.join(__dirname, '../dist-electron'));
+fsExtra.emptyDirSync(path.join(__dirname, '../builds'));
 
 module.exports = {
   target: process.env.app === 'web' ? 'web' : 'electron-renderer',
@@ -24,25 +24,20 @@ module.exports = {
           {
             loader: 'file-loader?name=img/[name]__[hash:base64:5].[ext]',
             options: {
-              esModule: false,
-            },
+              esModule: false
+            }
           }
         ]
       },
       {
         test: /\.css$/,
-        use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader', options: { sourceMap: true } }
-        ]
+        use: [{ loader: 'style-loader' }, { loader: 'css-loader', options: { sourceMap: true } }]
       }
     ]
   },
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.jsx', '.json'],
-    plugins: [
-      new tsConfigPathsPlugin()
-    ]
+    plugins: [new tsConfigPathsPlugin()]
   },
   plugins: [
     new htmlWebpackPlugin({

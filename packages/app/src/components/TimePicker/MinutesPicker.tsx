@@ -19,8 +19,10 @@ export class MinutesPicker extends React.Component<Props, State> {
     };
   }
 
-  componentWillReceiveProps(nextProps: Props): void {
-    this.setState({ minute: nextProps.minutes });
+  static getDerivedStateFromProps(nextProps: Props, prevState: Props) {
+    if (nextProps.minutes !== prevState.minutes) {
+      return { minute: nextProps.minutes };
+    } else return null;
   }
 
   updateMinute = (evt: any): void => {
