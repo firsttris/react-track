@@ -42,7 +42,6 @@ export class ComplainWidget extends React.Component<Props, State> {
   };
 
   render(): JSX.Element {
-    const userRole = localStorage.getItem('timetracking-login-role');
     if (this.props.showData) {
       return (
         <div>
@@ -79,7 +78,7 @@ export class ComplainWidget extends React.Component<Props, State> {
                             index={index}
                             complain={complain}
                             onDelete={this.removeRow}
-                            userRole={userRole}
+                            userRole={this.props.userRole}
                           />
                         );
                       })}

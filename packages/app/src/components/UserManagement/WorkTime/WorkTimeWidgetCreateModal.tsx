@@ -11,9 +11,11 @@ interface Props {
   time: string;
   isOpen: boolean;
   header: string;
-  onToggle: () => void;
+  toggleModal: () => void;
   onSave: (time: string) => void;
 }
+
+const initialState = { time: '00:00' };
 
 export class WorkTimeWidgetCreateModal extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -23,15 +25,12 @@ export class WorkTimeWidgetCreateModal extends React.Component<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps(nextProps: Props, prevState: Props) {
-    if (nextProps.time !== prevState.time) {
-      return { time: nextProps.time };
-    } else return null;
-  }
-
   save = (): void => {
     this.props.onSave(this.state.time);
+    this.toggleModal();
   };
+
+  toggleModal = () => this.setState(initialState, () => this.props.toggleModal());
 
   setTime = (time: string): void => {
     this.setState({ time });
@@ -39,8 +38,8 @@ export class WorkTimeWidgetCreateModal extends React.Component<Props, State> {
 
   render(): JSX.Element {
     return (
-      <Modal isOpen={this.props.isOpen} toggle={this.props.onToggle}>
-        <ModalHeader toggle={this.props.onToggle}>
+      <Modal isOpen={this.props.isOpen} toggle={this.toggleModal}>
+        <ModalHeader toggle={this.toggleModal}>
           <FormattedMessage id={this.props.header} />
         </ModalHeader>
         <ModalBody>
@@ -54,7 +53,7 @@ export class WorkTimeWidgetCreateModal extends React.Component<Props, State> {
           <Button color="primary" onClick={this.save}>
             <i className="fa fa-floppy-o" />
           </Button>{' '}
-          <Button color="secondary" onClick={this.props.onToggle}>
+          <Button color="secondary" onClick={this.toggleModal}>
             <i className="fa fa-times" />
           </Button>
         </ModalFooter>

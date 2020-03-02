@@ -55,7 +55,6 @@ export class PauseWidget extends React.Component<Props, State> {
         this.setState({ errors: result.errors });
       }
     });
-    this.setState({ isOpen: !this.state.isOpen });
   };
 
   deletePause = (pauseId: string): void => {
@@ -89,9 +88,9 @@ export class PauseWidget extends React.Component<Props, State> {
               </tr>
             </thead>
             <tbody>
-              {this.state.pauses.map((pause, index) => {
-                return <PauseWidgetItem key={index} pause={pause} onClick={this.deletePause} />;
-              })}
+              {this.state.pauses.map((pause, index) => (
+                <PauseWidgetItem key={index} pause={pause} onClick={this.deletePause} />
+              ))}
             </tbody>
           </Table>
         </CardBody>

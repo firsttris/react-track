@@ -14,12 +14,12 @@ import { StatisticWidget } from './StatisticWidget';
 import { TimestampWidget } from './TimestampWidget/TimestampWidget';
 
 const initialStatisticState = {
-  timeSpent: '',
-  timeLeft: '',
-  timeEarned: '',
-  timePause: '',
-  timeComplain: '',
-  totalHours: ''
+  timeSpent: '00:00',
+  timeLeft: '00:00',
+  timeEarned: '00:00',
+  timePause: '00:00',
+  timeComplain: '00:00',
+  totalHours: '00:00'
 };
 
 interface Props extends RouteComponentProps<{ userId: string; date: string }>, ApolloProps {
@@ -56,7 +56,7 @@ export class BookingPage extends React.Component<Props, States> {
       statisticForMonth: initialStatisticState,
       statisticForWeek: initialStatisticState,
       hoursSpentForMonthPerDay: [],
-      yearSaldo: '',
+      yearSaldo: '00:00',
       timestamps: [],
       timestampError: '',
       complains: [],
@@ -124,6 +124,14 @@ export class BookingPage extends React.Component<Props, States> {
     });
   }
 
+  resetStaticForDate() {
+    this.setState({
+      statisticForDate: initialStatisticState,
+      previousSelectedDate: '',
+      yearSaldo: '00:00'
+    });
+  }
+
   getStatisticForWeek(userId: string, dateKey: string) {
     this.props.apollo.getStatisticForWeek(userId, dateKey).then(result => {
       if (result.data) {
@@ -132,6 +140,13 @@ export class BookingPage extends React.Component<Props, States> {
           previousSelectedDate: result.data.getStatisticForWeek.selectedDate
         });
       }
+    });
+  }
+
+  resetStatisticForWeek() {
+    this.setState({
+      statisticForWeek: initialStatisticState,
+      previousSelectedDate: ''
     });
   }
 
@@ -144,6 +159,14 @@ export class BookingPage extends React.Component<Props, States> {
           previousSelectedDate: result.data.getStatisticForMonth.selectedDate
         });
       }
+    });
+  }
+
+  resetStaticsForMonth() {
+    this.setState({
+      statisticForMonth: initialStatisticState,
+      hoursSpentForMonthPerDay: [],
+      previousSelectedDate: ''
     });
   }
 
@@ -214,13 +237,13 @@ export class BookingPage extends React.Component<Props, States> {
   }
 
   onCalendarSelect = (selectedDate: Date): void => {
-    this.resetTimestampsAndComplains();
     this.disableDetailsOnLeaveDay(this.state.listOfLeaves, moment(selectedDate));
     const userId = this.props.match.params.userId;
     const date = moment(selectedDate);
     const dateString = date.format(API_DATE);
     this.setState({ selectedDate: date });
     if (userId) {
+      this.resetTimestampsAndComplains();
       this.getComplainsAndTimestamps(userId, dateString);
       this.refreshStatistics(userId, date, false);
     }
@@ -228,6 +251,7 @@ export class BookingPage extends React.Component<Props, States> {
   };
 
   refreshStatistics = (userId: string, currentDate: moment.Moment, forceRefresh: boolean): void => {
+    this.resetStaticForDate();
     this.getStatisticForDate(userId, currentDate.format(API_DATE));
     this.monthChange(currentDate, userId, forceRefresh);
     this.weekChange(currentDate, userId, forceRefresh);
@@ -236,6 +260,9 @@ export class BookingPage extends React.Component<Props, States> {
   weekChange = (currentDate: moment.Moment, userId: string, forceRefresh: boolean): void => {
     const previousSelectedDate = moment(this.state.previousSelectedDate, API_DATE);
     if (previousSelectedDate.isoWeek() !== currentDate.isoWeek() || forceRefresh) {
+      if (!forceRefresh) {
+        this.resetStatisticForWeek();
+      }
       this.getStatisticForWeek(userId, currentDate.format(API_DATE));
     }
   };
@@ -243,6 +270,9 @@ export class BookingPage extends React.Component<Props, States> {
   monthChange = (currentDate: moment.Moment, userId: string, forceRefresh: boolean): void => {
     const previousSelectedDate = moment(this.state.previousSelectedDate, API_DATE);
     if (previousSelectedDate.get('month') !== currentDate.get('month') || forceRefresh) {
+      if (!forceRefresh) {
+        this.resetStaticsForMonth();
+      }
       this.getStatisticForMonth(userId, currentDate.format(API_DATE));
       this.getLeaveDaysAndPublicHoliday(userId, currentDate.format('YYYY'));
     }

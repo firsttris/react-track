@@ -14,10 +14,6 @@ while (fromYear < toYear) {
   fromYear++;
 }
 
-interface State {
-  currentDate: moment.Moment;
-}
-
 interface Props {
   onChange: (date: moment.Moment) => void;
   showMonth: boolean;
@@ -25,72 +21,53 @@ interface Props {
   selectedDate?: string;
 }
 
-export class MonthAndYearPicker extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      currentDate: moment()
-    };
-  }
-
-  handleChange = (e: any) => {
+export const MonthAndYearPicker = (props: Props) => {
+  const handleChange = (e: any) => {
     const { year, month } = e.target.form;
     const copy = moment(currentDate);
     copy.year(year.value);
     if (month) {
       copy.month(month.value);
     }
-    this.setState({ currentDate: copy });
-    this.props.onChange(copy);
+
+    props.onChange(copy);
   };
 
-  static getDerivedStateFromProps(nextProps: Props, prevState: Props) {
-    if (nextProps.selectedDate !== prevState.selectedDate) {
-      return { currentDate: moment(nextProps.selectedDate) };
-    } else return null;
-  }
+  const months = moment.months();
+  const date = moment(currentDate);
 
-  render(): JSX.Element {
-    const months = moment.months();
-    return (
-      <Form>
-        {this.props.showMonth && (
-          <FormGroup>
-            {this.props.showLabels && (
-              <Label for="month">
-                <FormattedMessage id="MONTH" />
-              </Label>
-            )}
-            <Input
-              type="select"
-              name="month"
-              id="month"
-              onChange={this.handleChange}
-              value={this.state.currentDate.month()}
-            >
-              {months.map((month, i) => (
-                <option key={i} value={i}>
-                  {month}
-                </option>
-              ))}
-            </Input>
-          </FormGroup>
-        )}
+  return (
+    <Form>
+      {props.showMonth && (
         <FormGroup>
-          {this.props.showLabels && (
-            <Label for="year">
-              <FormattedMessage id="YEAR" />
+          {props.showLabels && (
+            <Label for="month">
+              <FormattedMessage id="MONTH" />
             </Label>
           )}
-          <Input type="select" name="year" id="year" onChange={this.handleChange} value={this.state.currentDate.year()}>
-            {years.map((year, i) => (
-              <option key={i} value={year}>
-                {year}
+          <Input type="select" name="month" id="month" onChange={handleChange} value={date.month()}>
+            {months.map((month, i) => (
+              <option key={i} value={i}>
+                {month}
               </option>
             ))}
           </Input>
         </FormGroup>
-      </Form>
-    );
-  }
-}
+      )}
+      <FormGroup>
+        {props.showLabels && (
+          <Label for="year">
+            <FormattedMessage id="YEAR" />
+          </Label>
+        )}
+        <Input type="select" name="year" id="year" onChange={handleChange} value={date.year()}>
+          {years.map((year, i) => (
+            <option key={i} value={year}>
+              {year}
+            </option>
+          ))}
+        </Input>
+      </FormGroup>
+    </Form>
+  );
+};

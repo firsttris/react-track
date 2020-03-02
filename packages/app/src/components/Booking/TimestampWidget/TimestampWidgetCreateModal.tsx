@@ -1,4 +1,4 @@
-import { State as TimePickerState, TimePicker } from 'components/TimePicker/TimePicker';
+import { Time, TimePicker } from 'components/TimePicker/TimePicker';
 import * as moment from 'moment';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -34,8 +34,10 @@ export class TimestampWidgetCreateModal extends React.Component<Props, State> {
     const timestamps = this.props.timestamps.slice();
     timestamps.push(this.createManualTimestamp(date));
     this.props.onUpdateTimestamps(timestamps);
-    this.props.onToggleModal();
+    this.toggleModal();
   };
+
+  toggleModal = () => this.setState(initialValue, () => this.props.onToggleModal());
 
   createManualTimestamp = (date: moment.Moment): t.Timestamp => {
     const formattedDate = date.format();
@@ -54,20 +56,24 @@ export class TimestampWidgetCreateModal extends React.Component<Props, State> {
     this.setState({ status: evt.target.value });
   };
 
-  setTime = (time: TimePickerState): void => {
+  setTime = (time: Time): void => {
     this.setState({ ...time });
   };
 
   render(): JSX.Element {
     return (
-      <Modal isOpen={this.props.isOpen} toggle={this.props.onToggleModal}>
-        <ModalHeader toggle={this.props.onToggleModal}>
+      <Modal isOpen={this.props.isOpen} toggle={this.toggleModal}>
+        <ModalHeader toggle={this.toggleModal}>
           <FormattedMessage id="CREATE_BOOKING" />
         </ModalHeader>
         <ModalBody>
           <Row>
             <Col>
-              <TimePicker onHourAndMinuteChange={this.setTime} label="TIME" />
+              <TimePicker
+                onHourAndMinuteChange={this.setTime}
+                time={`${this.state.hour}:${this.state.minute}`}
+                label="TIME"
+              />
             </Col>
             <Col style={{ display: 'flex', alignItems: 'center' }}>
               <Input type="select" name="select" onChange={this.updateStatus}>
@@ -81,7 +87,7 @@ export class TimestampWidgetCreateModal extends React.Component<Props, State> {
           <Button color="primary" onClick={this.saveModal}>
             <i className="fa fa-floppy-o" />
           </Button>{' '}
-          <Button color="secondary" onClick={this.props.onToggleModal}>
+          <Button color="secondary" onClick={this.toggleModal}>
             <i className="fa fa-times" />
           </Button>
         </ModalFooter>

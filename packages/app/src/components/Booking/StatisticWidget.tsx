@@ -14,7 +14,7 @@ interface Props {
 export class StatisticWidget extends React.Component<Props, {}> {
   render(): JSX.Element {
     return (
-      <Card style={{ minHeight: '350px' }}>
+      <Card style={{ minHeight: '350px', height: '100%' }}>
         <CardHeader>
           <FormattedMessage id="STATISTIC" values={{ name: this.props.selectedUser.name }} />
         </CardHeader>

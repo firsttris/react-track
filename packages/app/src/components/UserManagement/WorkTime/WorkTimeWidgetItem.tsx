@@ -11,7 +11,6 @@ interface Props extends WrappedComponentProps {
 }
 
 interface States {
-  workTime: t.WorkTime;
   showWorkStartTimeModal: boolean;
   showWorkEndTimeModal: boolean;
   showMandatoryHoursModal: boolean;
@@ -21,53 +20,28 @@ export class WorkTimeWidgetItem extends React.Component<Props, States> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      workTime: props.workTime,
       showWorkStartTimeModal: false,
       showWorkEndTimeModal: false,
       showMandatoryHoursModal: false
     };
   }
 
-  static getDerivedStateFromProps(nextProps: Props, prevState: Props) {
-    if (!Object.is(nextProps.workTime, prevState.workTime)) {
-      return { workTime: nextProps.workTime };
-    } else return null;
-  }
-
   setWorkStartTime = (startTime: string): void => {
-    const workTime = { ...this.state.workTime };
+    const workTime = { ...this.props.workTime };
     workTime.startTime = startTime;
-    this.setState(
-      {
-        workTime,
-        showWorkStartTimeModal: !this.state.showWorkStartTimeModal
-      },
-      () => this.props.onUpdateWorkTime(this.state.workTime)
-    );
+    this.props.onUpdateWorkTime(workTime);
   };
 
   setWorkEndTime = (endTime: string): void => {
-    const workTime = { ...this.state.workTime };
+    const workTime = { ...this.props.workTime };
     workTime.endTime = endTime;
-    this.setState(
-      {
-        workTime,
-        showWorkEndTimeModal: !this.state.showWorkEndTimeModal
-      },
-      () => this.props.onUpdateWorkTime(this.state.workTime)
-    );
+    this.props.onUpdateWorkTime(workTime);
   };
 
   setMandatoryHours = (mandatoryHours: string): void => {
-    const workTime = { ...this.state.workTime };
+    const workTime = { ...this.props.workTime };
     workTime.mandatoryHours = mandatoryHours;
-    this.setState(
-      {
-        workTime,
-        showMandatoryHoursModal: !this.state.showMandatoryHoursModal
-      },
-      () => this.props.onUpdateWorkTime(this.state.workTime)
-    );
+    this.props.onUpdateWorkTime(workTime);
   };
 
   toggleWorkStartTimeModal = () => {
@@ -90,23 +64,23 @@ export class WorkTimeWidgetItem extends React.Component<Props, States> {
         </Label>
         <WorkTimeWidgetCreateModal
           header={'START_TIME'}
-          time={this.state.workTime.startTime}
+          time={this.props.workTime.startTime}
           isOpen={this.state.showWorkStartTimeModal}
-          onToggle={this.toggleWorkStartTimeModal}
+          toggleModal={this.toggleWorkStartTimeModal}
           onSave={this.setWorkStartTime}
         />
         <WorkTimeWidgetCreateModal
           header={'END_TIME'}
-          time={this.state.workTime.endTime}
+          time={this.props.workTime.endTime}
           isOpen={this.state.showWorkEndTimeModal}
-          onToggle={this.toggleWorkEndTimeModal}
+          toggleModal={this.toggleWorkEndTimeModal}
           onSave={this.setWorkEndTime}
         />
         <WorkTimeWidgetCreateModal
           header={'TOTALHOURS'}
-          time={this.state.workTime.mandatoryHours}
+          time={this.props.workTime.mandatoryHours}
           isOpen={this.state.showMandatoryHoursModal}
-          onToggle={this.toggleMandatoryHoursModal}
+          toggleModal={this.toggleMandatoryHoursModal}
           onSave={this.setMandatoryHours}
         />
         <Row>
@@ -114,7 +88,7 @@ export class WorkTimeWidgetItem extends React.Component<Props, States> {
             <Input
               title={this.props.intl.formatMessage({ id: 'START_TIME' })}
               style={{ cursor: 'pointer' }}
-              value={this.state.workTime.startTime}
+              value={this.props.workTime.startTime}
               name="startTime"
               onClick={this.toggleWorkStartTimeModal}
               readOnly={true}
@@ -124,7 +98,7 @@ export class WorkTimeWidgetItem extends React.Component<Props, States> {
             <Input
               title={this.props.intl.formatMessage({ id: 'END_TIME' })}
               style={{ cursor: 'pointer' }}
-              value={this.state.workTime.endTime}
+              value={this.props.workTime.endTime}
               name="endTime"
               onClick={this.toggleWorkEndTimeModal}
               readOnly={true}
@@ -134,7 +108,7 @@ export class WorkTimeWidgetItem extends React.Component<Props, States> {
             <Input
               title={this.props.intl.formatMessage({ id: 'TOTALHOURS' })}
               style={{ cursor: 'pointer' }}
-              value={this.state.workTime.mandatoryHours}
+              value={this.props.workTime.mandatoryHours}
               name="mandatoryHours"
               onClick={this.toggleMandatoryHoursModal}
               readOnly={true}

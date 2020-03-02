@@ -16,13 +16,15 @@ interface Props {
   complains: t.Complain[];
 }
 
+const initialState = {
+  duration: '00:00',
+  reason: ''
+};
+
 export class ComplainWidgetCreateModal extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      duration: '00:00',
-      reason: ''
-    };
+    this.state = initialState;
   }
 
   save = (): void => {
@@ -32,9 +34,11 @@ export class ComplainWidgetCreateModal extends React.Component<Props, State> {
     };
     const complains = [...this.props.complains];
     complains.push(complain);
-    this.props.toggleModal();
     this.props.updateComplains(complains);
+    this.toggleModal();
   };
+
+  toggleModal = () => this.setState(initialState, () => this.props.toggleModal());
 
   setDuration = (duration: string): void => {
     this.setState({ duration });
@@ -46,14 +50,19 @@ export class ComplainWidgetCreateModal extends React.Component<Props, State> {
 
   render(): JSX.Element {
     return (
-      <Modal isOpen={this.props.isOpen} toggle={this.props.toggleModal}>
-        <ModalHeader toggle={this.props.toggleModal}>
+      <Modal isOpen={this.props.isOpen} toggle={this.toggleModal}>
+        <ModalHeader toggle={this.toggleModal}>
           <FormattedMessage id="CREATE_COMPLAIN" />
         </ModalHeader>
         <ModalBody>
           <Row>
             <Col>
-              <TimePicker onTimeChange={this.setDuration} labelBefore="MINUS" label="HOURS" />
+              <TimePicker
+                onTimeChange={this.setDuration}
+                time={this.state.duration}
+                labelBefore="MINUS"
+                label="HOURS"
+              />
               <Row className="d-flex justify-content-center">
                 <div className="form-group" style={{ width: '80%' }}>
                   <label className="col-form-label pb-0">
@@ -69,7 +78,7 @@ export class ComplainWidgetCreateModal extends React.Component<Props, State> {
           <Button color="primary" onClick={this.save}>
             <i className="fa fa-floppy-o" />
           </Button>{' '}
-          <Button color="secondary" onClick={this.props.toggleModal}>
+          <Button color="secondary" onClick={this.toggleModal}>
             <i className="fa fa-times" />
           </Button>
         </ModalFooter>

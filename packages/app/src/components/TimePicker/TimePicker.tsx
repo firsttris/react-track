@@ -1,61 +1,44 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Row } from 'reactstrap';
-import { HoursPicker } from './HoursPicker';
-import { MinutesPicker } from './MinutesPicker';
+import { NumberPicker } from './NumberPicker';
 
-export interface State {
+export interface Time {
   hour: string;
   minute: string;
 }
 
 interface Props {
   onTimeChange?: (time: string) => void;
-  onHourAndMinuteChange?: (time: State) => void;
+  onHourAndMinuteChange?: (time: Time) => void;
   label: string;
   labelBefore?: string;
-  time?: string;
+  time: string;
 }
 
-const initialState = {
-  hour: '00',
-  minute: '00'
-};
-
-export class TimePicker extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    const time = this.parseTime(props);
-    this.state = time || initialState;
-  }
-
-  setHours = (time: { hour: string }): void => {
-    this.setState({ hour: time.hour }, () => this.onChange());
+export class TimePicker extends React.Component<Props, {}> {
+  hour = '00';
+  minute = '00';
+  setHours = (hour: string): void => {
+    this.hour = hour;
+    this.onChange();
   };
 
-  setMinutes = (time: { minute: string }): void => {
-    this.setState({ minute: time.minute }, () => this.onChange());
+  setMinutes = (minute: string): void => {
+    this.minute = minute;
+    this.onChange();
   };
 
   onChange = () => {
     if (this.props.onTimeChange) {
-      this.props.onTimeChange(`${this.state.hour}:${this.state.minute}`);
+      this.props.onTimeChange(`${this.hour}:${this.minute}`);
     }
     if (this.props.onHourAndMinuteChange) {
-      this.props.onHourAndMinuteChange(this.state);
+      this.props.onHourAndMinuteChange({ hour: this.hour, minute: this.minute });
     }
   };
 
-  static getDerivedStateFromProps(nextProps: Props, prevState: Props) {
-    if (nextProps.time !== prevState.time) {
-      const time = this.parseTime(nextProps);
-      if (time) {
-        return time;
-      }
-    } else return null;
-  }
-
-  static parseTime(props: Props): State | undefined {
+  static parseTime(props: Props) {
     if (!props.time) {
       return;
     }
@@ -71,14 +54,20 @@ export class TimePicker extends React.Component<Props, State> {
     };
   }
 
-  parseTime(props: Props): State | undefined {
-    if (!props.time) {
-      return;
+  parseTime(time: string) {
+    if (!time) {
+      return {
+        hour: '00',
+        minute: '00'
+      };
     }
 
-    const timeComponents = props.time.split(':');
+    const timeComponents = time.split(':');
     if (timeComponents.length !== 2) {
-      return;
+      return {
+        hour: '00',
+        minute: '00'
+      };
     }
 
     return {
@@ -88,6 +77,7 @@ export class TimePicker extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
+    const { hour, minute } = this.parseTime(this.props.time);
     return (
       <Row style={{ alignItems: 'center', justifyContent: 'center' }}>
         {this.props.labelBefore && (
@@ -95,9 +85,9 @@ export class TimePicker extends React.Component<Props, State> {
             <FormattedMessage id={this.props.labelBefore} />
           </div>
         )}
-        <HoursPicker setHours={this.setHours} hours={this.state.hour} />
+        <NumberPicker setNumber={this.setHours} max={23} number={hour} />
         <div style={{ padding: '5px' }}> : </div>
-        <MinutesPicker setMinutes={this.setMinutes} max={59} minutes={this.state.minute} />
+        <NumberPicker setNumber={this.setMinutes} max={59} number={minute} />
         <div style={{ paddingLeft: '5px' }}>
           <FormattedMessage id={this.props.label} />
         </div>
