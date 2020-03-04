@@ -1,0 +1,9 @@
+version: '3'
+services:
+  web:
+    image: react-track
+    ports:
+    - "8000:80"
+    volumes:
+    - ~/.timetracking-db:/root/.timetracking-db
+    - ~/.timetracking-backup-db:/root/.timetracking-backup-db

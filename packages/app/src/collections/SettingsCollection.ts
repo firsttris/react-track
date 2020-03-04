@@ -12,7 +12,7 @@ export class SettingsCollection {
     if (!this.db) {
       this.db = low(new LocalStorage('connection'));
     }
-    this.db.defaults({ settings: { url: window.location.hostname } }).write();
+    this.db.defaults({ settings: { url: window.location.host } }).write();
     return this.db;
   }
 
