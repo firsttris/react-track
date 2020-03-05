@@ -1,0 +1,4 @@
+node_modules
+packages/server/node_modules
+packages/app/node_modules
+.git

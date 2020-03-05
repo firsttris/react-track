@@ -2,7 +2,6 @@ import { ApolloServer } from 'apollo-server-express';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import { IResolvers } from 'graphql-tools';
-import * as path from 'path';
 import * as t from 'common/types';
 import './backup';
 import { TimestampsBatch } from './batch/TimestampsBatch';
@@ -92,11 +91,11 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-if (process.env.NODE_ENV === 'production') {
+/*if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'dist-web')));
-}
+}*/
 
-app.post('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
   UserCollection.loginUser(req.body.password)
     .then(result => res.status(200).json(result))
     .catch(e => res.status(403).json(e.message));
