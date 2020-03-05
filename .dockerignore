@@ -1,4 +1,5 @@
 node_modules
 packages/server/node_modules
 packages/app/node_modules
+packages/license-server
 .git
