@@ -40,3 +40,7 @@ export enum UserErrorKeys {
 }
 
 export enum ScannedUserErrorKeys {}
+
+export enum LicenseErrorKeys {
+  LICENSE_NOT_FOUND = 'LICENSE_NOT_FOUND'
+}

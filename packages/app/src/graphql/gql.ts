@@ -140,6 +140,15 @@ export const UPDATE_WORKTIME_SETTINGS = gql`
   ${fragments.WorkTimeSettingsFragment}
 `;
 
+export const ADD_LICENSE = gql`
+  mutation AddLicense($key: String!) {
+    addLicense(key: $key) {
+      ...LicenseFields
+    }
+  }
+  ${fragments.LicenseFragment}
+`;
+
 /**
  * QUERIES
  */
@@ -333,4 +342,13 @@ export const GET_WORKTIME_SETTINGS = gql`
     }
   }
   ${fragments.WorkTimeSettingsFragment}
+`;
+
+export const GET_LICENSE = gql`
+  query GetLicense {
+    getLicense {
+      ...LicenseFields
+    }
+  }
+  ${fragments.LicenseFragment}
 `;

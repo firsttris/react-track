@@ -142,5 +142,12 @@ export const en_US = {
   DELETE_USER: 'Delete User?',
   PRINT: 'Print',
   REWRITE_TIMESTAMPS: 'Rewrite Timestamps',
-  COMMENT: 'Comment'
+  COMMENT: 'Comment',
+  LICENSE: 'License',
+  KEY: 'License Key',
+  VALID_UNTIL: 'Valid Until',
+  USER_LIMIT: 'User Limit',
+  UNLIMITED: 'Unlimited',
+  ADD_LICENSE: 'Add License',
+  LICENSE_NOT_FOUND: 'License not found!'
 };

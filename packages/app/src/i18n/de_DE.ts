@@ -142,5 +142,12 @@ export const de_DE = {
   DELETE_USER: 'Benutzer Löschen?',
   PRINT: 'Drucken',
   REWRITE_TIMESTAMPS: 'Zeitstempel neu schreiben',
-  COMMENT: 'Kommentar'
+  COMMENT: 'Kommentar',
+  LICENSE: 'Lizenz',
+  KEY: 'Linzenzschlüssel',
+  VALID_UNTIL: 'Gültig bis',
+  USER_LIMIT: 'Max. Benutzerzahl',
+  UNLIMITED: 'Unbegrenzt',
+  ADD_LICENSE: 'Lizenz hinzufügen',
+  LICENSE_NOT_FOUND: 'Lizenz nicht gefunden!'
 };

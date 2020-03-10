@@ -6,6 +6,7 @@ import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Col, Container, Row } from 'reactstrap';
 import { PauseWidget } from './Pause/PauseWidget';
+import { LicenseWidget } from './License/LicenseWidget';
 
 export class SettingsPage extends React.Component<WrappedComponentProps & RouteComponentProps<{}> & ApolloProps, {}> {
   render(): JSX.Element {
@@ -15,6 +16,7 @@ export class SettingsPage extends React.Component<WrappedComponentProps & RouteC
           <Col lg={6} xs={12} className="pt-3">
             <PauseWidget apollo={this.props.apollo} />
             <WorkDaySettings intl={this.props.intl} apollo={this.props.apollo} />
+            <LicenseWidget apollo={this.props.apollo} />
           </Col>
           <Col lg={6} xs={12} className="pt-3">
             <PublicHolidayWidget apollo={this.props.apollo} />

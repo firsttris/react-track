@@ -54,7 +54,8 @@ const resolvers = {
     getEvaluationForMonth: async (source: any, args: t.GetEvaluationForMonthQueryVariables) =>
       EvaluationCalculator.getEvaluationForMonth(args.date, args.userId),
     getEvaluationForUsers: async (source: any, args: t.GetEvaluationForUsersQueryVariables) =>
-      EvaluationCalculator.getEvaluationForUsers(args.date)
+      EvaluationCalculator.getEvaluationForUsers(args.date),
+    getLicense: async (source: any, args: t.GetLicenseQueryVariables) => SettingsCollection.getLicense()
   },
   Mutation: {
     createUser: async (source: any, args: t.CreateUserMutationVariables) => UserCollection.create(args.user),
@@ -82,7 +83,8 @@ const resolvers = {
       PublicHolidayCollection.removePublicHolidayById(args.year, args.holidayId),
     addTimestampByCode: async (source: any, args: t.AddTimestampByCodeMutationVariables) =>
       UserCollection.addTimestampByCode(args.code),
-    rewriteTimestamps: async (source: any, args: any) => TimestampsBatch.rewriteTimestamps(args.userId, args.date)
+    rewriteTimestamps: async (source: any, args: any) => TimestampsBatch.rewriteTimestamps(args.userId, args.date),
+    addLicense: async (source: any, args: t.AddLicenseMutationVariables) => SettingsCollection.addLicense(args.key)
   }
 } as IResolvers;
 
@@ -90,10 +92,6 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-
-/*if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'dist-web')));
-}*/
 
 app.post('/api/login', (req, res) => {
   UserCollection.loginUser(req.body.password)

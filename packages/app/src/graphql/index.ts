@@ -188,6 +188,15 @@ export class Apollo {
     });
   }
 
+  static addLicense(key: string): Promise<FetchResult<t.AddLicenseMutation>> {
+    return this.mutate({
+      variables: {
+        key
+      },
+      mutation: gql.ADD_LICENSE
+    });
+  }
+
   /**
    * QUERIES
    */
@@ -329,6 +338,13 @@ export class Apollo {
     return this.query({
       variables: { userId },
       query: gql.GET_USER_BY_ID
+    });
+  }
+
+  static getLicense(): Promise<ApolloQueryResult<t.GetLicenseQuery>> {
+    return this.query({
+      variables: {},
+      query: gql.GET_LICENSE
     });
   }
 }
