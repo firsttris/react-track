@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import * as t from 'common/types';
 import { PauseErrorKeys, LicenseErrorKeys } from './../errorKeys';
 import { SettingsCollection } from './SettingsCollection';
+import { LicenseService } from '../services/LicenseService';
 
 describe('SettingsCollection Tests', () => {
   let db: any;
@@ -119,7 +120,7 @@ describe('SettingsCollection Tests', () => {
 
     describe('addLicense()', () => {
       it('should return error if server does not return license', async () => {
-        SettingsCollection.queryLicense = jest.fn(key => {
+        LicenseService.queryLicense = jest.fn(key => {
           return Promise.reject(new Error(LicenseErrorKeys.LICENSE_NOT_FOUND));
         });
 
@@ -130,7 +131,7 @@ describe('SettingsCollection Tests', () => {
 
       it('should return license if server returns license', async () => {
         const license = { key: '123', validUntil: '2020-06-01', userLimit: '10' };
-        SettingsCollection.queryLicense = jest.fn(key => {
+        LicenseService.queryLicense = jest.fn(key => {
           return Promise.resolve(license);
         });
 
@@ -141,7 +142,7 @@ describe('SettingsCollection Tests', () => {
 
       it('should save license if server returns license', async () => {
         const license = { key: '123', validUntil: '2020-06-01', userLimit: '10' };
-        SettingsCollection.queryLicense = jest.fn(key => {
+        LicenseService.queryLicense = jest.fn(key => {
           return Promise.resolve(license);
         });
 
