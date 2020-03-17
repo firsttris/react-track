@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { GraphQLError } from 'graphql';
 import { Card, CardBody, CardFooter, CardHeader, Table } from 'reactstrap';
 import * as t from 'common/types';
+import { GraphQLErrorMessage } from 'components/Error/GraphQLErrorMessage';
 
 interface Props {
   yearSaldo: string;
@@ -9,6 +11,7 @@ interface Props {
   statisticForDate: t.Statistic;
   statisticForWeek: t.Statistic;
   statisticForMonth: t.Statistic;
+  errors: readonly GraphQLError[];
 }
 
 export class StatisticWidget extends React.Component<Props, {}> {
@@ -125,6 +128,7 @@ export class StatisticWidget extends React.Component<Props, {}> {
           >
             {this.props.yearSaldo}
           </b>
+          <GraphQLErrorMessage errors={this.props.errors} />
         </CardFooter>
       </Card>
     );

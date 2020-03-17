@@ -83,7 +83,9 @@ export class LicenseWidget extends React.Component<Props, State> {
                 <th scope="row">
                   <FormattedMessage id="USER_LIMIT" />
                 </th>
-                <td className="text-right">{this.state.license.userLimit}</td>
+                <td className="text-right">
+                  {this.state.license.userLimit ? this.state.license.userLimit : <FormattedMessage id="UNLIMITED" />}
+                </td>
               </tr>
             </tbody>
           </Table>

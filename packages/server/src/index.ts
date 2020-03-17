@@ -16,6 +16,7 @@ import { UserCollection } from './collections/UserCollection';
 import { typeDefs } from './schema';
 import { PublicHolidayService } from './services/PublicHolidayService';
 import cors = require('cors');
+import { LicenseService } from './services/LicenseService';
 
 declare global {
   namespace Express {
@@ -101,10 +102,20 @@ app.post('/api/login', (req, res) => {
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
-server.applyMiddleware({ app });
-
 // auth middleware
-app.use(server.graphqlPath, (req, res, next) => {
+app.use(server.graphqlPath, async (req, res, next) => {
+  const operation = req.body.operationName;
+  if (operation) {
+    try {
+      await LicenseService.checkLicenseValidity(operation);
+    } catch (error) {
+      res.json({
+        errors: [{ message: error.message }]
+      });
+      return;
+    }
+  }
+
   const token = req.headers.authorization || 'no_token';
   if (process.env.NODE_ENV === 'production') {
     return UserCollection.verifyLogin(token)
@@ -121,6 +132,8 @@ app.use(server.graphqlPath, (req, res, next) => {
     next();
   }
 });
+
+server.applyMiddleware({ app });
 
 // Start the server
 app.listen(3001, () => {

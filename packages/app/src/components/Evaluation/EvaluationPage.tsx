@@ -7,15 +7,18 @@ import * as React from 'react';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { RouteComponentProps } from 'react-router-dom';
 import { Container } from 'reactstrap';
+import { GraphQLError } from 'graphql';
 import * as t from 'common/types';
 import { EvaluationTable } from './EvaluationTable';
 import { MonthAndYearPickerWidget } from './MonthAndYearPickerWidget';
+import { GraphQLErrorMessage } from 'components/Error/GraphQLErrorMessage';
 
 interface Props extends RouteComponentProps<{ userId: string }>, ApolloProps, WrappedComponentProps {}
 
 interface State {
   listOfEvaluation: t.Evaluation[];
   selectedUser: t.User;
+  errors: readonly GraphQLError[];
 }
 
 export class EvaluationPage extends React.Component<Props, State> {
@@ -23,7 +26,8 @@ export class EvaluationPage extends React.Component<Props, State> {
     super(props);
     this.state = {
       listOfEvaluation: [],
-      selectedUser: initialUserState
+      selectedUser: initialUserState,
+      errors: []
     };
   }
 
@@ -46,11 +50,16 @@ export class EvaluationPage extends React.Component<Props, State> {
       if (result.data) {
         this.setState({ listOfEvaluation: result.data.getEvaluationForMonth });
       }
+      if (result.errors) {
+        this.setState({ errors: result.errors });
+      } else {
+        this.setState({ errors: [] });
+      }
     });
   }
 
   handleChange = (date: moment.Moment) => {
-    this.setState({ listOfEvaluation: [] });
+    this.setState({ listOfEvaluation: [], errors: [] });
     const userId = this.props.match.params.userId;
     this.getEvaluationForMonth(userId, moment(date).format(API_DATE));
   };
@@ -67,7 +76,8 @@ export class EvaluationPage extends React.Component<Props, State> {
             className="mt-3"
           />
         )}
-        {!this.state.listOfEvaluation.length && <LoadingSpinner />}
+        {!!this.state.errors.length && <GraphQLErrorMessage errors={this.state.errors} />}
+        {!this.state.listOfEvaluation.length && !this.state.errors && <LoadingSpinner />}
       </Container>
     );
   }

@@ -2,11 +2,13 @@ import { ApolloProps } from 'components/hoc/WithApollo';
 import { MonthAndYearPicker } from 'components/TimePicker/MonthAndYearPicker.tsx';
 import * as moment from 'moment';
 import * as React from 'react';
+import { GraphQLError } from 'graphql';
 import { FormattedMessage } from 'react-intl';
 import { Button, Card, CardBody, CardFooter, CardHeader, Table } from 'reactstrap';
 import * as t from 'common/types';
 import { PublicHolidayWidgetCreateModal } from './PublicHolidayWidgetCreateModal';
 import { PublicHolidayWidgetItem } from './PublicHolidayWidgetItem';
+import { GraphQLErrorMessage } from 'components/Error/GraphQLErrorMessage';
 
 type Props = ApolloProps;
 
@@ -14,6 +16,7 @@ interface State {
   isOpen: boolean;
   year: string;
   publicHolidays: t.PublicHoliday[];
+  errors: readonly GraphQLError[];
 }
 
 export class PublicHolidayWidget extends React.Component<Props, State> {
@@ -22,7 +25,8 @@ export class PublicHolidayWidget extends React.Component<Props, State> {
     this.state = {
       isOpen: false,
       year: moment().format('YYYY'),
-      publicHolidays: []
+      publicHolidays: [],
+      errors: []
     };
   }
 
@@ -43,8 +47,12 @@ export class PublicHolidayWidget extends React.Component<Props, State> {
     this.props.apollo.loadPublicHolidays(this.state.year).then(result => {
       if (result.data) {
         this.setState({
-          publicHolidays: result.data.loadPublicHolidays
+          publicHolidays: result.data.loadPublicHolidays,
+          errors: []
         });
+      }
+      if (result.errors) {
+        this.setState({ errors: result.errors });
       }
     });
   };
@@ -66,6 +74,11 @@ export class PublicHolidayWidget extends React.Component<Props, State> {
           publicHolidays: result.data.deletePublicHoliday
         });
       }
+      if (result.errors) {
+        this.setState({ errors: result.errors });
+      } else {
+        this.setState({ errors: [] });
+      }
     });
   };
 
@@ -73,6 +86,11 @@ export class PublicHolidayWidget extends React.Component<Props, State> {
     this.props.apollo.createPublicHoliday(holiday).then(result => {
       if (result.data) {
         this.setState({ publicHolidays: result.data.createPublicHoliday });
+      }
+      if (result.errors) {
+        this.setState({ errors: result.errors });
+      } else {
+        this.setState({ errors: [] });
       }
     });
   };
@@ -112,6 +130,7 @@ export class PublicHolidayWidget extends React.Component<Props, State> {
           <Button onClick={this.loadPublicHolidays}>
             <i className="fa fa-refresh" />
           </Button>
+          <GraphQLErrorMessage errors={this.state.errors} />
         </CardFooter>
         <PublicHolidayWidgetCreateModal
           onCreatePublicHoliday={this.createPublicHolidays}

@@ -1,6 +1,9 @@
 import * as t from 'common/types';
 import * as https from 'https';
 import { LicenseErrorKeys } from '../errorKeys';
+import { SettingsCollection } from '../collections/SettingsCollection';
+import moment = require('moment');
+import { UserCollection } from '../collections/UserCollection';
 
 export class LicenseService {
   static async queryLicense(key: string): Promise<t.License> {
@@ -32,5 +35,62 @@ export class LicenseService {
 
       req.end();
     });
+  }
+
+  static protectedOperations = [
+    'LoadPublicHolidays',
+    'GetStatisticForDate',
+    'GetStatisticForWeek',
+    'GetStatisticForMonth',
+    'GetEvaluationForMonth',
+    'GetEvaluationForUsers',
+
+    'CreateUser',
+    'UpdateUser',
+    'UpdateWorkTimeSettings',
+    'UpdateAllUserWorkTimesById',
+    'UpdateTimestamps',
+    'CreateLeave',
+    'DeleteLeave',
+    'UpdateComplains',
+    'CreatePause',
+    'DeletePause',
+    'CreatePublicHoliday',
+    'DeletePublicHoliday',
+    'RewriteTimestamps'
+  ];
+
+  static isProtectedOperation(operation: string): boolean {
+    return this.protectedOperations.includes(operation);
+  }
+
+  static async checkLicenseValidity(operation: string): Promise<void> {
+    if (!this.isProtectedOperation(operation)) {
+      return;
+    }
+
+    const license = await SettingsCollection.getLicense();
+    if (license.validUntil) {
+      const validUntil = moment(license.validUntil);
+      const now = moment();
+      if (validUntil < now) {
+        throw new Error(LicenseErrorKeys.LICENSE_EXPIRED);
+      }
+    } else {
+      // valid forever
+    }
+
+    if (license.userLimit) {
+      const userLimit = parseInt(license.userLimit);
+      const users = await UserCollection.getUsers();
+      if (users.length > userLimit) {
+        throw new Error(LicenseErrorKeys.LICENSE_USER_LIMIT_EXCEEDED);
+      }
+      if (operation === 'CreateUser' && users.length === userLimit) {
+        throw new Error(LicenseErrorKeys.LICENSE_USER_LIMIT_EXCEEDED);
+      }
+    } else {
+      // unlimited users
+    }
   }
 }

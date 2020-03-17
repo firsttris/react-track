@@ -118,6 +118,8 @@ export class UserTabPage extends React.Component<Props, States> {
       }
       if (result.errors) {
         this.setState({ errors: result.errors });
+      } else {
+        this.setState({ errors: [] });
       }
     });
   };

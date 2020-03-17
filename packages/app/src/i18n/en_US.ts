@@ -149,5 +149,7 @@ export const en_US = {
   USER_LIMIT: 'User Limit',
   UNLIMITED: 'Unlimited',
   ADD_LICENSE: 'Add License',
-  LICENSE_NOT_FOUND: 'License not found!'
+  LICENSE_NOT_FOUND: 'License not found!',
+  LICENSE_EXPIRED: 'License expired!',
+  LICENSE_USER_LIMIT_EXCEEDED: 'License user limit exceeded!'
 };
