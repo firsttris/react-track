@@ -101,6 +101,48 @@ describe('License Service Test', () => {
     });
   });
 
+  describe('refreshLicense()', () => {
+    it('should not refresh license if default license', async () => {
+      const license = { key: '0', userLimit: '1', validUntil: '' };
+      SettingsCollection.getLicense = jest.fn(() => Promise.resolve(license));
+      const spy = jest.spyOn(LicenseService, 'queryLicense');
+
+      await LicenseService.refreshLicense();
+
+      expect(spy).toHaveBeenCalledTimes(0);
+    });
+
+    it('should refresh license from settings', async () => {
+      const license = { key: '1', userLimit: '10', validUntil: '2020-01-01' };
+      SettingsCollection.getLicense = jest.fn(() => Promise.resolve(license));
+      const newLicense = { key: '1', userLimit: '100', validUntil: '2022-01-01' };
+      const licenseServiceSpy = jest
+        .spyOn(LicenseService, 'queryLicense')
+        .mockImplementation(() => Promise.resolve(newLicense));
+      const settingsSpy = jest.spyOn(SettingsCollection, 'replaceLicense');
+
+      await LicenseService.refreshLicense();
+
+      expect(licenseServiceSpy).toHaveBeenCalledWith(license.key);
+      expect(settingsSpy).toHaveBeenCalledWith(newLicense);
+    });
+
+    it('should outdate license if license refresh fails', async () => {
+      const license = { key: '1', userLimit: '10', validUntil: '2020-01-01' };
+      SettingsCollection.getLicense = jest.fn(() => Promise.resolve(license));
+      const outdatedLicense = { key: '1', userLimit: '10', validUntil: '2000-01-01' };
+      const licenseServiceSpy = jest.spyOn(LicenseService, 'queryLicense').mockImplementation(() => {
+        throw new Error('test');
+      });
+      const settingsSpy = jest.spyOn(SettingsCollection, 'replaceLicense');
+
+      await LicenseService.refreshLicense();
+
+      expect(licenseServiceSpy).toHaveBeenCalledWith(license.key);
+      expect(settingsSpy).toHaveBeenCalledWith(outdatedLicense);
+    });
+  });
+
   describe('isProtectedOperation()', () => {
     it('should return true if operation is protected', () => {
       expect(LicenseService.isProtectedOperation('LoadPublicHolidays')).toBe(true);

@@ -37,6 +37,20 @@ export class LicenseService {
     });
   }
 
+  static async refreshLicense(): Promise<void> {
+    const license = await SettingsCollection.getLicense();
+    if (license.key === '0') {
+      return;
+    }
+    try {
+      const refreshedLicense = await this.queryLicense(license.key);
+      await SettingsCollection.replaceLicense(refreshedLicense);
+    } catch {
+      license.validUntil = '2000-01-01';
+      await SettingsCollection.replaceLicense(license);
+    }
+  }
+
   static protectedOperations = [
     'LoadPublicHolidays',
     'GetStatisticForDate',

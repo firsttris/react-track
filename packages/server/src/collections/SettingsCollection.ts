@@ -61,10 +61,14 @@ export class SettingsCollection extends DbAdapterWithColKey {
   static async addLicense(key: string): Promise<t.License> {
     try {
       const license = await LicenseService.queryLicense(key);
-      return this.set('license', license).then(() => this.getLicense());
+      return this.replaceLicense(license);
     } catch (error) {
       return Promise.reject(error);
     }
+  }
+
+  static async replaceLicense(license: t.License): Promise<t.License> {
+    return this.set('license', license).then(() => this.getLicense());
   }
 
   static async removeLicense(): Promise<t.License> {

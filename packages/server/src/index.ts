@@ -22,6 +22,7 @@ declare global {
   namespace Express {
     interface Request {
       user: t.User;
+      license: t.License;
     }
   }
 }
@@ -94,7 +95,9 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.post('/api/login', (req, res) => {
+app.post('/api/login', async (req, res) => {
+  await LicenseService.refreshLicense();
+
   UserCollection.loginUser(req.body.password)
     .then(result => res.status(200).json(result))
     .catch(e => res.status(403).json(e.message));
@@ -119,8 +122,9 @@ app.use(server.graphqlPath, async (req, res, next) => {
   const token = req.headers.authorization || 'no_token';
   if (process.env.NODE_ENV === 'production') {
     return UserCollection.verifyLogin(token)
-      .then(user => {
+      .then(async user => {
         req.user = user;
+        req.license = await SettingsCollection.getLicense();
         next();
       })
       .catch(e =>

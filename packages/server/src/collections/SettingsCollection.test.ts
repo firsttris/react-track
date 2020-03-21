@@ -151,5 +151,17 @@ describe('SettingsCollection Tests', () => {
         expect(db.getState().license).toEqual(license);
       });
     });
+
+    describe('replaceLicense()', () => {
+      it('should replace license', async () => {
+        db.setState({ license: { key: '1', validUntil: '2020-06-01', userLimit: '10' } });
+        const license = { key: '123', validUntil: '2021-06-01', userLimit: '100' };
+
+        const newLicense = await SettingsCollection.replaceLicense(license);
+
+        expect(newLicense).toEqual(license);
+        expect(db.getState().license).toEqual(license);
+      });
+    });
   });
 });
