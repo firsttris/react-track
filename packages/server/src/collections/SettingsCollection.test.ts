@@ -1,8 +1,9 @@
 jest.mock('lowdb/adapters/FileAsync');
 import * as moment from 'moment';
 import * as t from 'common/types';
-import { PauseErrorKeys } from './../errorKeys';
+import { PauseErrorKeys, LicenseErrorKeys } from './../errorKeys';
 import { SettingsCollection } from './SettingsCollection';
+import { LicenseService } from '../services/LicenseService';
 
 describe('SettingsCollection Tests', () => {
   let db: any;
@@ -86,6 +87,81 @@ describe('SettingsCollection Tests', () => {
       const result = await SettingsCollection.removePauseById(pause.id);
 
       expect(result).toEqual([otherPause]);
+    });
+  });
+
+  describe('Licenses', () => {
+    describe('removeLicense()', () => {
+      it('should set default license', async () => {
+        db.setState({ license: { key: '1', validUntil: '2020-06-01', userLimit: '10' } });
+
+        const result = await SettingsCollection.removeLicense();
+
+        expect(result).toEqual(SettingsCollection.defaultLicense);
+      });
+    });
+
+    describe('getLicense()', () => {
+      it('should return default license if no license is set', async () => {
+        const result = await SettingsCollection.getLicense();
+
+        expect(result).toEqual(SettingsCollection.defaultLicense);
+      });
+
+      it('should return license from db', async () => {
+        const license = { key: '1', validUntil: '2020-06-01', userLimit: '10' };
+        db.setState({ license });
+
+        const result = await SettingsCollection.getLicense();
+
+        expect(result).toEqual(license);
+      });
+    });
+
+    describe('addLicense()', () => {
+      it('should return error if server does not return license', async () => {
+        LicenseService.queryLicense = jest.fn(key => {
+          return Promise.reject(new Error(LicenseErrorKeys.LICENSE_NOT_FOUND));
+        });
+
+        return SettingsCollection.addLicense('123').catch(e => {
+          expect(e.message).toEqual(LicenseErrorKeys.LICENSE_NOT_FOUND);
+        });
+      });
+
+      it('should return license if server returns license', async () => {
+        const license = { key: '123', validUntil: '2020-06-01', userLimit: '10' };
+        LicenseService.queryLicense = jest.fn(key => {
+          return Promise.resolve(license);
+        });
+
+        const result = await SettingsCollection.addLicense('123');
+
+        expect(result).toEqual(license);
+      });
+
+      it('should save license if server returns license', async () => {
+        const license = { key: '123', validUntil: '2020-06-01', userLimit: '10' };
+        LicenseService.queryLicense = jest.fn(key => {
+          return Promise.resolve(license);
+        });
+
+        await SettingsCollection.addLicense('123');
+
+        expect(db.getState().license).toEqual(license);
+      });
+    });
+
+    describe('replaceLicense()', () => {
+      it('should replace license', async () => {
+        db.setState({ license: { key: '1', validUntil: '2020-06-01', userLimit: '10' } });
+        const license = { key: '123', validUntil: '2021-06-01', userLimit: '100' };
+
+        const newLicense = await SettingsCollection.replaceLicense(license);
+
+        expect(newLicense).toEqual(license);
+        expect(db.getState().license).toEqual(license);
+      });
     });
   });
 });

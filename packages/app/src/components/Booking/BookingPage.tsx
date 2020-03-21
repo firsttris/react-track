@@ -34,11 +34,13 @@ interface States {
   statisticForDate: t.Statistic;
   statisticForWeek: t.Statistic;
   statisticForMonth: t.Statistic;
+  statisticErrors: readonly GraphQLError[];
   hoursSpentForMonthPerDay: t.HoursPerDay[];
   yearSaldo: string;
   timestamps: t.Timestamp[];
   timestampError?: string | null;
-  complainsErrors: GraphQLError[];
+  timestampErrors: readonly GraphQLError[];
+  complainsErrors: readonly GraphQLError[];
   complains: t.Complain[];
   listOfLeaves: t.Leave[];
   publicHolidays: t.PublicHoliday[];
@@ -55,10 +57,12 @@ export class BookingPage extends React.Component<Props, States> {
       statisticForDate: initialStatisticState,
       statisticForMonth: initialStatisticState,
       statisticForWeek: initialStatisticState,
+      statisticErrors: [],
       hoursSpentForMonthPerDay: [],
       yearSaldo: '00:00',
       timestamps: [],
       timestampError: '',
+      timestampErrors: [],
       complains: [],
       complainsErrors: [],
       listOfLeaves: [],
@@ -121,6 +125,11 @@ export class BookingPage extends React.Component<Props, States> {
           yearSaldo: result.data.getYearSaldo
         });
       }
+      if (result.errors) {
+        this.setState({ statisticErrors: result.errors });
+      } else {
+        this.setState({ statisticErrors: [] });
+      }
     });
   }
 
@@ -140,6 +149,11 @@ export class BookingPage extends React.Component<Props, States> {
           previousSelectedDate: result.data.getStatisticForWeek.selectedDate
         });
       }
+      if (result.errors) {
+        this.setState({ statisticErrors: result.errors });
+      } else {
+        this.setState({ statisticErrors: [] });
+      }
     });
   }
 
@@ -158,6 +172,11 @@ export class BookingPage extends React.Component<Props, States> {
           hoursSpentForMonthPerDay: result.data.getStatisticForMonth.hoursSpentForMonthPerDay,
           previousSelectedDate: result.data.getStatisticForMonth.selectedDate
         });
+      }
+      if (result.errors) {
+        this.setState({ statisticErrors: result.errors });
+      } else {
+        this.setState({ statisticErrors: [] });
       }
     });
   }
@@ -191,8 +210,12 @@ export class BookingPage extends React.Component<Props, States> {
       if (result.data) {
         this.setState({
           timestamps: result.data.updateTimestamps.timestamps,
-          timestampError: result.data.updateTimestamps.error
+          timestampError: result.data.updateTimestamps.error,
+          timestampErrors: []
         });
+      }
+      if (result.errors) {
+        this.setState({ timestampErrors: result.errors });
       }
     });
   }
@@ -200,7 +223,12 @@ export class BookingPage extends React.Component<Props, States> {
   updateComplains(userId: string, dateKey: string, complains: t.ComplainInput[]) {
     return this.props.apollo.updateComplains(userId, dateKey, complains).then(result => {
       if (result.data) {
-        this.setState({ complains: result.data.updateComplains });
+        this.setState({ complains: result.data.updateComplains, complainsErrors: [] });
+      }
+      if (result.errors) {
+        this.setState({ complainsErrors: result.errors });
+      } else {
+        this.setState({ complainsErrors: [] });
       }
     });
   }
@@ -216,6 +244,7 @@ export class BookingPage extends React.Component<Props, States> {
     this.setState({
       timestamps: [],
       timestampError: '',
+      timestampErrors: [],
       complains: [],
       complainsErrors: []
     });
@@ -307,6 +336,7 @@ export class BookingPage extends React.Component<Props, States> {
               statisticForDate={this.state.statisticForDate}
               statisticForWeek={this.state.statisticForWeek}
               statisticForMonth={this.state.statisticForMonth}
+              errors={this.state.statisticErrors}
             />
           </Col>
           <Col lg={5} xs={12} className="pt-3">
@@ -335,6 +365,7 @@ export class BookingPage extends React.Component<Props, States> {
               selectedDate={this.state.selectedDate}
               timestamps={this.state.timestamps}
               timestampError={this.state.timestampError}
+              errors={this.state.timestampErrors}
               onClose={this.handleBookingModalClose}
               onUpdateTimestamps={this.updateTimestampsAndRefreshStatistics}
               showData={this.state.showData}

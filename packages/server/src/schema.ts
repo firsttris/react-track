@@ -19,6 +19,7 @@ export const typeDefs = gql`
     getPauses: [Pause!]!
     getEvaluationForMonth(date: String!, userId: String!): [Evaluation!]!
     getEvaluationForUsers(date: String!): [UserEvaluation!]!
+    getLicense: License!
   }
 
   type Mutation {
@@ -37,6 +38,7 @@ export const typeDefs = gql`
     deletePublicHoliday(year: String!, holidayId: String!): [PublicHoliday!]!
     addTimestampByCode(code: String!): TimestampUserAndStatistic!
     rewriteTimestamps(userId: String!, date: String!): Boolean
+    addLicense(key: String!): License!
   }
 
   input PublicHolidayInput {
@@ -266,6 +268,12 @@ export const typeDefs = gql`
   type ValidatedTimestamps {
     timestamps: [Timestamp!]!
     error: String
+  }
+
+  type License {
+    key: String!
+    validUntil: String!
+    userLimit: String!
   }
 
   enum WorkDayPaymentType {

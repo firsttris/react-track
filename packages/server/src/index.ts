@@ -16,11 +16,13 @@ import { UserCollection } from './collections/UserCollection';
 import { typeDefs } from './schema';
 import { PublicHolidayService } from './services/PublicHolidayService';
 import cors = require('cors');
+import { LicenseService } from './services/LicenseService';
 
 declare global {
   namespace Express {
     interface Request {
       user: t.User;
+      license: t.License;
     }
   }
 }
@@ -54,7 +56,8 @@ const resolvers = {
     getEvaluationForMonth: async (source: any, args: t.GetEvaluationForMonthQueryVariables) =>
       EvaluationCalculator.getEvaluationForMonth(args.date, args.userId),
     getEvaluationForUsers: async (source: any, args: t.GetEvaluationForUsersQueryVariables) =>
-      EvaluationCalculator.getEvaluationForUsers(args.date)
+      EvaluationCalculator.getEvaluationForUsers(args.date),
+    getLicense: async (source: any, args: t.GetLicenseQueryVariables) => SettingsCollection.getLicense()
   },
   Mutation: {
     createUser: async (source: any, args: t.CreateUserMutationVariables) => UserCollection.create(args.user),
@@ -82,7 +85,8 @@ const resolvers = {
       PublicHolidayCollection.removePublicHolidayById(args.year, args.holidayId),
     addTimestampByCode: async (source: any, args: t.AddTimestampByCodeMutationVariables) =>
       UserCollection.addTimestampByCode(args.code),
-    rewriteTimestamps: async (source: any, args: any) => TimestampsBatch.rewriteTimestamps(args.userId, args.date)
+    rewriteTimestamps: async (source: any, args: any) => TimestampsBatch.rewriteTimestamps(args.userId, args.date),
+    addLicense: async (source: any, args: t.AddLicenseMutationVariables) => SettingsCollection.addLicense(args.key)
   }
 } as IResolvers;
 
@@ -91,11 +95,9 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-/*if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'dist-web')));
-}*/
+app.post('/api/login', async (req, res) => {
+  await LicenseService.refreshLicense();
 
-app.post('/api/login', (req, res) => {
   UserCollection.loginUser(req.body.password)
     .then(result => res.status(200).json(result))
     .catch(e => res.status(403).json(e.message));
@@ -103,15 +105,26 @@ app.post('/api/login', (req, res) => {
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
-server.applyMiddleware({ app });
-
 // auth middleware
-app.use(server.graphqlPath, (req, res, next) => {
+app.use(server.graphqlPath, async (req, res, next) => {
+  const operation = req.body.operationName;
+  if (operation) {
+    try {
+      await LicenseService.checkLicenseValidity(operation);
+    } catch (error) {
+      res.json({
+        errors: [{ message: error.message }]
+      });
+      return;
+    }
+  }
+
   const token = req.headers.authorization || 'no_token';
   if (process.env.NODE_ENV === 'production') {
     return UserCollection.verifyLogin(token)
-      .then(user => {
+      .then(async user => {
         req.user = user;
+        req.license = await SettingsCollection.getLicense();
         next();
       })
       .catch(e =>
@@ -123,6 +136,8 @@ app.use(server.graphqlPath, (req, res, next) => {
     next();
   }
 });
+
+server.applyMiddleware({ app });
 
 // Start the server
 app.listen(3001, () => {

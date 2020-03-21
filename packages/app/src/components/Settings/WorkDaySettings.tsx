@@ -1,13 +1,16 @@
 import { ApolloProps } from 'components/hoc/WithApollo';
 import * as React from 'react';
+import { GraphQLError } from 'graphql';
 import { FormattedMessage, WrappedComponentProps } from 'react-intl';
 import { Card, CardBody, CardFooter, CardHeader, FormGroup, Input, Label } from 'reactstrap';
 import * as t from 'common/types';
+import { GraphQLErrorMessage } from 'components/Error/GraphQLErrorMessage';
 
 interface Props extends WrappedComponentProps, ApolloProps {}
 
 interface State {
   workTimeSettings: t.WorkTimeSettings;
+  errors: readonly GraphQLError[];
 }
 
 export class WorkDaySettings extends React.Component<Props, State> {
@@ -19,7 +22,8 @@ export class WorkDaySettings extends React.Component<Props, State> {
         publicHoliday: t.WorkDayPaymentType.UNPAID,
         schoolday: t.WorkDayPaymentType.UNPAID,
         sickday: t.WorkDayPaymentType.UNPAID
-      }
+      },
+      errors: []
     };
   }
 
@@ -105,13 +109,20 @@ export class WorkDaySettings extends React.Component<Props, State> {
           <button type="button" className="btn btn-primary mr-2" onClick={this.handleSave}>
             <i className="fa fa-floppy-o" />
           </button>
+          <GraphQLErrorMessage errors={this.state.errors} />
         </CardFooter>
       </Card>
     );
   }
 
   handleSave = () => {
-    this.props.apollo.UpdateWorkTimeSettings(this.state.workTimeSettings);
+    this.props.apollo.UpdateWorkTimeSettings(this.state.workTimeSettings).then(result => {
+      if (result.errors) {
+        this.setState({ errors: result.errors });
+      } else {
+        this.setState({ errors: [] });
+      }
+    });
   };
 
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {

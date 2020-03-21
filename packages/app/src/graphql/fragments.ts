@@ -194,3 +194,11 @@ export const TimestampUserAndStatisticFragment = gql`
   ${TimestampFragment}
   ${UserFragment}
 `;
+
+export const LicenseFragment = gql`
+  fragment LicenseFields on License {
+    key
+    validUntil
+    userLimit
+  }
+`;

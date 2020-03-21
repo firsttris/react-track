@@ -1,11 +1,13 @@
 import { ErrorMessage } from 'components/Error/ErrorMessage';
 import * as moment from 'moment';
 import * as React from 'react';
+import { GraphQLError } from 'graphql';
 import { FormattedMessage } from 'react-intl';
 import { Button, Card, CardBody, CardFooter, CardHeader, Table } from 'reactstrap';
 import * as t from 'common/types';
 import { TimestampWidgetCreateModal } from './TimestampWidgetCreateModal';
 import { TimestampWidgetItem } from './TimestampWidgetItem';
+import { GraphQLErrorMessage } from 'components/Error/GraphQLErrorMessage';
 declare let MOCKLOGIN: boolean;
 
 interface Props {
@@ -16,6 +18,7 @@ interface Props {
   showData: boolean;
   timestampError?: string | null;
   userRole: string;
+  errors: readonly GraphQLError[];
 }
 
 interface State {
@@ -109,6 +112,7 @@ export class TimestampWidget extends React.Component<Props, State> {
                 </Button>
               )}
               <ErrorMessage error={this.props.timestampError} />
+              <GraphQLErrorMessage errors={this.props.errors} />
             </CardFooter>
           </Card>
         </div>

@@ -3,24 +3,28 @@ import { LoadingSpinner } from 'components/Spinner/LoadingSpinner';
 import { API_DATE } from 'common/constants';
 import * as moment from 'moment';
 import * as React from 'react';
+import { GraphQLError } from 'graphql';
 import { WrappedComponentProps, injectIntl } from 'react-intl';
 import { RouteComponentProps } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import * as t from 'common/types';
 import { EvaluationTable } from './EvaluationTable';
 import { MonthAndYearPickerWidget } from './MonthAndYearPickerWidget';
+import { GraphQLErrorMessage } from 'components/Error/GraphQLErrorMessage';
 
 interface Props extends RouteComponentProps<{}>, ApolloProps, WrappedComponentProps {}
 
 interface State {
   listOfUserEvaluation: t.UserEvaluation[];
+  errors: readonly GraphQLError[];
 }
 
 export class UserEvaluationPage extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      listOfUserEvaluation: []
+      listOfUserEvaluation: [],
+      errors: []
     };
   }
 
@@ -33,15 +37,21 @@ export class UserEvaluationPage extends React.Component<Props, State> {
       if (result.data) {
         this.setState({ listOfUserEvaluation: result.data.getEvaluationForUsers });
       }
+
+      if (result.errors) {
+        this.setState({ errors: result.errors });
+      } else {
+        this.setState({ errors: [] });
+      }
     });
   }
 
   componentWillUnmount() {
-    this.setState({ listOfUserEvaluation: [] });
+    this.setState({ listOfUserEvaluation: [], errors: [] });
   }
 
   handleChange = (date: moment.Moment) => {
-    this.setState({ listOfUserEvaluation: [] });
+    this.setState({ listOfUserEvaluation: [], errors: [] });
     this.getEvaluationForUsers(moment(date).format(API_DATE));
   };
 
@@ -61,7 +71,8 @@ export class UserEvaluationPage extends React.Component<Props, State> {
               />
             );
           })}
-        {!this.state.listOfUserEvaluation.length && <LoadingSpinner />}
+        {!!this.state.errors.length && <GraphQLErrorMessage errors={this.state.errors} />}
+        {!this.state.listOfUserEvaluation.length && !this.state.errors.length && <LoadingSpinner />}
       </Container>
     );
   }

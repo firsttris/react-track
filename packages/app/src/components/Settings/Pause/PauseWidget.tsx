@@ -53,6 +53,8 @@ export class PauseWidget extends React.Component<Props, State> {
       }
       if (result.errors) {
         this.setState({ errors: result.errors });
+      } else {
+        this.setState({ errors: [] });
       }
     });
   };
@@ -64,6 +66,8 @@ export class PauseWidget extends React.Component<Props, State> {
       }
       if (result.errors) {
         this.setState({ errors: result.errors });
+      } else {
+        this.setState({ errors: [] });
       }
     });
   };

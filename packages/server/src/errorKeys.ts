@@ -40,3 +40,9 @@ export enum UserErrorKeys {
 }
 
 export enum ScannedUserErrorKeys {}
+
+export enum LicenseErrorKeys {
+  LICENSE_NOT_FOUND = 'LICENSE_NOT_FOUND',
+  LICENSE_EXPIRED = 'LICENSE_EXPIRED',
+  LICENSE_USER_LIMIT_EXCEEDED = 'LICENSE_USER_LIMIT_EXCEEDED'
+}

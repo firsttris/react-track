@@ -97,6 +97,13 @@ export type LeaveInput = {
   requestedLeaveDays?: Maybe<Scalars['Float']>;
 };
 
+export type License = {
+  __typename?: 'License';
+  key: Scalars['String'];
+  validUntil: Scalars['String'];
+  userLimit: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createUser: User;
@@ -114,6 +121,7 @@ export type Mutation = {
   deletePublicHoliday: Array<PublicHoliday>;
   addTimestampByCode: TimestampUserAndStatistic;
   rewriteTimestamps?: Maybe<Scalars['Boolean']>;
+  addLicense: License;
 };
 
 export type MutationCreateUserArgs = {
@@ -185,6 +193,10 @@ export type MutationRewriteTimestampsArgs = {
   date: Scalars['String'];
 };
 
+export type MutationAddLicenseArgs = {
+  key: Scalars['String'];
+};
+
 export type Pause = {
   __typename?: 'Pause';
   id: Scalars['String'];
@@ -229,6 +241,7 @@ export type Query = {
   getPauses: Array<Pause>;
   getEvaluationForMonth: Array<Evaluation>;
   getEvaluationForUsers: Array<UserEvaluation>;
+  getLicense: License;
 };
 
 export type QueryGetUsersArgs = {
@@ -546,6 +559,8 @@ export type TimestampUserAndStatisticFieldsFragment = { __typename?: 'TimestampU
     user: { __typename?: 'User' } & UserFieldsFragment;
   };
 
+export type LicenseFieldsFragment = { __typename?: 'License' } & Pick<License, 'key' | 'validUntil' | 'userLimit'>;
+
 export type UpdateAllUserWorkTimesByIdMutationVariables = {
   userId: Scalars['String'];
   workTimes: WorkTimesInput;
@@ -673,6 +688,14 @@ export type UpdateWorkTimeSettingsMutationVariables = {
 
 export type UpdateWorkTimeSettingsMutation = { __typename?: 'Mutation' } & {
   updateWorkTimeSettings: { __typename?: 'WorkTimeSettings' } & WorkTimeSettingsFieldsFragment;
+};
+
+export type AddLicenseMutationVariables = {
+  key: Scalars['String'];
+};
+
+export type AddLicenseMutation = { __typename?: 'Mutation' } & {
+  addLicense: { __typename?: 'License' } & LicenseFieldsFragment;
 };
 
 export type GetUsersQueryVariables = {};
@@ -832,4 +855,10 @@ export type GetWorkTimeSettingsQueryVariables = {};
 
 export type GetWorkTimeSettingsQuery = { __typename?: 'Query' } & {
   getWorkTimeSettings: { __typename?: 'WorkTimeSettings' } & WorkTimeSettingsFieldsFragment;
+};
+
+export type GetLicenseQueryVariables = {};
+
+export type GetLicenseQuery = { __typename?: 'Query' } & {
+  getLicense: { __typename?: 'License' } & LicenseFieldsFragment;
 };

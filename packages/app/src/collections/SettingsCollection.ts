@@ -12,7 +12,8 @@ export class SettingsCollection {
     if (!this.db) {
       this.db = low(new LocalStorage('connection'));
     }
-    this.db.defaults({ settings: { url: window.location.host } }).write();
+    const url = process.env.NODE_ENV === 'production' ? window.location.host : `${window.location.hostname}:3001`;
+    this.db.defaults({ settings: { url } }).write();
     return this.db;
   }
 

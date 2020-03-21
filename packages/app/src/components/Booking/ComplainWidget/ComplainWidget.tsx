@@ -12,7 +12,7 @@ declare let MOCKLOGIN: boolean;
 interface Props {
   selectedDate: moment.Moment;
   complains: t.Complain[];
-  complainsErrors: GraphQLError[];
+  complainsErrors: readonly GraphQLError[];
   onUpdateComplains: (complains: t.Complain[]) => void;
   showData: boolean;
   userRole: string;
