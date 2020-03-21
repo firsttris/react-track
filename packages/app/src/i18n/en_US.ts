@@ -151,5 +151,6 @@ export const en_US = {
   ADD_LICENSE: 'Add License',
   LICENSE_NOT_FOUND: 'License not found!',
   LICENSE_EXPIRED: 'License expired!',
-  LICENSE_USER_LIMIT_EXCEEDED: 'License user limit exceeded!'
+  LICENSE_USER_LIMIT_EXCEEDED: 'License user limit exceeded!',
+  LICENSE_WILL_EXPIRE: 'License will expire soon: '
 };

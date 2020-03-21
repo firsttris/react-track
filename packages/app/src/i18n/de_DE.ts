@@ -151,5 +151,6 @@ export const de_DE = {
   ADD_LICENSE: 'Lizenz hinzufügen',
   LICENSE_NOT_FOUND: 'Lizenz nicht gefunden!',
   LICENSE_EXPIRED: 'Lizenz abgelaufen!',
-  LICENSE_USER_LIMIT_EXCEEDED: 'Lizenz Benutzerlimit überschritten!'
+  LICENSE_USER_LIMIT_EXCEEDED: 'Lizenz Benutzerlimit überschritten!',
+  LICENSE_WILL_EXPIRE: 'Lizenz wird bald ablaufen: '
 };

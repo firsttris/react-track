@@ -19,3 +19,5 @@ export const initialUserState: t.User = {
   startDate: '',
   saldos: []
 };
+
+export const initialLicenseState: t.License = { key: '0', validUntil: '', userLimit: '1' };
