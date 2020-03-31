@@ -439,6 +439,18 @@ export const evaluationTotalSicknessMock: t.Evaluation = {
   totalHours: ''
 };
 
+export const evaluationTotalShortTimeWorkMock: t.Evaluation = {
+  date: '',
+  icon: '',
+  timeEarned: '30:00',
+  timeLeft: '',
+  timePause: '',
+  timeComplain: '',
+  timeSpent: '',
+  title: 'SHORT_TIME_WORK',
+  totalHours: ''
+};
+
 export const evaluationTotalHolidayMock: t.Evaluation = {
   date: '',
   icon: '',
@@ -758,6 +770,17 @@ export const evaluationResultMock: t.Evaluation[] = [
     timeComplain: '',
     timeSpent: '',
     title: 'SICK',
+    totalHours: ''
+  },
+  {
+    date: '',
+    icon: '',
+    timeEarned: '30:00',
+    timeLeft: '',
+    timePause: '',
+    timeComplain: '',
+    timeSpent: '',
+    title: 'SHORT_TIME_WORK',
     totalHours: ''
   }
 ];

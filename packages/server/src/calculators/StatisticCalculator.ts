@@ -257,7 +257,8 @@ export class StatisticCalculator {
       value === t.DayType.HOLIDAY ||
       value === t.DayType.SICKDAY ||
       value === t.DayType.SCHOOLDAY ||
-      value === t.DayType.PUBLIC_HOLIDAY
+      value === t.DayType.PUBLIC_HOLIDAY ||
+      value === t.DayType.SHORT_TIME_WORK
     );
   }
 }

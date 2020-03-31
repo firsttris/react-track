@@ -62,6 +62,10 @@ export class DayPickerWidget extends React.Component<Props & WrappedComponentPro
                 <FormattedMessage id="SCHOOL" />
               </Row>
               <Row className="align-items-center">
+                <div style={{ backgroundColor: '#D12D25' }} className="mr-2 p-2 d-inline-block" />
+                <FormattedMessage id="SHORT_TIME_WORK" />
+              </Row>
+              <Row className="align-items-center">
                 <div style={{ backgroundColor: '#51a0fa' }} className="mr-2 p-2 d-inline-block" />
                 <FormattedMessage id="SELECTED_DAY" />
               </Row>
@@ -81,7 +85,8 @@ export class DayPickerWidget extends React.Component<Props & WrappedComponentPro
       sickDates: [],
       leaveDates: [],
       workedDates: [],
-      schoolDates: []
+      schoolDates: [],
+      shortTimeWorkDates: []
     };
     for (const publicHoliday of this.props.publicHolidays) {
       modifiers.publicHolidayDates.push(new Date(publicHoliday.date));
@@ -95,6 +100,9 @@ export class DayPickerWidget extends React.Component<Props & WrappedComponentPro
       }
       if (leave.type === t.DayType.SCHOOLDAY) {
         modifiers.schoolDates.push({ from: new Date(leave.start.date), to: new Date(leave.end.date) });
+      }
+      if (leave.type === t.DayType.SHORT_TIME_WORK) {
+        modifiers.shortTimeWorkDates.push({ from: new Date(leave.start.date), to: new Date(leave.end.date) });
       }
     }
     for (const hoursPerDay of this.props.hoursSpentForMonthPerDay) {

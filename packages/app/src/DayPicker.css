@@ -22,3 +22,8 @@
     background-color: #fa78de!important;
     border-radius: 100%;
   } 
+
+.DayPicker-Day--shortTimeWorkDates {
+    background-color: #D12D25!important;
+    border-radius: 100%;
+  } 

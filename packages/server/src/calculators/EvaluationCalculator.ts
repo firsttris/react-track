@@ -42,7 +42,8 @@ export class EvaluationCalculator {
     const total = this.calculateTotal(daysOfMonth);
     const totalHoliday = this.calculateTotalHoliday(daysOfMonth);
     const totalSickness = this.calculateTotalSickness(daysOfMonth);
-    daysOfMonth.push(...total, totalHoliday, totalSickness);
+    const totalShortTimeWork = this.calculateTotalShortTimeWork(daysOfMonth);
+    daysOfMonth.push(...total, totalHoliday, totalSickness, totalShortTimeWork);
     return daysOfMonth;
   }
 
@@ -54,7 +55,8 @@ export class EvaluationCalculator {
     return (
       workDay.dayType === t.DayType.SICKDAY ||
       workDay.dayType === t.DayType.HOLIDAY ||
-      workDay.dayType === t.DayType.SCHOOLDAY
+      workDay.dayType === t.DayType.SCHOOLDAY ||
+      workDay.dayType === t.DayType.SHORT_TIME_WORK
     );
   }
 
@@ -180,6 +182,26 @@ export class EvaluationCalculator {
     return {
       date: '',
       title: 'SICK',
+      icon: '',
+      timeSpent: '',
+      timeLeft: '',
+      timeEarned: MomentHelper.formatDuration(totalHours),
+      timePause: '',
+      timeComplain: '',
+      totalHours: ''
+    };
+  }
+
+  static calculateTotalShortTimeWork(daysOfMonth: t.Evaluation[]): t.Evaluation {
+    const totalHours = moment.duration();
+    for (const day of daysOfMonth) {
+      if (day.title === t.DayType.SHORT_TIME_WORK) {
+        totalHours.add(day.timeSpent, 'hours');
+      }
+    }
+    return {
+      date: '',
+      title: 'SHORT_TIME_WORK',
       icon: '',
       timeSpent: '',
       timeLeft: '',
