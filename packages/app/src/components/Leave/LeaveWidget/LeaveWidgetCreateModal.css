@@ -36,3 +36,7 @@
 .create-leave-modal .DayPicker-Day--sickDates:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
     background-color: #9b59b6!important;
 }
+
+.create-leave-modal .DayPicker-Day--shortTimeWorkDates:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+    background-color: #D12D25!important;
+}

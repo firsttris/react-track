@@ -31,6 +31,9 @@ describe('Evaluation Calculator Test', () => {
     const calculateTotalSicknessSpy = jest
       .spyOn(EvaluationCalculator, 'calculateTotalSickness')
       .mockImplementation(() => m.evaluationTotalSicknessMock);
+    const calculateTotalShortTimeWorkSpy = jest
+      .spyOn(EvaluationCalculator, 'calculateTotalShortTimeWork')
+      .mockImplementation(() => m.evaluationTotalShortTimeWorkMock);
     const dateMock = '2017-10-04';
     const userIdMock = '552db259-48bc-41ab-9a9c-ad0b06d993e6';
 
@@ -46,6 +49,7 @@ describe('Evaluation Calculator Test', () => {
     expect(calculateTotalSpy).toHaveBeenCalled();
     expect(calculateTotalHolidaySpy).toHaveBeenCalled();
     expect(calculateTotalSicknessSpy).toHaveBeenCalled();
+    expect(calculateTotalShortTimeWorkSpy).toHaveBeenCalled();
   });
 
   it('should create WorkdDay', async () => {

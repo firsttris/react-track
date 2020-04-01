@@ -142,5 +142,6 @@ export const en_US = {
   DELETE_USER: 'Delete User?',
   PRINT: 'Print',
   REWRITE_TIMESTAMPS: 'Rewrite Timestamps',
-  COMMENT: 'Comment'
+  COMMENT: 'Comment',
+  SHORT_TIME_WORK: 'Short-time Work'
 };

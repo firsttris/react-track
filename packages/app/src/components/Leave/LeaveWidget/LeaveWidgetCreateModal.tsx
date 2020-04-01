@@ -130,6 +130,10 @@ export class LeaveWidgetCreateModal extends React.Component<Props & WrappedCompo
                     value={t.DayType.SCHOOLDAY}
                     label={this.props.intl.formatMessage({ id: t.DayType.SCHOOLDAY })}
                   />
+                  <option
+                    value={t.DayType.SHORT_TIME_WORK}
+                    label={this.props.intl.formatMessage({ id: t.DayType.SHORT_TIME_WORK })}
+                  />
                 </Input>
               </Col>
             </Row>
@@ -162,6 +166,12 @@ export class LeaveWidgetCreateModal extends React.Component<Props & WrappedCompo
                 </Row>
                 <Row style={{ alignItems: 'center' }}>
                   <Col>
+                    <div style={{ backgroundColor: '#D12D25', display: 'inline-block' }} className="mr-2 p-2" />
+                    <FormattedMessage id="SHORT_TIME_WORK" />
+                  </Col>
+                </Row>
+                <Row style={{ alignItems: 'center' }}>
+                  <Col>
                     <div style={{ backgroundColor: '#51a0fa', display: 'inline-block' }} className="mr-2 p-2" />
                     <FormattedMessage id="SELECTED_DAY" />
                   </Col>
@@ -187,7 +197,8 @@ export class LeaveWidgetCreateModal extends React.Component<Props & WrappedCompo
       publicHolidayDates: [],
       sickDates: [],
       leaveDates: [],
-      schoolDates: []
+      schoolDates: [],
+      shortTimeWorkDates: []
     };
     for (const publicHoliday of this.props.publicHolidays) {
       modifiers.publicHolidayDates.push(new Date(publicHoliday.date));
@@ -201,6 +212,9 @@ export class LeaveWidgetCreateModal extends React.Component<Props & WrappedCompo
       }
       if (leave.type === t.DayType.SCHOOLDAY) {
         modifiers.schoolDates.push({ from: new Date(leave.start.date), to: new Date(leave.end.date) });
+      }
+      if (leave.type === t.DayType.SHORT_TIME_WORK) {
+        modifiers.shortTimeWorkDates.push({ from: new Date(leave.start.date), to: new Date(leave.end.date) });
       }
     }
     return modifiers;

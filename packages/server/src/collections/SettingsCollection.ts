@@ -14,7 +14,8 @@ export class SettingsCollection extends DbAdapterWithColKey {
         schoolday: t.WorkDayPaymentType.PAID,
         publicHoliday: t.WorkDayPaymentType.PAID,
         holiday: t.WorkDayPaymentType.PAID,
-        sickday: t.WorkDayPaymentType.PAID
+        sickday: t.WorkDayPaymentType.PAID,
+        shortTimeWork: t.WorkDayPaymentType.PAID
       }
     };
   }
@@ -43,7 +44,11 @@ export class SettingsCollection extends DbAdapterWithColKey {
 
   static async getWorkTimeSettings(): Promise<t.WorkTimeSettings> {
     const result = await this.getCol('workTimeSettings');
-    return result.value() as t.WorkTimeSettings;
+    const value = result.value() as t.WorkTimeSettings;
+    if (!value.shortTimeWork) {
+      value.shortTimeWork = t.WorkDayPaymentType.PAID;
+    }
+    return value;
   }
 
   static async setWorkTimeSettings(settings: t.WorkTimeSettingsInput): Promise<t.WorkTimeSettings> {

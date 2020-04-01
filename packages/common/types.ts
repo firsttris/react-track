@@ -32,7 +32,8 @@ export enum DayType {
   HOLIDAY = 'HOLIDAY',
   SICKDAY = 'SICKDAY',
   SCHOOLDAY = 'SCHOOLDAY',
-  AWAY = 'AWAY'
+  AWAY = 'AWAY',
+  SHORT_TIME_WORK = 'SHORT_TIME_WORK'
 }
 
 export type Evaluation = {
@@ -449,6 +450,7 @@ export type WorkTimeSettings = {
   publicHoliday: WorkDayPaymentType;
   holiday: WorkDayPaymentType;
   sickday: WorkDayPaymentType;
+  shortTimeWork: WorkDayPaymentType;
 };
 
 export type WorkTimeSettingsInput = {

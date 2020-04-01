@@ -100,6 +100,21 @@ export class WorkDaySettings extends React.Component<Props, State> {
               <option value={t.WorkDayPaymentType.UNPAID}>{this.props.intl.messages.UNPAID}</option>
             </Input>
           </FormGroup>
+          <FormGroup>
+            <Label for="shortTimeWork">
+              <FormattedMessage id="SHORT_TIME_WORK" />
+            </Label>
+            <Input
+              type="select"
+              name="shortTimeWork"
+              id="shortTimeWork"
+              value={this.state.workTimeSettings.shortTimeWork}
+              onChange={this.handleInputChange}
+            >
+              <option value={t.WorkDayPaymentType.PAID}>{this.props.intl.messages.PAID}</option>
+              <option value={t.WorkDayPaymentType.UNPAID}>{this.props.intl.messages.UNPAID}</option>
+            </Input>
+          </FormGroup>
         </CardBody>
         <CardFooter className="text-muted text-right">
           <button type="button" className="btn btn-primary mr-2" onClick={this.handleSave}>

@@ -242,6 +242,7 @@ export const typeDefs = gql`
     publicHoliday: WorkDayPaymentType!
     holiday: WorkDayPaymentType!
     sickday: WorkDayPaymentType!
+    shortTimeWork: WorkDayPaymentType!
   }
 
   type Complain {
@@ -292,5 +293,6 @@ export const typeDefs = gql`
     SICKDAY
     SCHOOLDAY
     AWAY
+    SHORT_TIME_WORK
   }
 `;
