@@ -1,7 +1,7 @@
 version: '3'
 services:
   web:
-    image: react-track
+    image: tristanteu/react-track
     container_name: "react-track"
     restart: "always"
     ports:
