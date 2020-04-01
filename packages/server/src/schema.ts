@@ -115,6 +115,7 @@ export const typeDefs = gql`
     publicHoliday: WorkDayPaymentType!
     holiday: WorkDayPaymentType!
     sickday: WorkDayPaymentType!
+    shortTimeWork: WorkDayPaymentType!
   }
 
   input PauseInput {

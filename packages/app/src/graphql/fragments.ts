@@ -73,6 +73,7 @@ export const WorkTimeSettingsFragment = gql`
     publicHoliday
     holiday
     sickday
+    shortTimeWork
   }
 `;
 

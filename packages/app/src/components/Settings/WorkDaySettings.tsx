@@ -18,7 +18,8 @@ export class WorkDaySettings extends React.Component<Props, State> {
         holiday: t.WorkDayPaymentType.UNPAID,
         publicHoliday: t.WorkDayPaymentType.UNPAID,
         schoolday: t.WorkDayPaymentType.UNPAID,
-        sickday: t.WorkDayPaymentType.UNPAID
+        sickday: t.WorkDayPaymentType.UNPAID,
+        shortTimeWork: t.WorkDayPaymentType.UNPAID
       }
     };
   }
