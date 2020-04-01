@@ -2,8 +2,10 @@ version: '3'
 services:
   web:
     image: react-track
+    container_name: "react-track"
+    restart: "always"
     ports:
-    - "8000:80"
+    - "3001:80"
     volumes:
     - ~/.timetracking-db:/root/.timetracking-db
     - ~/.timetracking-backup-db:/root/.timetracking-backup-db
