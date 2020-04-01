@@ -4,7 +4,7 @@ COPY tsconfig.json ./
 COPY package.json ./
 COPY packages ./packages/
 
-RUN yarn install
+RUN yarn install --network-timeout 1000000
 RUN yarn build:web
 RUN yarn build:server
 
