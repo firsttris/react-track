@@ -1,10 +1,9 @@
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import * as t from 'common/types';
-import { SettingsCollection } from './../../collections/SettingsCollection';
-
-const url = SettingsCollection.get().url;
 
 const token = localStorage.getItem('timetracking-login-token');
+
+const url = process.env.NODE_ENV === 'production' ? window.location.host : window.location.hostname + ':3001';
 
 export const client = new ApolloClient({
   uri: `http://${url}/graphql`,

@@ -1,5 +1,4 @@
 import { BookingPageContainer } from 'components/Booking/BookingPage';
-import { ConnectPageContainer } from 'components/Connect/ConnectPage';
 import { EvaluationPageContainer } from 'components/Evaluation/EvaluationPage';
 import { UserEvaluationPageContainer } from 'components/Evaluation/UserEvaluationPage';
 import { ProtectedRoute } from 'components/hoc/ProtectedRoute';
@@ -24,7 +23,6 @@ class Router extends React.Component<{}, {}> {
       <HashRouter>
         <div>
           <Switch>
-            <Route path="/connect" component={ConnectPageContainer} />
             <Route path="/login" component={LoginPage} />
             <ProtectedRoute allowedRoles={UserAndAdminRole} exact={true} path="/" component={TrackingPageContainer} />
             <ProtectedRoute allowedRoles={AdminRole} path="/users" component={UserPageContainer} />
