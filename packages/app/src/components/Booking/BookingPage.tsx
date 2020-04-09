@@ -124,12 +124,14 @@ export class BookingPage extends React.Component<Props, States> {
     });
   }
 
-  resetStaticForDate() {
-    this.setState({
-      statisticForDate: initialStatisticState,
-      previousSelectedDate: '',
-      yearSaldo: '00:00'
-    });
+  resetStaticForDate(callback: () => void) {
+    this.setState(
+      {
+        statisticForDate: initialStatisticState,
+        yearSaldo: '00:00'
+      },
+      callback
+    );
   }
 
   getStatisticForWeek(userId: string, dateKey: string) {
@@ -143,11 +145,13 @@ export class BookingPage extends React.Component<Props, States> {
     });
   }
 
-  resetStatisticForWeek() {
-    this.setState({
-      statisticForWeek: initialStatisticState,
-      previousSelectedDate: ''
-    });
+  resetStatisticForWeek(callback: () => void) {
+    this.setState(
+      {
+        statisticForWeek: initialStatisticState
+      },
+      callback
+    );
   }
 
   getStatisticForMonth(userId: string, dateKey: string) {
@@ -162,12 +166,14 @@ export class BookingPage extends React.Component<Props, States> {
     });
   }
 
-  resetStaticsForMonth() {
-    this.setState({
-      statisticForMonth: initialStatisticState,
-      hoursSpentForMonthPerDay: [],
-      previousSelectedDate: ''
-    });
+  resetStaticsForMonth(callback: () => void) {
+    this.setState(
+      {
+        statisticForMonth: initialStatisticState,
+        hoursSpentForMonthPerDay: []
+      },
+      callback
+    );
   }
 
   getLeaveDaysAndPublicHoliday(userId: string, yearKey: string) {
@@ -206,34 +212,44 @@ export class BookingPage extends React.Component<Props, States> {
   }
 
   handleBarClick = (date: any): void => {
-    this.resetTimestampsAndComplains();
-    const selectedDate = moment(this.state.selectedDate);
-    selectedDate.date(date.day);
-    this.onCalendarSelect(selectedDate.toDate());
+    this.resetTimestampsAndComplains(() => {
+      const selectedDate = moment(this.state.selectedDate);
+      selectedDate.date(date.day);
+      this.onCalendarSelect(selectedDate.toDate());
+    });
   };
 
-  resetTimestampsAndComplains() {
-    this.setState({
-      timestamps: [],
-      timestampError: '',
-      complains: [],
-      complainsErrors: []
-    });
+  resetTimestampsAndComplains(callback: () => void) {
+    this.setState(
+      {
+        timestamps: [],
+        timestampError: '',
+        complains: [],
+        complainsErrors: []
+      },
+      callback
+    );
   }
 
-  resetUser() {
-    this.setState({
-      selectedUser: initialUserState
-    });
+  resetUser(callback: () => void) {
+    this.setState(
+      {
+        selectedUser: initialUserState
+      },
+      callback
+    );
   }
 
-  resetStatistic() {
-    this.setState({
-      statisticForDate: initialStatisticState,
-      statisticForMonth: initialStatisticState,
-      statisticForWeek: initialStatisticState,
-      hoursSpentForMonthPerDay: []
-    });
+  resetStatistic(callback: () => void) {
+    this.setState(
+      {
+        statisticForDate: initialStatisticState,
+        statisticForMonth: initialStatisticState,
+        statisticForWeek: initialStatisticState,
+        hoursSpentForMonthPerDay: []
+      },
+      callback
+    );
   }
 
   onCalendarSelect = (selectedDate: Date): void => {
@@ -241,27 +257,33 @@ export class BookingPage extends React.Component<Props, States> {
     const userId = this.props.match.params.userId;
     const date = moment(selectedDate);
     const dateString = date.format(API_DATE);
-    this.setState({ selectedDate: date });
-    if (userId) {
-      this.resetTimestampsAndComplains();
-      this.getComplainsAndTimestamps(userId, dateString);
-      this.refreshStatistics(userId, date, false);
-    }
-    this.props.history.push(`/bookings/${userId}/${dateString}`);
+    this.setState({ selectedDate: date }, () => {
+      if (userId) {
+        this.resetTimestampsAndComplains(() => {
+          this.getComplainsAndTimestamps(userId, dateString);
+          this.refreshStatistics(userId, date, false);
+          this.props.history.push(`/bookings/${userId}/${dateString}`);
+        });
+      }
+    });
   };
 
   refreshStatistics = (userId: string, currentDate: moment.Moment, forceRefresh: boolean): void => {
-    this.resetStaticForDate();
-    this.getStatisticForDate(userId, currentDate.format(API_DATE));
-    this.monthChange(currentDate, userId, forceRefresh);
-    this.weekChange(currentDate, userId, forceRefresh);
+    this.resetStaticForDate(() => {
+      this.getStatisticForDate(userId, currentDate.format(API_DATE));
+      this.monthChange(currentDate, userId, forceRefresh);
+      this.weekChange(currentDate, userId, forceRefresh);
+    });
   };
 
   weekChange = (currentDate: moment.Moment, userId: string, forceRefresh: boolean): void => {
     const previousSelectedDate = moment(this.state.previousSelectedDate, API_DATE);
     if (previousSelectedDate.isoWeek() !== currentDate.isoWeek() || forceRefresh) {
       if (!forceRefresh) {
-        this.resetStatisticForWeek();
+        this.resetStatisticForWeek(() => {
+          this.getStatisticForWeek(userId, currentDate.format(API_DATE));
+        });
+        return;
       }
       this.getStatisticForWeek(userId, currentDate.format(API_DATE));
     }
@@ -271,7 +293,11 @@ export class BookingPage extends React.Component<Props, States> {
     const previousSelectedDate = moment(this.state.previousSelectedDate, API_DATE);
     if (previousSelectedDate.get('month') !== currentDate.get('month') || forceRefresh) {
       if (!forceRefresh) {
-        this.resetStaticsForMonth();
+        this.resetStaticsForMonth(() => {
+          this.getStatisticForMonth(userId, currentDate.format(API_DATE));
+          this.getLeaveDaysAndPublicHoliday(userId, currentDate.format('YYYY'));
+        });
+        return;
       }
       this.getStatisticForMonth(userId, currentDate.format(API_DATE));
       this.getLeaveDaysAndPublicHoliday(userId, currentDate.format('YYYY'));
