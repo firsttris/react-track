@@ -14,6 +14,7 @@ interface Props extends RouteComponentProps<{}>, ApolloProps, WrappedComponentPr
 
 interface State {
   listOfUserEvaluation: t.UserEvaluation[];
+  selectedDate?: moment.Moment;
 }
 
 export class UserEvaluationPage extends React.Component<Props, State> {
@@ -48,7 +49,11 @@ export class UserEvaluationPage extends React.Component<Props, State> {
   render(): JSX.Element {
     return (
       <Container fluid={true} className="pt-3">
-        <MonthAndYearPickerWidget onChange={this.handleChange} className="d-print-none" />
+        <MonthAndYearPickerWidget
+          onChange={this.handleChange}
+          className="d-print-none"
+          selectedDate={this.state.selectedDate}
+        />
         {!!this.state.listOfUserEvaluation.length &&
           this.state.listOfUserEvaluation.map((userEvaluation, index) => {
             return (

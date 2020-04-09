@@ -121,7 +121,12 @@ export class LeaveWidget extends React.Component<Props, State> {
         <CardHeader>
           <FormattedMessage id="DAYS_OF_LEAVE" values={{ name: this.props.selectedUser.name }} />
           <div className="pt-3" />
-          <MonthAndYearPicker onChange={this.onYearChange} showMonth={false} showLabels={false} />
+          <MonthAndYearPicker
+            onChange={this.onYearChange}
+            showMonth={false}
+            showLabels={false}
+            selectedDate={this.state.year}
+          />
         </CardHeader>
         <CardBody className="table-responsive">
           <Table>

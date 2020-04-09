@@ -34,7 +34,7 @@ export const MonthAndYearPicker = (props: Props) => {
   };
 
   const months = moment.months();
-  const date = moment(currentDate);
+  const date = props.selectedDate ? moment(props.selectedDate) : moment(currentDate);
 
   return (
     <Form>

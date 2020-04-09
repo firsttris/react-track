@@ -83,7 +83,12 @@ export class PublicHolidayWidget extends React.Component<Props, State> {
         <CardHeader>
           <FormattedMessage id="PUBLIC_HOLIDAY" />
           <div className="pt-3" />
-          <MonthAndYearPicker onChange={this.onYearChange} showMonth={false} showLabels={false} />
+          <MonthAndYearPicker
+            onChange={this.onYearChange}
+            showMonth={false}
+            showLabels={false}
+            selectedDate={this.state.year}
+          />
         </CardHeader>
         <CardBody className="table-responsive">
           <Table>

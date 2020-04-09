@@ -89,7 +89,12 @@ export class SaldoWidgetCreateModal extends React.Component<Props, State> {
           <FormattedMessage id="CREATE_SALDO" />
         </ModalHeader>
         <ModalBody>
-          <MonthAndYearPicker onChange={this.onYearChange} showMonth={false} showLabels={false} />
+          <MonthAndYearPicker
+            onChange={this.onYearChange}
+            showMonth={false}
+            showLabels={false}
+            selectedDate={this.state.year}
+          />
           <FormGroup>
             <label className="col-form-label pb-0">
               <FormattedMessage id="HOURS" />

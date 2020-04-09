@@ -7,6 +7,7 @@ import { Card, CardBody, CardFooter, CardHeader } from 'reactstrap';
 interface Props {
   className?: string;
   onChange: (date: moment.Moment) => void;
+  selectedDate?: string;
 }
 
 interface State {
@@ -21,7 +22,12 @@ export class MonthAndYearPickerWidget extends React.Component<Props, State> {
           <FormattedMessage id="SELECT_DATE" />
         </CardHeader>
         <CardBody>
-          <MonthAndYearPicker onChange={this.props.onChange} showLabels={true} showMonth={true} />
+          <MonthAndYearPicker
+            onChange={this.props.onChange}
+            showLabels={true}
+            showMonth={true}
+            selectedDate={this.props.selectedDate}
+          />
         </CardBody>
         <CardFooter className="text-muted" />
       </Card>

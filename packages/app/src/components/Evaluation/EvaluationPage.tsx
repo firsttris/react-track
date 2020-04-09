@@ -16,6 +16,7 @@ interface Props extends RouteComponentProps<{ userId: string }>, ApolloProps, Wr
 interface State {
   listOfEvaluation: t.Evaluation[];
   selectedUser: t.User;
+  selectedDate?: moment.Moment;
 }
 
 export class EvaluationPage extends React.Component<Props, State> {
@@ -50,7 +51,7 @@ export class EvaluationPage extends React.Component<Props, State> {
   }
 
   handleChange = (date: moment.Moment) => {
-    this.setState({ listOfEvaluation: [] });
+    this.setState({ listOfEvaluation: [], selectedDate: date });
     const userId = this.props.match.params.userId;
     this.getEvaluationForMonth(userId, moment(date).format(API_DATE));
   };
@@ -58,7 +59,11 @@ export class EvaluationPage extends React.Component<Props, State> {
   render(): JSX.Element {
     return (
       <Container fluid={true} className="pt-3">
-        <MonthAndYearPickerWidget onChange={this.handleChange} className="d-print-none" />
+        <MonthAndYearPickerWidget
+          onChange={this.handleChange}
+          className="d-print-none"
+          selectedDate={this.state.selectedDate?.toISOString()}
+        />
         {!!this.state.listOfEvaluation.length && (
           <EvaluationTable
             intl={this.props.intl}
