@@ -52,7 +52,7 @@ export class UserEvaluationPage extends React.Component<Props, State> {
         <MonthAndYearPickerWidget
           onChange={this.handleChange}
           className="d-print-none"
-          selectedDate={this.state.selectedDate}
+          selectedDate={this.state.selectedDate?.toString()}
         />
         {!!this.state.listOfUserEvaluation.length &&
           this.state.listOfUserEvaluation.map((userEvaluation, index) => {

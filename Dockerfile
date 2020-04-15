@@ -2,6 +2,7 @@ FROM node:12 as builder
 
 COPY tsconfig.json ./
 COPY package.json ./
+COPY yarn.lock ./yarn.lock
 COPY packages ./packages/
 
 RUN yarn install --network-timeout 1000000
