@@ -13,6 +13,9 @@ RUN yarn build:server
 FROM nginx:alpine
 RUN apk add --no-cache nodejs
 
+RUN apk add --no-cache tzdata
+ENV TZ Europe/Berlin
+
 COPY ./nginx /etc/nginx
 COPY --from=builder /packages/app/dist-web /usr/share/nginx/html
 COPY --from=builder /packages/server/ /usr/share/server/

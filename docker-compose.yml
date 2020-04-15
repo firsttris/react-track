@@ -7,6 +7,5 @@ services:
     ports:
     - "3001:80"
     volumes:
-    - "/etc/localtime:/etc/localtime:ro"
     - ~/.timetracking-db:/root/.timetracking-db
     - ~/.timetracking-backup-db:/root/.timetracking-backup-db
