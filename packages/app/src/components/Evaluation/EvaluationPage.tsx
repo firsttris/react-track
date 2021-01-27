@@ -1,81 +1,63 @@
-import { ApolloProps, withApollo } from 'components/hoc/WithApollo';
+import { useApollo } from 'components/hoc/WithApollo';
 import { LoadingSpinner } from 'components/Spinner/LoadingSpinner';
 import { API_DATE } from 'common/constants';
 import { initialUserState } from 'common/initialState';
 import * as moment from 'moment';
 import * as React from 'react';
-import { WrappedComponentProps, injectIntl } from 'react-intl';
-import { RouteComponentProps } from 'react-router-dom';
+import { useIntl } from 'react-intl';
+import { useParams } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import * as t from 'common/types';
 import { EvaluationTable } from './EvaluationTable';
 import { MonthAndYearPickerWidget } from './MonthAndYearPickerWidget';
 
-interface Props extends RouteComponentProps<{ userId: string }>, ApolloProps, WrappedComponentProps {}
+export const EvaluationPage = () => {
+  const [listOfEvaluation, setListOfEvaluation] = React.useState<t.Evaluation[]>([]);
+  const [selectedUser, setSelectedUser] = React.useState<t.User>(initialUserState);
+  const [selectedDate, setSelectedDate] = React.useState<moment.Moment>();
+  const intl = useIntl();
+  const apollo = useApollo();
+  const { userId } = useParams<{ userId: string }>();
 
-interface State {
-  listOfEvaluation: t.Evaluation[];
-  selectedUser: t.User;
-  selectedDate?: moment.Moment;
-}
-
-export class EvaluationPage extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      listOfEvaluation: [],
-      selectedUser: initialUserState
-    };
-  }
-
-  componentDidMount() {
-    const userId = this.props.match.params.userId;
-    this.props.apollo.getUserById(userId).then(result => {
+  const getEvaluationForMonth = (date: moment.Moment) => {
+    apollo.getEvaluationForMonth(userId, date.format(API_DATE)).then(result => {
       if (result.data) {
-        this.setState({ selectedUser: result.data.getUserById });
+        setListOfEvaluation(result.data.getEvaluationForMonth);
       }
     });
-    this.getEvaluationForMonth(userId, moment().format(API_DATE));
-  }
-
-  componentWillUnmount() {
-    this.setState({ listOfEvaluation: [] });
-  }
-
-  getEvaluationForMonth(userId: string, date: string) {
-    this.props.apollo.getEvaluationForMonth(userId, date).then(result => {
-      if (result.data) {
-        this.setState({ listOfEvaluation: result.data.getEvaluationForMonth });
-      }
-    });
-  }
-
-  handleChange = (date: moment.Moment) => {
-    this.setState({ listOfEvaluation: [], selectedDate: date });
-    const userId = this.props.match.params.userId;
-    this.getEvaluationForMonth(userId, moment(date).format(API_DATE));
   };
 
-  render(): JSX.Element {
-    return (
-      <Container fluid={true} className="pt-3">
-        <MonthAndYearPickerWidget
-          onChange={this.handleChange}
-          className="d-print-none"
-          selectedDate={this.state.selectedDate?.toISOString()}
-        />
-        {!!this.state.listOfEvaluation.length && (
-          <EvaluationTable
-            intl={this.props.intl}
-            userName={this.state.selectedUser.name}
-            listOfEvaluation={this.state.listOfEvaluation}
-            className="mt-3"
-          />
-        )}
-        {!this.state.listOfEvaluation.length && <LoadingSpinner />}
-      </Container>
-    );
-  }
-}
+  React.useEffect(() => {
+    apollo.getUserById(userId).then(result => {
+      if (result.data) {
+        setSelectedUser(result.data.getUserById);
+      }
+    });
+    getEvaluationForMonth(moment());
+  }, []);
 
-export const EvaluationPageContainer = withApollo(injectIntl(EvaluationPage));
+  const handleChange = (date: moment.Moment) => {
+    setListOfEvaluation([]);
+    setSelectedDate(date);
+    getEvaluationForMonth(date);
+  };
+
+  return (
+    <Container fluid={true} className="pt-3">
+      <MonthAndYearPickerWidget
+        onChange={handleChange}
+        className="d-print-none"
+        selectedDate={selectedDate?.toISOString()}
+      />
+      {!!listOfEvaluation.length && (
+        <EvaluationTable
+          intl={intl}
+          userName={selectedUser.name}
+          listOfEvaluation={listOfEvaluation}
+          className="mt-3"
+        />
+      )}
+      {!listOfEvaluation.length && <LoadingSpinner />}
+    </Container>
+  );
+};

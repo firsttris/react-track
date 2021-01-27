@@ -3,13 +3,17 @@ import { LoadingSpinner } from 'components/Spinner/LoadingSpinner';
 import * as c from 'common/constants';
 import { initialUserState } from 'common/initialState';
 import * as React from 'react';
-import { Redirect, Route, RouteProps } from 'react-router-dom';
+import { Redirect, Route, RouteComponentProps, RouteProps } from 'react-router-dom';
 import * as t from 'common/types';
 import { Apollo } from './../../graphql';
 declare let MOCKLOGIN: boolean;
 
+interface AuthenticatedRouteComponentProps<T> extends RouteComponentProps {
+  loggedInUser: t.User;
+}
+
 interface Props extends RouteProps {
-  component: React.ComponentClass<any>;
+  component: React.ComponentType<AuthenticatedRouteComponentProps<any>> | React.ComponentType<any>;
   allowedRoles: t.UserRole[];
 }
 
