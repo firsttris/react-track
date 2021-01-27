@@ -1,6 +1,6 @@
 import { BookingPageContainer } from 'components/Booking/BookingPage';
-import { EvaluationPageContainer } from 'components/Evaluation/EvaluationPage';
-import { UserEvaluationPageContainer } from 'components/Evaluation/UserEvaluationPage';
+import { EvaluationPage } from 'components/Evaluation/EvaluationPage';
+import { UserEvaluationPage } from 'components/Evaluation/UserEvaluationPage';
 import { ProtectedRoute } from 'components/hoc/ProtectedRoute';
 import { LeavePageContainer } from 'components/Leave/LeavePage';
 import { LoginPage } from 'components/Login/LoginPage';
@@ -35,12 +35,8 @@ class Router extends React.Component<{}, {}> {
               component={BookingPageContainer}
             />
             <ProtectedRoute allowedRoles={AdminRole} path="/holidays/:userId" component={LeavePageContainer} />
-            <ProtectedRoute
-              allowedRoles={UserAndAdminRole}
-              path="/evaluation/:userId"
-              component={EvaluationPageContainer}
-            />
-            <ProtectedRoute allowedRoles={AdminRole} path="/evaluations" component={UserEvaluationPageContainer} />
+            <ProtectedRoute allowedRoles={UserAndAdminRole} path="/evaluation/:userId" component={EvaluationPage} />
+            <ProtectedRoute allowedRoles={AdminRole} path="/evaluations" component={UserEvaluationPage} />
             <Route component={NotFoundPage} />
           </Switch>
         </div>

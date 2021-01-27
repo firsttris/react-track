@@ -13,3 +13,7 @@ export function withApollo<P>(Comp: React.ComponentClass<P> | React.StatelessCom
     }
   };
 }
+
+export const useApollo = () => {
+  return apollo.apollo;
+};
