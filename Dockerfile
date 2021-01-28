@@ -23,6 +23,7 @@ COPY --from=builder /packages/server/ /usr/share/server/
 WORKDIR /usr/share/server
 
 EXPOSE 80
+EXPOSE 443
 
 COPY start-servers.sh start-servers.sh
 RUN ["chmod", "+x", "start-servers.sh"]
