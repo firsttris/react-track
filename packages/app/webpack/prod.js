@@ -1,6 +1,7 @@
 const base = require('./base'),
   webpack = require('webpack'),
-  webpackPwaManifest = require('webpack-pwa-manifest');
+  WebpackPwaManifest = require('webpack-pwa-manifest'),
+  path = require('path');
 
 base.mode = 'production';
 base.module.rules.push({
