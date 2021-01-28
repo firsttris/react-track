@@ -63,12 +63,12 @@ export class TimestampCollection extends DbAdapterWithColAndDbKey {
     return true;
   }
 
-  static async add(user: t.User): Promise<t.Timestamp> {
+  static async add(user: t.User, gpsCoordinate?: t.GpsCoordinateInput | null): Promise<t.Timestamp> {
     const timestamps = await this.getTimestamps(user.id, moment().format(API_DATE));
     const time = moment()
       .seconds(0)
       .milliseconds(0);
-    const newTimestamp = { id: v4(), time: '', actualTime: time.format(), type: 'card', status: 'K' };
+    const newTimestamp = { id: v4(), time: '', actualTime: time.format(), type: 'card', status: 'K', gpsCoordinate };
     this.addTimeToTimestamp(newTimestamp, user);
     let lastTimestamp = null;
     if (timestamps && timestamps.length > 0) {

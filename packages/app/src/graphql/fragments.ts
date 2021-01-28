@@ -84,6 +84,10 @@ export const TimestampFragment = gql`
     actualTime
     status
     type
+    gpsCoordinate {
+      latitude
+      longitude
+    }
   }
 `;
 
@@ -173,6 +177,7 @@ export const UserFragment = gql`
     }
     code
     startDate
+    isGpsRequired
     saldos {
       ...SaldoFields
     }

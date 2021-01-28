@@ -49,6 +49,17 @@ export type Evaluation = {
   icon: Scalars['String'],
 };
 
+export type GpsCoordinate = {
+   __typename?: 'GpsCoordinate',
+  latitude: Scalars['Float'],
+  longitude: Scalars['Float'],
+};
+
+export type GpsCoordinateInput = {
+  latitude: Scalars['Float'],
+  longitude: Scalars['Float'],
+};
+
 export type Holiday = {
    __typename?: 'Holiday',
   year: Scalars['String'],
@@ -192,7 +203,8 @@ export type MutationDeletePublicHolidayArgs = {
 
 
 export type MutationAddTimestampByCodeArgs = {
-  code: Scalars['String']
+  code: Scalars['String'],
+  gpsCoordinate?: Maybe<GpsCoordinateInput>
 };
 
 
@@ -380,6 +392,7 @@ export type Timestamp = {
   actualTime: Scalars['String'],
   status: Scalars['String'],
   type: Scalars['String'],
+  gpsCoordinate?: Maybe<GpsCoordinate>,
 };
 
 export type TimestampInput = {
@@ -409,6 +422,7 @@ export type User = {
   workTimes: WorkTimes,
   startDate: Scalars['String'],
   saldos: Array<Saldo>,
+  isGpsRequired?: Maybe<Scalars['Boolean']>,
 };
 
 export type UserEvaluation = {
@@ -427,6 +441,7 @@ export type UserInput = {
   startDate: Scalars['String'],
   workTimes: WorkTimesInput,
   saldos: Array<SaldoInput>,
+  isGpsRequired?: Maybe<Scalars['Boolean']>,
 };
 
 export enum UserRole {
@@ -561,6 +576,10 @@ export type WorkTimeSettingsFieldsFragment = (
 export type TimestampFieldsFragment = (
   { __typename?: 'Timestamp' }
   & Pick<Timestamp, 'id' | 'time' | 'actualTime' | 'status' | 'type'>
+  & { gpsCoordinate: Maybe<(
+    { __typename?: 'GpsCoordinate' }
+    & Pick<GpsCoordinate, 'latitude' | 'longitude'>
+  )> }
 );
 
 export type StatisticFieldsFragment = (
@@ -611,7 +630,7 @@ export type LeaveFieldsFragment = (
 
 export type UserFieldsFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'name' | 'role' | 'code' | 'startDate'>
+  & Pick<User, 'id' | 'name' | 'role' | 'code' | 'startDate' | 'isGpsRequired'>
   & { holidays: Array<(
     { __typename?: 'Holiday' }
     & HolidayFieldsFragment
@@ -748,7 +767,8 @@ export type RewriteTimestampsMutation = (
 );
 
 export type AddTimestampByCodeMutationVariables = {
-  code: Scalars['String']
+  code: Scalars['String'],
+  gpsCoordinate?: Maybe<GpsCoordinateInput>
 };
 
 

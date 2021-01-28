@@ -22,6 +22,13 @@ export class TimestampWidgetItem extends React.Component<Props, {}> {
     this.props.onRefreshClick(this.props.index);
   };
 
+  handleOnMapClick = (): void => {
+    const coordinate = this.props.timestamp.gpsCoordinate;
+    if (coordinate) {
+      window.open(`http://www.google.com/maps/place/${coordinate.latitude},${coordinate.longitude}`);
+    }
+  };
+
   render(): JSX.Element {
     return (
       <tr>
@@ -38,6 +45,14 @@ export class TimestampWidgetItem extends React.Component<Props, {}> {
         <td className="text-right">
           {(this.props.userRole === t.UserRole.ADMIN || MOCKLOGIN) && (
             <>
+              {this.props.timestamp.gpsCoordinate && (
+                <i
+                  title="Koordinaten in Google Maps öffnen"
+                  className="fa fa-map-marker pr-2"
+                  onClick={this.handleOnMapClick}
+                  style={{ cursor: 'pointer' }}
+                />
+              )}
               <i
                 title="Gebuchte Zeit Aktualisieren"
                 className="fa fa-refresh pr-2"

@@ -143,5 +143,6 @@ export const de_DE = {
   PRINT: 'Drucken',
   REWRITE_TIMESTAMPS: 'Zeitstempel neu schreiben',
   COMMENT: 'Kommentar',
-  SHORT_TIME_WORK: 'Kurzarbeit'
+  SHORT_TIME_WORK: 'Kurzarbeit',
+  GPS: 'GPS Position beim Stempeln abfragen'
 };

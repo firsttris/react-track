@@ -130,17 +130,20 @@ export class UserCollection extends DbAdapter {
     return true;
   }
 
-  static async addTimestampByCode(code: string): Promise<t.TimestampUserAndStatistic> {
+  static async addTimestampByCode(
+    code: string,
+    gpsCoordinate?: t.GpsCoordinateInput | null
+  ): Promise<t.TimestampUserAndStatistic> {
     const user = await this.getByCode(code);
-    const statistic = await this.addTimestampToUser(user);
+    const statistic = await this.addTimestampToUser(user, gpsCoordinate);
     return {
       user,
       ...statistic
     };
   }
 
-  static async addTimestampToUser(user: t.User) {
-    const timestamp = await TimestampCollection.add(user);
+  static async addTimestampToUser(user: t.User, gpsCoordinate?: t.GpsCoordinateInput | null) {
+    const timestamp = await TimestampCollection.add(user, gpsCoordinate);
     const statisticForToday = await StatisticCalculator.getFormattedStatisticForDate(timestamp.time, user.id);
     return {
       timestamp,
