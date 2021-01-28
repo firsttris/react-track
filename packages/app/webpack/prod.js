@@ -1,6 +1,6 @@
 const base = require('./base'),
-  webpack = require('webpack');
-webappWebpackPlugin = require('webapp-webpack-plugin');
+  webpack = require('webpack'),
+  webpackPwaManifest = require('webpack-pwa-manifest');
 
 base.mode = 'production';
 base.module.rules.push({
@@ -19,13 +19,18 @@ base.plugins.push(
     'process.env.NODE_ENV': JSON.stringify('production'),
     MOCKLOGIN: false
   }),
-  new webappWebpackPlugin({
-    logo: './public/logo.png',
-    prefix: 'webapp/',
-    favicons: {
-      appName: 'Zeiterfassung',
-      theme_color: 'black'
-    }
+  new WebpackPwaManifest({
+    name: 'Timetracking',
+    short_name: 'Timetracking',
+    description: 'awesome Timetracking with React!',
+    background_color: '#ffffff',
+    crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
+    icons: [
+      {
+        src: path.resolve('public/clock.png'),
+        sizes: [96, 128, 192, 256, 384, 512] // multiple sizes
+      }
+    ]
   })
 );
 

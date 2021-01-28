@@ -24,7 +24,8 @@
     "body-parser": "latest",
     "cors": "latest",
     "jsonwebtoken": "latest",
-    "nodemon": "latest"
+    "nodemon": "latest",
+    "jest": "latest"
     },
   "scripts": {
     "ts-node-dev": "ts-node-dev --inspect --no-notify -r ./register-ts-config-path.ts ./src/index.ts",
