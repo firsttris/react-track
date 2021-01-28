@@ -10,17 +10,7 @@ import { Col, Container, Row } from 'reactstrap';
 import * as t from 'common/types';
 import { ComplainWidget } from './ComplainWidget/ComplainWidget';
 import { DayPickerWidgetContainer } from './DayPickerWidget';
-import { StatisticWidget } from './StatisticWidget';
 import { TimestampWidget } from './TimestampWidget/TimestampWidget';
-
-const initialStatisticState = {
-  timeSpent: '00:00',
-  timeLeft: '00:00',
-  timeEarned: '00:00',
-  timePause: '00:00',
-  timeComplain: '00:00',
-  totalHours: '00:00'
-};
 
 interface Props extends RouteComponentProps<{ userId: string; date: string }>, ApolloProps {
   loggedInUser: t.User;
@@ -31,9 +21,6 @@ interface States {
   previousSelectedDate: string;
   showData: boolean;
   selectedUser: t.User;
-  statisticForDate: t.Statistic;
-  statisticForWeek: t.Statistic;
-  statisticForMonth: t.Statistic;
   hoursSpentForMonthPerDay: t.HoursPerDay[];
   yearSaldo: string;
   timestamps: t.Timestamp[];
@@ -52,9 +39,6 @@ export class BookingPage extends React.Component<Props, States> {
       previousSelectedDate: '',
       showData: true,
       selectedUser: initialUserState,
-      statisticForDate: initialStatisticState,
-      statisticForMonth: initialStatisticState,
-      statisticForWeek: initialStatisticState,
       hoursSpentForMonthPerDay: [],
       yearSaldo: '00:00',
       timestamps: [],
@@ -96,8 +80,7 @@ export class BookingPage extends React.Component<Props, States> {
     const yearKey = this.state.selectedDate.format('YYYY');
     const userId = this.props.match.params.userId;
     this.getUserById(userId);
-    this.getStatisticForDate(userId, dateKey);
-    this.getStatisticForWeek(userId, dateKey);
+    this.getStatisticForDate(userId);
     this.getStatisticForMonth(userId, dateKey);
     this.getComplainsAndTimestamps(userId, dateKey);
     this.getLeaveDaysAndPublicHoliday(userId, yearKey);
@@ -112,53 +95,29 @@ export class BookingPage extends React.Component<Props, States> {
     });
   }
 
-  getStatisticForDate(userId: string, dateKey: string) {
+  getStatisticForDate(userId: string) {
+    const now = moment();
+    let dateKey = now.format(API_DATE);
+    if (this.state.selectedDate.get('year') !== now.get('year')) {
+      dateKey = moment(this.state.selectedDate)
+        .endOf('year')
+        .format(API_DATE);
+    }
     this.props.apollo.getStatisticForDate(userId, dateKey).then(result => {
       if (result.data) {
-        this.setState({
-          statisticForDate: result.data.getStatisticForDate.statisticForDate,
-          previousSelectedDate: result.data.getStatisticForDate.selectedDate,
-          yearSaldo: result.data.getYearSaldo
-        });
+        this.setState({ yearSaldo: result.data.getYearSaldo });
       }
     });
   }
 
   resetStaticForDate(callback: () => void) {
-    this.setState(
-      {
-        statisticForDate: initialStatisticState,
-        yearSaldo: '00:00'
-      },
-      callback
-    );
-  }
-
-  getStatisticForWeek(userId: string, dateKey: string) {
-    this.props.apollo.getStatisticForWeek(userId, dateKey).then(result => {
-      if (result.data) {
-        this.setState({
-          statisticForWeek: result.data.getStatisticForWeek.statisticForWeek,
-          previousSelectedDate: result.data.getStatisticForWeek.selectedDate
-        });
-      }
-    });
-  }
-
-  resetStatisticForWeek(callback: () => void) {
-    this.setState(
-      {
-        statisticForWeek: initialStatisticState
-      },
-      callback
-    );
+    this.setState({ yearSaldo: '00:00' }, callback);
   }
 
   getStatisticForMonth(userId: string, dateKey: string) {
     this.props.apollo.getStatisticForMonth(userId, dateKey).then(result => {
       if (result.data) {
         this.setState({
-          statisticForMonth: result.data.getStatisticForMonth.statisticForMonth,
           hoursSpentForMonthPerDay: result.data.getStatisticForMonth.hoursSpentForMonthPerDay,
           previousSelectedDate: result.data.getStatisticForMonth.selectedDate
         });
@@ -169,7 +128,6 @@ export class BookingPage extends React.Component<Props, States> {
   resetStaticsForMonth(callback: () => void) {
     this.setState(
       {
-        statisticForMonth: initialStatisticState,
         hoursSpentForMonthPerDay: []
       },
       callback
@@ -241,15 +199,7 @@ export class BookingPage extends React.Component<Props, States> {
   }
 
   resetStatistic(callback: () => void) {
-    this.setState(
-      {
-        statisticForDate: initialStatisticState,
-        statisticForMonth: initialStatisticState,
-        statisticForWeek: initialStatisticState,
-        hoursSpentForMonthPerDay: []
-      },
-      callback
-    );
+    this.setState({ hoursSpentForMonthPerDay: [] }, callback);
   }
 
   onCalendarSelect = (selectedDate: Date): void => {
@@ -257,48 +207,37 @@ export class BookingPage extends React.Component<Props, States> {
     const userId = this.props.match.params.userId;
     const date = moment(selectedDate);
     const dateString = date.format(API_DATE);
+    const previousSelectedDate = this.state.selectedDate;
     this.setState({ selectedDate: date }, () => {
       if (userId) {
+        if (previousSelectedDate.get('year') !== this.state.selectedDate.get('year')) {
+          this.refreshStatistics(userId);
+        } else if (previousSelectedDate.get('month') !== this.state.selectedDate.get('month')) {
+          this.monthChange(userId);
+        }
+
         this.resetTimestampsAndComplains(() => {
           this.getComplainsAndTimestamps(userId, dateString);
-          this.refreshStatistics(userId, date, false);
           this.props.history.push(`/bookings/${userId}/${dateString}`);
         });
       }
     });
   };
 
-  refreshStatistics = (userId: string, currentDate: moment.Moment, forceRefresh: boolean): void => {
+  refreshStatistics = (userId: string): void => {
     this.resetStaticForDate(() => {
-      this.getStatisticForDate(userId, currentDate.format(API_DATE));
-      this.monthChange(currentDate, userId, forceRefresh);
-      this.weekChange(currentDate, userId, forceRefresh);
+      this.getStatisticForDate(userId);
+      this.monthChange(userId);
     });
   };
 
-  weekChange = (currentDate: moment.Moment, userId: string, forceRefresh: boolean): void => {
+  monthChange = (userId: string): void => {
+    const currentDate = this.state.selectedDate;
     const previousSelectedDate = moment(this.state.previousSelectedDate, API_DATE);
-    if (previousSelectedDate.isoWeek() !== currentDate.isoWeek() || forceRefresh) {
-      if (!forceRefresh) {
-        this.resetStatisticForWeek(() => {
-          this.getStatisticForWeek(userId, currentDate.format(API_DATE));
-        });
-        return;
-      }
-      this.getStatisticForWeek(userId, currentDate.format(API_DATE));
-    }
-  };
-
-  monthChange = (currentDate: moment.Moment, userId: string, forceRefresh: boolean): void => {
-    const previousSelectedDate = moment(this.state.previousSelectedDate, API_DATE);
-    if (previousSelectedDate.get('month') !== currentDate.get('month') || forceRefresh) {
-      if (!forceRefresh) {
-        this.resetStaticsForMonth(() => {
-          this.getStatisticForMonth(userId, currentDate.format(API_DATE));
-          this.getLeaveDaysAndPublicHoliday(userId, currentDate.format('YYYY'));
-        });
-        return;
-      }
+    if (
+      previousSelectedDate.get('month') !== currentDate.get('month') ||
+      previousSelectedDate.get('year') !== currentDate.get('year')
+    ) {
       this.getStatisticForMonth(userId, currentDate.format(API_DATE));
       this.getLeaveDaysAndPublicHoliday(userId, currentDate.format('YYYY'));
     }
@@ -307,15 +246,13 @@ export class BookingPage extends React.Component<Props, States> {
   updateComplainsAndRefreshStatistics = (complains: t.Complain[]): void => {
     const userId = this.props.match.params.userId;
     const dateKey = this.state.selectedDate.format(API_DATE);
-    this.updateComplains(userId, dateKey, complains).then(() => this.refreshStatistics(userId, moment(dateKey), true));
+    this.updateComplains(userId, dateKey, complains).then(() => this.refreshStatistics(userId));
   };
 
   updateTimestampsAndRefreshStatistics = (timestamps: t.Timestamp[]): void => {
     const userId = this.props.match.params.userId;
     const dateKey = this.state.selectedDate.format(API_DATE);
-    this.updateTimestamps(userId, dateKey, timestamps).then(() =>
-      this.refreshStatistics(userId, moment(dateKey), true)
-    );
+    this.updateTimestamps(userId, dateKey, timestamps).then(() => this.refreshStatistics(userId));
   };
 
   handleBookingModalClose = () => {
@@ -326,15 +263,6 @@ export class BookingPage extends React.Component<Props, States> {
     return (
       <Container fluid={true}>
         <Row>
-          <Col lg={7} xs={12} className="pt-3">
-            <StatisticWidget
-              selectedUser={this.state.selectedUser}
-              yearSaldo={this.state.yearSaldo}
-              statisticForDate={this.state.statisticForDate}
-              statisticForWeek={this.state.statisticForWeek}
-              statisticForMonth={this.state.statisticForMonth}
-            />
-          </Col>
           <Col lg={5} xs={12} className="pt-3">
             <DayPickerWidgetContainer
               onDayClick={this.onCalendarSelect}
@@ -342,10 +270,29 @@ export class BookingPage extends React.Component<Props, States> {
               publicHolidays={this.state.publicHolidays}
               listOfLeaves={this.state.listOfLeaves}
               hoursSpentForMonthPerDay={this.state.hoursSpentForMonthPerDay}
+              yearSaldo={this.state.yearSaldo}
+            />
+            <div className="pt-3">
+              <TimestampWidget
+                selectedDate={this.state.selectedDate}
+                timestamps={this.state.timestamps}
+                timestampError={this.state.timestampError}
+                onClose={this.handleBookingModalClose}
+                onUpdateTimestamps={this.updateTimestampsAndRefreshStatistics}
+                showData={this.state.showData}
+                userRole={this.props.loggedInUser.role}
+              />
+            </div>
+
+            <ComplainWidget
+              selectedDate={this.state.selectedDate}
+              complains={this.state.complains}
+              complainsErrors={this.state.complainsErrors}
+              onUpdateComplains={this.updateComplainsAndRefreshStatistics}
+              showData={this.state.showData}
+              userRole={this.props.loggedInUser.role}
             />
           </Col>
-        </Row>
-        <Row>
           <Col lg={7} xs={12} className="pt-3 d-none d-sm-block">
             <BarChartWidget
               data={this.state.hoursSpentForMonthPerDay}
@@ -354,25 +301,6 @@ export class BookingPage extends React.Component<Props, States> {
               labelKey="hours"
               name="Stunden"
               handleBarClick={this.handleBarClick}
-            />
-          </Col>
-          <Col lg={5} xs={12} className="pt-3">
-            <TimestampWidget
-              selectedDate={this.state.selectedDate}
-              timestamps={this.state.timestamps}
-              timestampError={this.state.timestampError}
-              onClose={this.handleBookingModalClose}
-              onUpdateTimestamps={this.updateTimestampsAndRefreshStatistics}
-              showData={this.state.showData}
-              userRole={this.props.loggedInUser.role}
-            />
-            <ComplainWidget
-              selectedDate={this.state.selectedDate}
-              complains={this.state.complains}
-              complainsErrors={this.state.complainsErrors}
-              onUpdateComplains={this.updateComplainsAndRefreshStatistics}
-              showData={this.state.showData}
-              userRole={this.props.loggedInUser.role}
             />
           </Col>
         </Row>
