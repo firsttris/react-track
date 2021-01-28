@@ -35,7 +35,7 @@ export const typeDefs = gql`
     deletePause(pauseId: String!): [Pause!]!
     createPublicHoliday(holiday: PublicHolidayInput!): [PublicHoliday!]!
     deletePublicHoliday(year: String!, holidayId: String!): [PublicHoliday!]!
-    addTimestampByCode(code: String!): TimestampUserAndStatistic!
+    addTimestampByCode(code: String!, gpsCoordinate: GpsCoordinateInput): TimestampUserAndStatistic!
     rewriteTimestamps(userId: String!, date: String!): Boolean
   }
 
@@ -92,6 +92,7 @@ export const typeDefs = gql`
     startDate: String!
     workTimes: WorkTimesInput!
     saldos: [SaldoInput!]!
+    isGpsRequired: Boolean
   }
 
   input WorkTimesInput {
@@ -123,6 +124,11 @@ export const typeDefs = gql`
     durationInMinutes: String!
   }
 
+  input GpsCoordinateInput {
+    latitude: Float!
+    longitude: Float!
+  }
+
   type Pause {
     id: String!
     time: String!
@@ -139,6 +145,7 @@ export const typeDefs = gql`
     workTimes: WorkTimes!
     startDate: String!
     saldos: [Saldo!]!
+    isGpsRequired: Boolean
   }
 
   type Saldo {
@@ -251,12 +258,18 @@ export const typeDefs = gql`
     duration: String!
   }
 
+  type GpsCoordinate {
+    latitude: Float!
+    longitude: Float!
+  }
+
   type Timestamp {
     id: String!
     time: String!
     actualTime: String!
     status: String!
     type: String!
+    gpsCoordinate: GpsCoordinate
   }
 
   type TimestampUserAndStatistic {

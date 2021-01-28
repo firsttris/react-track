@@ -81,7 +81,7 @@ const resolvers = {
     deletePublicHoliday: async (source: any, args: t.DeletePublicHolidayMutationVariables) =>
       PublicHolidayCollection.removePublicHolidayById(args.year, args.holidayId),
     addTimestampByCode: async (source: any, args: t.AddTimestampByCodeMutationVariables) =>
-      UserCollection.addTimestampByCode(args.code),
+      UserCollection.addTimestampByCode(args.code, args.gpsCoordinate),
     rewriteTimestamps: async (source: any, args: any) => TimestampsBatch.rewriteTimestamps(args.userId, args.date)
   }
 } as IResolvers;

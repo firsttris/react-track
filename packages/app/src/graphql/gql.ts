@@ -78,8 +78,8 @@ export const REWRITE_TIMESTAMPS = gql`
 `;
 
 export const ADD_TIMESTAMP_BY_CODE = gql`
-  mutation AddTimestampByCode($code: String!) {
-    addTimestampByCode(code: $code) {
+  mutation AddTimestampByCode($code: String!, $gpsCoordinate: GpsCoordinateInput) {
+    addTimestampByCode(code: $code, gpsCoordinate: $gpsCoordinate) {
       ...TimestampUserAndStatisticFields
     }
   }

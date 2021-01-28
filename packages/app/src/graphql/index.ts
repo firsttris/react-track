@@ -65,10 +65,14 @@ export class Apollo {
     });
   }
 
-  static addTimestampByCode(code: string): Promise<FetchResult<t.AddTimestampByCodeMutation>> {
+  static addTimestampByCode(
+    code: string,
+    gpsCoordinate?: { latitude: number; longitude: number }
+  ): Promise<FetchResult<t.AddTimestampByCodeMutation>> {
     return this.mutate({
       variables: {
-        code
+        code,
+        gpsCoordinate
       },
       mutation: gql.ADD_TIMESTAMP_BY_CODE
     });

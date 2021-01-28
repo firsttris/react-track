@@ -110,6 +110,18 @@ export class User extends React.Component<Props & WrappedComponentProps, States>
                 />
               </div>
             </FormGroup>
+            <FormGroup style={{ marginLeft: '1.25rem' }}>
+              <Input
+                type="checkbox"
+                name="isGpsRequired"
+                id="isGpsRequired"
+                checked={this.props.user.isGpsRequired ?? false}
+                onChange={this.handleInputChange}
+              />
+              <Label for="isGpsRequired">
+                <FormattedMessage id="GPS" />
+              </Label>
+            </FormGroup>
             <GraphQLErrorMessage errors={this.props.errors} />
           </CardBody>
           <CardFooter className="text-muted">

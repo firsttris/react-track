@@ -53,6 +53,26 @@ export class TrackingPage extends React.Component<Props, States> {
     });
   }
 
+  requestGeoLocation = async (): Promise<t.GpsCoordinate | undefined> => {
+    if (!this.props.loggedInUser.isGpsRequired) {
+      return undefined;
+    }
+    if ('geolocation' in navigator) {
+      return new Promise(resolve => {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            resolve({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+          },
+          () => {
+            resolve(undefined);
+          }
+        );
+      });
+    } else {
+      return undefined;
+    }
+  };
+
   render(): JSX.Element {
     return (
       <div className="App">
@@ -72,10 +92,12 @@ export class TrackingPage extends React.Component<Props, States> {
     );
   }
 
-  onTab = (): void => {
+  onTab = async (): Promise<void> => {
+    const coordinates = await this.requestGeoLocation();
+
     this.setState({ yearSaldo: '' });
 
-    this.props.apollo.addTimestampByCode(this.props.loggedInUser.code).then(result => {
+    this.props.apollo.addTimestampByCode(this.props.loggedInUser.code, coordinates).then(result => {
       if (result.data) {
         this.setState({
           scannedUser: result.data.addTimestampByCode.user,

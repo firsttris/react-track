@@ -143,5 +143,6 @@ export const en_US = {
   PRINT: 'Print',
   REWRITE_TIMESTAMPS: 'Rewrite Timestamps',
   COMMENT: 'Comment',
-  SHORT_TIME_WORK: 'Short-time Work'
+  SHORT_TIME_WORK: 'Short-time Work',
+  GPS: 'Ask for GPS position when tracking time'
 };
