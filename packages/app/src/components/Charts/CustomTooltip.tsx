@@ -6,6 +6,9 @@ export class CustomTooltip extends React.Component<any, {}> {
   render(): JSX.Element | null {
     if (this.props.active) {
       const { payload, label, labelStyle, wrapperStyle } = this.props;
+      if (!payload || !payload.length) {
+        return null;
+      }
       const finalStyle = {
         margin: 0,
         padding: 10,
