@@ -1,18 +1,7 @@
-import { CustomTooltip } from 'components/Charts/CustomTooltip';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Card, CardBody, CardHeader } from 'reactstrap';
-const {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  LabelList,
-  Rectangle,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis
-} = require('recharts');
+const { Bar, BarChart, CartesianGrid, LabelList, Rectangle, ResponsiveContainer, XAxis, YAxis } = require('recharts');
 
 interface Props {
   data: any;
@@ -47,7 +36,6 @@ export class BarChartWidget extends React.Component<Props, {}> {
                 allowDecimals={true}
               />
               <CartesianGrid strokeDasharray="3 3" />
-              <Tooltip content={<CustomTooltip />} />
               <Bar
                 style={{ cursor: 'pointer' }}
                 dataKey={this.props.yDataKey}

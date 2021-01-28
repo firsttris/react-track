@@ -21,7 +21,7 @@ export class CustomTooltip extends React.Component<any, {}> {
         margin: 0,
         ...labelStyle
       };
-      const hasError = payload[0].payload.hasError;
+      const hasError = payload[0]?.payload?.hasError;
       if (hasError) {
         return (
           <div style={finalStyle}>
