@@ -13,6 +13,7 @@ interface Props {
   listOfLeaves: t.Leave[];
   hoursSpentForMonthPerDay: t.HoursPerDay[];
   onDayClick: (date: Date) => void;
+  yearSaldo: string;
 }
 
 interface State {}
@@ -22,8 +23,25 @@ export class DayPickerWidget extends React.Component<Props & WrappedComponentPro
     const modifiers = this.getModifiers();
     return (
       <Card>
-        <CardHeader>
-          <FormattedMessage id="CALENDAR" />
+        <CardHeader style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div>
+            <FormattedMessage id="CALENDAR" />
+          </div>
+          <div>
+            <b>
+              <span style={{ marginRight: '5px' }}>
+                <FormattedMessage id="YEAR_SALDO" /> {`${this.props.selectedDate.getFullYear()}: `}
+              </span>
+
+              <span
+                style={{
+                  color: this.props.yearSaldo.includes('-') ? 'red' : 'green'
+                }}
+              >
+                {this.props.yearSaldo}
+              </span>
+            </b>
+          </div>
         </CardHeader>
         <CardBody>
           <Row style={{ alignItems: 'center', justifyContent: 'center' }}>
