@@ -6,7 +6,7 @@ const token = localStorage.getItem('timetracking-login-token');
 const url = process.env.NODE_ENV === 'production' ? window.location.host : window.location.hostname + ':3001';
 
 export const client = new ApolloClient({
-  uri: `http://${url}/graphql`,
+  uri: `${window.location.protocol}//${url}/graphql`,
   headers: {
     authorization: token ? token : ''
   },
@@ -14,7 +14,7 @@ export const client = new ApolloClient({
 });
 
 export const loginUser = (password: string): Promise<t.User> => {
-  return fetch(`http://${url}/api/login`, {
+  return fetch(`${window.location.protocol}//${url}/api/login`, {
     body: JSON.stringify({ password }),
     method: 'POST',
     headers: {
