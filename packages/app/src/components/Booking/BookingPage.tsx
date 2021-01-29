@@ -224,19 +224,20 @@ export class BookingPage extends React.Component<Props, States> {
     });
   };
 
-  refreshStatistics = (userId: string): void => {
+  refreshStatistics = (userId: string, force?: boolean): void => {
     this.resetStaticForDate(() => {
       this.getStatisticForDate(userId);
-      this.monthChange(userId);
+      this.monthChange(userId, force);
     });
   };
 
-  monthChange = (userId: string): void => {
+  monthChange = (userId: string, force?: boolean): void => {
     const currentDate = this.state.selectedDate;
     const previousSelectedDate = moment(this.state.previousSelectedDate, API_DATE);
     if (
       previousSelectedDate.get('month') !== currentDate.get('month') ||
-      previousSelectedDate.get('year') !== currentDate.get('year')
+      previousSelectedDate.get('year') !== currentDate.get('year') ||
+      force
     ) {
       this.getStatisticForMonth(userId, currentDate.format(API_DATE));
       this.getLeaveDaysAndPublicHoliday(userId, currentDate.format('YYYY'));
@@ -246,13 +247,13 @@ export class BookingPage extends React.Component<Props, States> {
   updateComplainsAndRefreshStatistics = (complains: t.Complain[]): void => {
     const userId = this.props.match.params.userId;
     const dateKey = this.state.selectedDate.format(API_DATE);
-    this.updateComplains(userId, dateKey, complains).then(() => this.refreshStatistics(userId));
+    this.updateComplains(userId, dateKey, complains).then(() => this.refreshStatistics(userId, true));
   };
 
   updateTimestampsAndRefreshStatistics = (timestamps: t.Timestamp[]): void => {
     const userId = this.props.match.params.userId;
     const dateKey = this.state.selectedDate.format(API_DATE);
-    this.updateTimestamps(userId, dateKey, timestamps).then(() => this.refreshStatistics(userId));
+    this.updateTimestamps(userId, dateKey, timestamps).then(() => this.refreshStatistics(userId, true));
   };
 
   handleBookingModalClose = () => {
