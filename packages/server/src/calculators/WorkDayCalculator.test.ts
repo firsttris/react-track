@@ -29,11 +29,6 @@ describe('WorkDay Calculator Test', () => {
     expect(calculateLeaveDaySpy).toHaveBeenCalled();
   });
 
-  it('should calculate work days', () => {
-    const workDays = WorkDayCalculator.calculateWorkDays(m.workDatesMock);
-    expect(workDays).toBe(19);
-  });
-
   it('should calculate LeaveDay with empty array', () => {
     const leaveDay = WorkDayCalculator.findLeaveDay([], moment('2017-12-03'));
     expect(leaveDay).toEqual([]);
@@ -41,6 +36,6 @@ describe('WorkDay Calculator Test', () => {
 
   it('should calculate LeaveDay for date', () => {
     const leaveDay = WorkDayCalculator.findLeaveDay(m.leaveDaysMockOnlyHoliday, moment('2017-12-03'));
-    expect(leaveDay).toEqual([{ date: '2017-12-03', workDayType: t.WorkDayType.HALF_DAY, dayType: t.DayType.HOLIDAY }]);
+    expect(leaveDay).toEqual([{ date: '2017-12-03', hoursPerDay: 8, dayType: t.DayType.HOLIDAY }]);
   });
 });

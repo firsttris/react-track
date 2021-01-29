@@ -12,7 +12,7 @@ import './LeaveWidgetCreateModal.css';
 
 interface Props {
   toggleModal: () => void;
-  createLeave: (from: t.LeaveDate, to: t.LeaveDate, type: t.DayType) => void;
+  createLeave: (from: string, to: string, hoursPerDay: number, type: t.DayType) => void;
   isOpen: boolean;
   listOfLeaves: t.Leave[];
   publicHolidays: t.PublicHoliday[];
@@ -22,10 +22,7 @@ interface State {
   from: Date;
   to: Date;
   type: t.DayType;
-  dayType: {
-    startDay: t.WorkDayType;
-    endDay: t.WorkDayType;
-  };
+  hoursPerDay: number;
   showSecondDaySelector: boolean;
 }
 
@@ -33,10 +30,7 @@ const initialState = {
   from: new Date(),
   to: new Date(),
   type: t.DayType.HOLIDAY,
-  dayType: {
-    startDay: t.WorkDayType.FULL_DAY,
-    endDay: t.WorkDayType.FULL_DAY
-  },
+  hoursPerDay: 8,
   showSecondDaySelector: false
 };
 
@@ -63,21 +57,14 @@ export class LeaveWidgetCreateModal extends React.Component<Props & WrappedCompo
   };
 
   createLeave = (): void => {
-    const { dayType, from, to, type } = this.state;
-    const start = { date: moment(from).format(API_DATE), type: dayType.startDay };
-    const end = {
-      date: moment(to).format(API_DATE),
-      type: this.state.showSecondDaySelector ? dayType.endDay : dayType.startDay
-    };
-    this.props.createLeave(start, end, type);
+    const { hoursPerDay, from, to, type } = this.state;
+    this.props.createLeave(moment(from).format(API_DATE), moment(to).format(API_DATE), hoursPerDay, type);
     this.reset();
   };
 
   handleDayTypeSelection = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const type = event.target.value as t.WorkDayType;
-    const dayType: any = this.state.dayType;
-    dayType[event.target.name] = type;
-    this.setState({ dayType });
+    const hoursPerDay = Number(event.target.value);
+    this.setState({ hoursPerDay });
   };
 
   toggleModal = (): void => {
@@ -99,13 +86,7 @@ export class LeaveWidgetCreateModal extends React.Component<Props & WrappedCompo
               <Col>
                 <Row>
                   <Col lg="4" xs="12">
-                    <DayTypePicker onChange={this.handleDayTypeSelection} name="startDay" intl={this.props.intl} />
-                  </Col>
-                  <Col lg="2" xs="0" />
-                  <Col lg="4" xs="12">
-                    {this.state.showSecondDaySelector && (
-                      <DayTypePicker onChange={this.handleDayTypeSelection} name="endDay" intl={this.props.intl} />
-                    )}
+                    <DayTypePicker onChange={this.handleDayTypeSelection} intl={this.props.intl} />
                   </Col>
                 </Row>
                 <Row>
@@ -205,16 +186,16 @@ export class LeaveWidgetCreateModal extends React.Component<Props & WrappedCompo
     }
     for (const leave of this.props.listOfLeaves) {
       if (leave.type === t.DayType.SICKDAY) {
-        modifiers.sickDates.push({ from: new Date(leave.start.date), to: new Date(leave.end.date) });
+        modifiers.sickDates.push({ from: new Date(leave.start), to: new Date(leave.end) });
       }
       if (leave.type === t.DayType.HOLIDAY) {
-        modifiers.leaveDates.push({ from: new Date(leave.start.date), to: new Date(leave.end.date) });
+        modifiers.leaveDates.push({ from: new Date(leave.start), to: new Date(leave.end) });
       }
       if (leave.type === t.DayType.SCHOOLDAY) {
-        modifiers.schoolDates.push({ from: new Date(leave.start.date), to: new Date(leave.end.date) });
+        modifiers.schoolDates.push({ from: new Date(leave.start), to: new Date(leave.end) });
       }
       if (leave.type === t.DayType.SHORT_TIME_WORK) {
-        modifiers.shortTimeWorkDates.push({ from: new Date(leave.start.date), to: new Date(leave.end.date) });
+        modifiers.shortTimeWorkDates.push({ from: new Date(leave.start), to: new Date(leave.end) });
       }
     }
     return modifiers;

@@ -84,28 +84,19 @@ export type HoursPerDay = {
 export type Leave = {
    __typename?: 'Leave',
   id: Scalars['String'],
-  start: LeaveDate,
-  end: LeaveDate,
+  start: Scalars['String'],
+  end: Scalars['String'],
   type: DayType,
+  hoursPerDay: Scalars['Float'],
   requestedLeaveDays: Scalars['Float'],
-};
-
-export type LeaveDate = {
-   __typename?: 'LeaveDate',
-  date: Scalars['String'],
-  type: WorkDayType,
-};
-
-export type LeaveDateInput = {
-  date: Scalars['String'],
-  type: WorkDayType,
 };
 
 export type LeaveInput = {
   id?: Maybe<Scalars['String']>,
-  start: LeaveDateInput,
-  end: LeaveDateInput,
+  start: Scalars['String'],
+  end: Scalars['String'],
   type: DayType,
+  hoursPerDay: Scalars['Float'],
   requestedLeaveDays?: Maybe<Scalars['Float']>,
 };
 
@@ -462,11 +453,6 @@ export enum WorkDayPaymentType {
   UNPAID = 'UNPAID'
 }
 
-export enum WorkDayType {
-  FULL_DAY = 'FULL_DAY',
-  HALF_DAY = 'HALF_DAY'
-}
-
 export type WorkTime = {
    __typename?: 'WorkTime',
   startTime: Scalars['String'],
@@ -612,21 +598,9 @@ export type ComplainFieldsFragment = (
   & Pick<Complain, 'reason' | 'duration'>
 );
 
-export type LeaveDateFieldsFragment = (
-  { __typename?: 'LeaveDate' }
-  & Pick<LeaveDate, 'date' | 'type'>
-);
-
 export type LeaveFieldsFragment = (
   { __typename?: 'Leave' }
-  & Pick<Leave, 'id' | 'type' | 'requestedLeaveDays'>
-  & { start: (
-    { __typename?: 'LeaveDate' }
-    & LeaveDateFieldsFragment
-  ), end: (
-    { __typename?: 'LeaveDate' }
-    & LeaveDateFieldsFragment
-  ) }
+  & Pick<Leave, 'id' | 'start' | 'end' | 'type' | 'hoursPerDay' | 'requestedLeaveDays'>
 );
 
 export type UserFieldsFragment = (

@@ -32,22 +32,22 @@ export class LeaveCollection extends DbAdapterWithColAndDbKey {
     const result = [];
     for (const savedLeave of savedLeaves) {
       const leave = { ...savedLeave };
-      const startDate = moment(leave.start.date);
-      const endDate = moment(leave.end.date);
+      const startDate = moment(leave.start);
+      const endDate = moment(leave.end);
       const workDays = await WorkDayCalculator.calculateWorkDatesExcludingLeaves(startDate, endDate, userId);
-      leave.requestedLeaveDays = await this.calculateLeaveDays(leave.start, leave.end, workDays, userId);
+      leave.requestedLeaveDays = await this.calculateLeaveDays(leave.hoursPerDay, workDays, userId);
       result.push(leave);
     }
     return result;
   }
 
   static getDateKey(leave: t.LeaveInput): string {
-    return moment(leave.start.date).format('YYYY');
+    return moment(leave.start).format('YYYY');
   }
 
   static async create(userId: string, newLeave: t.LeaveInput): Promise<t.Leave[]> {
-    const startDate = moment(newLeave.start.date);
-    const endDate = moment(newLeave.end.date);
+    const startDate = moment(newLeave.start);
+    const endDate = moment(newLeave.end);
     const year = this.getDateKey(newLeave);
     if (startDate.isAfter(endDate)) {
       throw new Error(LeaveErrorKeys.LEAVEDAY_START_DATE_AFTER_END_DATE);
@@ -66,7 +66,7 @@ export class LeaveCollection extends DbAdapterWithColAndDbKey {
     }
     const workDays = await WorkDayCalculator.calculateWorkDates(startDate, endDate, userId);
     const alreadyUsedLeaveDays = await this.getAlreadyUsedLeaveDays(userId, year, workDays);
-    const requestedLeaveDays = await this.calculateLeaveDays(newLeave.start, newLeave.end, workDays, userId);
+    const requestedLeaveDays = await this.calculateLeaveDays(newLeave.hoursPerDay, workDays, userId);
 
     const maxNumberOfLeaveDays = await this.getMaxNumberOfLeaveDays(userId, year);
     const leaveDaysLeft = maxNumberOfLeaveDays - alreadyUsedLeaveDays - requestedLeaveDays;
@@ -98,6 +98,7 @@ export class LeaveCollection extends DbAdapterWithColAndDbKey {
       start: newLeave.start,
       end: newLeave.end,
       type: newLeave.type,
+      hoursPerDay: newLeave.hoursPerDay,
       requestedLeaveDays: newLeave.requestedLeaveDays || Number(0)
     };
   }
@@ -114,32 +115,24 @@ export class LeaveCollection extends DbAdapterWithColAndDbKey {
     return holidayDaysInThisYear;
   }
 
-  static async calculateLeaveDays(
-    startDate: t.LeaveDate,
-    endDate: t.LeaveDate,
-    workdays: WorkDay[],
-    userId: string
-  ): Promise<number> {
+  static async calculateLeaveDays(hoursPerDay: number, workdays: WorkDay[], userId: string): Promise<number> {
+    console.log('hoursPerDay', hoursPerDay);
     let days = 0;
     for (const workday of workdays) {
       if (workday.dayType === t.DayType.PUBLIC_HOLIDAY) {
         continue;
       }
-      let workTimeInMilliseconds = await StatisticCalculator.getHoursForDay(workday, userId);
-      if (startDate.date === workday.date && startDate.type === t.WorkDayType.HALF_DAY) {
-        workTimeInMilliseconds *= 0.5;
-      } else if (endDate.date === workday.date && endDate.type === t.WorkDayType.HALF_DAY) {
-        workTimeInMilliseconds *= 0.5;
-      }
-      days += moment.duration(workTimeInMilliseconds, 'milliseconds').asHours() / 8;
+      const workTimeInMilliseconds = await StatisticCalculator.getHoursForDay(workday, userId);
+      const hoursForDay = moment.duration(workTimeInMilliseconds, 'milliseconds').asHours();
+      days += hoursPerDay === 0 || hoursForDay === 0 ? 0 : hoursPerDay / hoursForDay;
     }
 
     return days;
   }
 
   static async isTimestampAlreadyExisting(userId: string, leave: t.LeaveInput): Promise<boolean> {
-    let startDate = moment(leave.start.date);
-    const endDate = moment(leave.end.date);
+    let startDate = moment(leave.start);
+    const endDate = moment(leave.end);
     while (startDate < endDate) {
       const timestamps = await TimestampCollection.getTimestamps(userId, startDate.format('YYYY'));
       if (timestamps.length > 0) {
@@ -154,15 +147,15 @@ export class LeaveCollection extends DbAdapterWithColAndDbKey {
   static async isLeaveDayTimestampAlreadyExisting(userId: string, newLeave: t.LeaveInput): Promise<boolean> {
     const year = this.getDateKey(newLeave);
     const leavedays = await this.getLeaveDays(userId, year);
-    const startDate = moment(newLeave.start.date);
+    const startDate = moment(newLeave.start);
 
     for (const h of leavedays) {
-      const otherStartDate = moment(h.start.date);
-      const otherEndDate = moment(h.end.date);
+      const otherStartDate = moment(h.start);
+      const otherEndDate = moment(h.end);
       if (startDate.isBetween(otherStartDate, otherEndDate)) {
         return true;
       }
-      if (startDate.format(API_DATE) === h.start.date) {
+      if (startDate.format(API_DATE) === h.start) {
         return true;
       }
     }

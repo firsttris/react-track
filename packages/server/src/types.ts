@@ -13,5 +13,5 @@ export interface WorkDay {
   date: string;
   title?: string;
   dayType: t.DayType;
-  workDayType: t.WorkDayType;
+  hoursPerDay: number;
 }

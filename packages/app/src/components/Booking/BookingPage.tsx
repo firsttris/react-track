@@ -53,17 +53,11 @@ export class BookingPage extends React.Component<Props, States> {
   disableDetailsOnLeaveDay(listOfLeave: t.Leave[], selectedDate: moment.Moment) {
     this.setState({ showData: true });
     for (const leave of listOfLeave) {
-      const firstDate = moment(leave.start.date);
-      const lastDate = moment(leave.end.date);
-      const startDate = moment(leave.start.date);
-      const endDate = moment(leave.end.date);
+      const startDate = moment(leave.start);
+      const endDate = moment(leave.end);
       while (startDate <= endDate) {
         if (startDate.format(API_DATE) === selectedDate.format(API_DATE)) {
-          if (
-            (firstDate.format(API_DATE) === selectedDate.format(API_DATE) &&
-              leave.start.type === t.WorkDayType.HALF_DAY) ||
-            (lastDate.format(API_DATE) === selectedDate.format(API_DATE) && leave.end.type === t.WorkDayType.HALF_DAY)
-          ) {
+          if (leave.hoursPerDay < 8) {
             startDate.add(1, 'day');
             continue;
           }

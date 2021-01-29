@@ -27,21 +27,22 @@ export class WorkDayCalculator {
         continue;
       }
       const leaveDays = this.findLeaveDay(leaveDates, startDate);
-      if (leaveDays.length === 1) {
-        if (leaveDays[0].workDayType === t.WorkDayType.HALF_DAY) {
-          workdays.push(this.createHalfWorkDay(startDate));
-        }
-        workdays.push(leaveDays[0]);
-
-        this.nextDay(startDate);
-        continue;
-      }
-      if (leaveDays.length > 1) {
+      if (leaveDays.length) {
         workdays.push(...leaveDays);
+        for (const leaveDay of leaveDays) {
+          if (
+            leaveDay.dayType === t.DayType.SHORT_TIME_WORK ||
+            leaveDay.dayType === t.DayType.HOLIDAY ||
+            leaveDay.dayType === t.DayType.SCHOOLDAY ||
+            leaveDay.dayType === t.DayType.SICKDAY
+          ) {
+            workdays.push(this.createWorkday(startDate, leaveDay.hoursPerDay));
+          }
+        }
         this.nextDay(startDate);
         continue;
       }
-      workdays.push(this.createWorkday(startDate));
+      workdays.push(this.createWorkday(startDate, 8));
       this.nextDay(startDate);
     }
     return workdays;
@@ -69,7 +70,7 @@ export class WorkDayCalculator {
         this.nextDay(startDate);
         continue;
       }
-      workdays.push(this.createWorkday(startDate));
+      workdays.push(this.createWorkday(startDate, 8));
       this.nextDay(startDate);
     }
     return workdays;
@@ -86,11 +87,11 @@ export class WorkDayCalculator {
     return startDate.format('d') === '6';
   }
 
-  static createWorkday(startDate: moment.Moment): WorkDay {
+  static createWorkday(startDate: moment.Moment, hoursPerDay: number): WorkDay {
     return {
       date: startDate.format(API_DATE),
       dayType: t.DayType.WORKDAY,
-      workDayType: t.WorkDayType.FULL_DAY
+      hoursPerDay
     };
   }
 
@@ -98,7 +99,7 @@ export class WorkDayCalculator {
     return {
       date: startDate.format(API_DATE),
       dayType: t.DayType.WORKDAY,
-      workDayType: t.WorkDayType.HALF_DAY
+      hoursPerDay: 4
     };
   }
 
@@ -106,7 +107,7 @@ export class WorkDayCalculator {
     return {
       date: startDate.format(API_DATE),
       dayType: t.DayType.WEEKEND,
-      workDayType: t.WorkDayType.FULL_DAY
+      hoursPerDay: 8
     };
   }
 
@@ -115,52 +116,24 @@ export class WorkDayCalculator {
       date: findPublicHolidayResult.date,
       dayType: t.DayType.PUBLIC_HOLIDAY,
       title: findPublicHolidayResult.title,
-      workDayType: t.WorkDayType.FULL_DAY
+      hoursPerDay: 8
     };
-  }
-
-  static calculateWorkDays(workdays: WorkDay[]): number {
-    let days = 0;
-    for (const workday of workdays) {
-      // on a workday it can be a full or half day
-      if (workday.dayType === t.DayType.WORKDAY) {
-        if (workday.workDayType === t.WorkDayType.FULL_DAY) {
-          days += 1.0;
-        } else {
-          days += 0.5;
-        }
-      }
-      // on holiday and sickday it can only be a half day
-      if (workday.dayType === t.DayType.HOLIDAY || workday.dayType === t.DayType.SICKDAY) {
-        if (workday.workDayType === t.WorkDayType.HALF_DAY) {
-          days += 0.5;
-        }
-      }
-    }
-    return days;
   }
 
   static findLeaveDay(leaveDates: t.Leave[], startDate: moment.Moment): WorkDay[] {
     const workdays = [];
     for (const leaveDate of leaveDates) {
-      const leaveStart = moment(leaveDate.start.date);
-      const leaveEnd = moment(leaveDate.end.date);
+      const leaveStart = moment(leaveDate.start);
+      const leaveEnd = moment(leaveDate.end);
       while (leaveStart <= leaveEnd) {
         if (startDate.format(API_DATE) !== leaveStart.format(API_DATE)) {
           leaveStart.add(1, 'day');
           continue;
         }
-        let workDayType = t.WorkDayType.FULL_DAY;
-        if (leaveStart.format(API_DATE) === leaveDate.start.date) {
-          workDayType = leaveDate.start.type;
-        }
-        if (leaveStart.format(API_DATE) === leaveDate.end.date) {
-          workDayType = leaveDate.end.type;
-        }
         workdays.push({
           date: leaveStart.format(API_DATE),
           dayType: t.DayType[leaveDate.type],
-          workDayType
+          hoursPerDay: leaveDate.hoursPerDay
         });
         leaveStart.add(1, 'day');
       }

@@ -57,11 +57,12 @@ export class LeaveWidget extends React.Component<Props, State> {
     this.setState({ isOpen: value });
   };
 
-  createLeave = (from: t.LeaveDate, to: t.LeaveDate, type: t.DayType): void => {
+  createLeave = (from: string, to: string, hoursPerDay: number, type: t.DayType): void => {
     this.resetError();
     const leave: t.LeaveInput = {
       start: from,
       end: to,
+      hoursPerDay,
       type
     };
     this.props.apollo.createLeave(this.props.userId, leave).then(result => {
@@ -136,13 +137,10 @@ export class LeaveWidget extends React.Component<Props, State> {
                   <FormattedMessage id="FROM" />
                 </th>
                 <th>
-                  <FormattedMessage id="TYPE" />
-                </th>
-                <th>
                   <FormattedMessage id="TO" />
                 </th>
                 <th>
-                  <FormattedMessage id="TYPE" />
+                  <FormattedMessage id="HOURS_PER_DAY" />
                 </th>
                 <th>
                   <FormattedMessage id="TYPE" />
@@ -154,7 +152,7 @@ export class LeaveWidget extends React.Component<Props, State> {
             </thead>
             <tbody>
               {this.state.listOfLeave
-                .sort((a, b) => moment(a.start.date).diff(moment(b.start.date)))
+                .sort((a, b) => moment(a.start).diff(moment(b.start)))
                 .map((leave, index) => (
                   <LeaveWidgetItem key={index} index={index} leave={leave} onClick={this.deleteLeaveForUser} />
                 ))}
@@ -190,9 +188,6 @@ export class LeaveWidget extends React.Component<Props, State> {
               </div>
               <div className="col-sm-12 col-lg-3">
                 <FormattedMessage id="MAX_DAYS_OF_LEAVE" values={{ max: maxLeaveDays }} />
-              </div>
-              <div className="col-sm-12 col-lg-2">
-                <FormattedMessage id="LEFT_LEAVE_DAYS" values={{ days: maxLeaveDays - requestedLeaveDays }} />
               </div>
             </div>
           </div>

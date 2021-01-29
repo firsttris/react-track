@@ -37,6 +37,7 @@ export const en_US = {
   TRACKING: 'Tracking',
   LOGIN: 'Login',
   LOGOUT: 'Logout {name}',
+  HOURS_PER_DAY: 'Hours per day',
   LOGIN_AS_ADMIN: 'You must log in as admin.',
   LOGIN_WITH_PASSWORD: 'Login with password',
   DAYS_OF_LEAVE: 'Days of leave {name}',

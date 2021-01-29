@@ -24,14 +24,9 @@ export class LeaveWidgetItem extends React.Component<Props, State> {
   render(): JSX.Element {
     return (
       <tr>
-        <td>{moment(this.props.leave.start.date).format('DD.MM.YYYY')}</td>
-        <td>
-          <FormattedMessage id={this.props.leave.start.type} />
-        </td>
-        <td>{moment(this.props.leave.end.date).format('DD.MM.YYYY')}</td>
-        <td>
-          <FormattedMessage id={this.props.leave.end.type} />
-        </td>
+        <td>{moment(this.props.leave.start).format('DD.MM.YYYY')}</td>
+        <td>{moment(this.props.leave.end).format('DD.MM.YYYY')}</td>
+        <td>{this.props.leave.hoursPerDay}</td>
         <td>
           <FormattedMessage id={this.props.leave.type} />
         </td>

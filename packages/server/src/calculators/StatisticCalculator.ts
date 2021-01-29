@@ -152,10 +152,11 @@ export class StatisticCalculator {
     if (paidType) {
       if (paidType === t.WorkDayPaymentType.PAID) {
         const time = await StatisticCalculator.getHoursForDay(workDay, userId);
-        if (workDay.workDayType === t.WorkDayType.HALF_DAY) {
-          return time / 2;
+        if (!workDay.hoursPerDay || !time) {
+          return 0;
         }
-        return time;
+        const divider = 8 / workDay.hoursPerDay;
+        return time / divider;
       }
       if (paidType === t.WorkDayPaymentType.UNPAID) {
         return 0;
@@ -167,10 +168,11 @@ export class StatisticCalculator {
   static async getTotalHours(workDay: WorkDay, userId: string) {
     if (workDay.dayType === t.DayType.WORKDAY || workDay.dayType === t.DayType.WEEKEND) {
       const totalHours = await StatisticCalculator.getHoursForDay(workDay, userId);
-      if (workDay.workDayType === t.WorkDayType.HALF_DAY) {
-        return totalHours / 2;
+      if (!workDay.hoursPerDay || !totalHours) {
+        return 0;
       }
-      return totalHours;
+      const divider = 8 / workDay.hoursPerDay;
+      return totalHours / divider;
     }
     return this.getTimeForLeaveDay(workDay, userId);
   }

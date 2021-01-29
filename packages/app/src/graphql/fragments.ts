@@ -142,26 +142,15 @@ export const ComplainFragment = gql`
   }
 `;
 
-export const LeaveDateFragment = gql`
-  fragment LeaveDateFields on LeaveDate {
-    date
-    type
-  }
-`;
-
 export const LeaveFragment = gql`
   fragment LeaveFields on Leave {
     id
-    start {
-      ...LeaveDateFields
-    }
-    end {
-      ...LeaveDateFields
-    }
+    start
+    end
     type
+    hoursPerDay
     requestedLeaveDays
   }
-  ${LeaveDateFragment}
 `;
 
 export const UserFragment = gql`

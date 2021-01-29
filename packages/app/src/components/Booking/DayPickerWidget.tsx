@@ -111,16 +111,16 @@ export class DayPickerWidget extends React.Component<Props & WrappedComponentPro
     }
     for (const leave of this.props.listOfLeaves) {
       if (leave.type === t.DayType.SICKDAY) {
-        modifiers.sickDates.push({ from: new Date(leave.start.date), to: new Date(leave.end.date) });
+        modifiers.sickDates.push({ from: new Date(leave.start), to: new Date(leave.end) });
       }
       if (leave.type === t.DayType.HOLIDAY) {
-        modifiers.leaveDates.push({ from: new Date(leave.start.date), to: new Date(leave.end.date) });
+        modifiers.leaveDates.push({ from: new Date(leave.start), to: new Date(leave.end) });
       }
       if (leave.type === t.DayType.SCHOOLDAY) {
-        modifiers.schoolDates.push({ from: new Date(leave.start.date), to: new Date(leave.end.date) });
+        modifiers.schoolDates.push({ from: new Date(leave.start), to: new Date(leave.end) });
       }
       if (leave.type === t.DayType.SHORT_TIME_WORK) {
-        modifiers.shortTimeWorkDates.push({ from: new Date(leave.start.date), to: new Date(leave.end.date) });
+        modifiers.shortTimeWorkDates.push({ from: new Date(leave.start), to: new Date(leave.end) });
       }
     }
     for (const hoursPerDay of this.props.hoursSpentForMonthPerDay) {

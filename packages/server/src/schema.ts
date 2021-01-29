@@ -58,16 +58,12 @@ export const typeDefs = gql`
     gpsCoordinate: GpsCoordinateInput
   }
 
-  input LeaveDateInput {
-    date: String!
-    type: WorkDayType!
-  }
-
   input LeaveInput {
     id: String
-    start: LeaveDateInput!
-    end: LeaveDateInput!
+    start: String!
+    end: String!
     type: DayType!
+    hoursPerDay: Float!
     requestedLeaveDays: Float
   }
 
@@ -161,16 +157,12 @@ export const typeDefs = gql`
     days: Float!
   }
 
-  type LeaveDate {
-    date: String!
-    type: WorkDayType!
-  }
-
   type Leave {
     id: String!
-    start: LeaveDate!
-    end: LeaveDate!
+    start: String!
+    end: String!
     type: DayType!
+    hoursPerDay: Float!
     requestedLeaveDays: Float!
   }
 
@@ -293,11 +285,6 @@ export const typeDefs = gql`
     GUEST
     ADMIN
     USER
-  }
-
-  enum WorkDayType {
-    FULL_DAY
-    HALF_DAY
   }
 
   enum DayType {
