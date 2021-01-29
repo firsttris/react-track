@@ -55,6 +55,7 @@ export const typeDefs = gql`
     actualTime: String!
     status: String!
     type: String!
+    gpsCoordinate: GpsCoordinateInput
   }
 
   input LeaveDateInput {

@@ -401,6 +401,7 @@ export type TimestampInput = {
   actualTime: Scalars['String'],
   status: Scalars['String'],
   type: Scalars['String'],
+  gpsCoordinate?: Maybe<GpsCoordinateInput>,
 };
 
 export type TimestampUserAndStatistic = {
